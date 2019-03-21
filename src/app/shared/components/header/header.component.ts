@@ -110,7 +110,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   isAuthenticated() {
-    return this.authenticationService.isAuthenticated();
+    return this.authenticationService.isAdmin();
   }
 
   openDialog(componentName: string) {

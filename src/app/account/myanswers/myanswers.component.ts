@@ -87,7 +87,7 @@ export class MyanswersComponent implements OnInit {
   }
 
   isAuthenticated() {
-    if(this.authenticationService.isAuthenticated()){
+    if(this.authenticationService.isAdmin()){
       this.initialize();
     }
     else{

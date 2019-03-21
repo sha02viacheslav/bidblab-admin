@@ -93,7 +93,7 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   isAuthenticated() {
-    if(this.authenticationService.isAuthenticated()){
+    if(this.authenticationService.isAdmin()){
       this.initialize();
     }
     else{

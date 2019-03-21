@@ -75,7 +75,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private checkResetPasswordToken() {
     this.route.paramMap.subscribe(params => {
       if (params.has('resetPasswordToken')) {
-        if (!this.authenticationService.isAuthenticated()) {
+        if (!this.authenticationService.isAdmin()) {
           const token = params.get('resetPasswordToken');
           this.commonService.checkResetPasswordToken(token).subscribe(
             (res: any) => {
@@ -95,7 +95,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   isAuthenticated() {
-    return this.authenticationService.isAuthenticated();
+    return this.authenticationService.isAdmin();
   }
 
   private openResetPasswordDialog(token, userId) {

@@ -209,7 +209,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   isAuthenticated() {
-    if(this.authenticationService.isAuthenticated()){
+    if(this.authenticationService.isAdmin()){
       this.initialize();
     }
     else{

@@ -71,7 +71,7 @@ export class QuestionDetailComponent implements OnInit, OnDestroy {
     this.followed = true;
   }
   isAuthenticated() {
-    if(this.authenticationService.isAuthenticated()){
+    if(this.authenticationService.isAdmin()){
       this.initialize();
     }
     else{

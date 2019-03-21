@@ -85,7 +85,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   openQuestionDialog(newTitle?: String, question?: Question) {
-    if (this.authenticationService.isAuthenticated()) {
+    if (this.authenticationService.isAdmin()) {
       this.dialogService
         .open(QuestionDialogComponent, {
           data: {
@@ -128,7 +128,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   openAnswerDialog(questionId, answer?: Answer) {
-    if (this.authenticationService.isAuthenticated()) {
+    if (this.authenticationService.isAdmin()) {
       this.dialogService
         .open(AnswerDialogComponent, {
           data: {
