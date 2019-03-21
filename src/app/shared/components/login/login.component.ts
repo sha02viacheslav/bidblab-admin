@@ -64,39 +64,6 @@ export class LoginComponent implements OnInit {
     return event.preventDefault();
   }
 
-  private userLogin() {
-    this.commonService.userLogin(this.loginForm.value).subscribe(
-      (res: any) => {
-        this.authenticationService.setToken(res.data);
-        this.authenticationService.setUser(jwtDecode(res.data).user);
-        localStorage.setItem('jwt', res.data);
-        localStorage.setItem(
-          'user',
-          JSON.stringify(this.authenticationService.getUser())
-        );
-        this.blockUIService.setBlockStatus(false);
-        this.snackBar
-          .open(res.msg, 'Dismiss', {
-            duration: 1000
-          })
-          .afterOpened()
-          .subscribe(() => {
-            this.dialogRef.close("OK");
-          });
-      },
-      (err: HttpErrorResponse) => {
-        this.submitted = false;
-        this.blockUIService.setBlockStatus(false);
-        this.snackBar
-          .open(err.error.msg, 'Dismiss', {
-            duration: 4000
-          })
-          .afterDismissed()
-          .subscribe(() => {});
-      }
-    );
-  }
-
   private adminLogin() {
     this.commonService.adminLogin(this.loginForm.value).subscribe(
       (res: any) => {
@@ -166,11 +133,7 @@ export class LoginComponent implements OnInit {
       if (this.forgotMode) {
         this.forgotPassword();
       } else {
-        if (this.adminMode) {
-          this.adminLogin();
-        } else {
-          this.userLogin();
-        }
+        this.adminLogin();
       }
     }
   }
