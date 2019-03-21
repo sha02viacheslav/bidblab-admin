@@ -214,6 +214,13 @@ export class CommonService {
     );
   }
 
+  getMembers(limit?, offset?, search?) {
+    return this.httpClient.get(
+      `${environment.apiUrl}/api/admin/getMembers?limit=${limit ||
+        10}&offset=${offset || 0}&search=${search || ''}`
+    );
+  }
+
   goHome() {
     this.router.navigateByUrl('/');
   }

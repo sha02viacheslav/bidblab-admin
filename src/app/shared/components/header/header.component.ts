@@ -39,8 +39,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ) {
     this.mainNavLinks = [
       {
-        label: 'Home',
-        link: '/questions/home',
+        label: 'Members',
+        link: '/members/memberslist',
         index: 0
       }, {
         label: 'Bid',

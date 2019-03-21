@@ -16,7 +16,7 @@ export class FormValidationService {
       var ageDifMs = Date.now() - control.value.getTime();
       var ageDate = new Date(ageDifMs); // miliseconds from epoch
       var age = Math.abs(ageDate.getUTCFullYear() - 1970);
-      if( age > 18){
+      if( age >= 18){
         return null;
       }
     }

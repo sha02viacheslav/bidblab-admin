@@ -1,0 +1,66 @@
+<div class="mat-elevation-z8 data-table">
+  <table mat-table class="full-width-table" [dataSource]="dataSource" matSort multiTemplateDataRows
+    aria-label="Elements" class="mat-elevation-z8">
+    <ng-container matColumnDef="username">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="birthday">
+      <th mat-header-cell *matHeaderCellDef> Date of Birth </th>
+      <td mat-cell *matCellDef="let element"> {{element.birthday | date}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="physicaladdress">
+      <th mat-header-cell *matHeaderCellDef> Address </th>
+      <td mat-cell *matCellDef="let element"> {{element.physicaladdress}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="details">
+      <th mat-header-cell *matHeaderCellDef> Details </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button color="primary" (click)="redirectToDetails(element.id)">
+          <mat-icon class="mat-18">reorder</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="update">
+      <th mat-header-cell *matHeaderCellDef> Update </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button color="accent" (click)="redirectToUpdate(element.id)">
+          <mat-icon class="mat-18">system_update</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="delete">
+      <th mat-header-cell *matHeaderCellDef> Delete </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button color="warn" (click)="redirectToDelete(element.id)">
+          <mat-icon class="mat-18">delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="expandedDetail">
+      <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+        <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+          sadasdsadsadsaadsds
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let element; columns: displayedColumns;" class="example-element-row"
+      [class.example-expanded-row]="expandedElement === element"
+      (click)="expandedElement = expandedElement === element ? null : element">
+    </tr>
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+
+  </table>
+
+  <mat-paginator #paginator [length]="dataSource.data.length" [pageIndex]="0" [pageSize]="50"
+    [pageSizeOptions]="[10, 25, 50, 100, 250]">
+  </mat-paginator>
+</div>
