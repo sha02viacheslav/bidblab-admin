@@ -1,0 +1,56 @@
+<form [formGroup]="infoForm" (ngSubmit)="submitForm()" autocomplete="off" novalidate>
+  <div class="row">
+    <div class="col-sm-12 col-md-6">
+      <div class="image-block">
+        <label>
+          <div class="cloud-image" [style.background-image]="'url(assets/icons/icons8-upload-to-cloud-96.png)'">
+            <div class="question-image" *ngIf="questionPictureurl" [style.background-image]="'url(' + questionPictureurl + ')'">
+            </div>
+          </div>
+          <input type="file" accept="image/*" class="file" (change)="onFileChanged($event)" hidden />
+        </label>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-6">
+      <div class="catagories-wrap margin-top-1rem" fxLayout="column">
+        <div class="catagories-select-wrap">
+          Select Catagories for your question
+        </div>
+        <div *ngIf="catagories">
+          <mat-radio-group formControlName="tag">
+            <div class="row">
+              <div class="col-6" *ngFor="let interest of standardInterests;" >
+                <mat-radio-button [value]="interest">{{interest}}</mat-radio-button>
+              </div>
+            </div>
+          </mat-radio-group>
+        </div>
+      </div>
+    </div>
+  </div>
+  <mat-dialog-content class="question-wrap" fxLayout="column">
+    <mat-form-field appearance="outline">
+      <mat-label>Question</mat-label>
+      <textarea rows="5" type="text" matInput formControlName="title" required></textarea>
+      <mat-hint align="end">{{infoForm.get('title').value.length}} / 500</mat-hint>
+      <mat-error *ngIf="checkError(infoForm, 'title', ['required', 'blank'])">
+        Required.
+      </mat-error>
+      <mat-error *ngIf="checkError(infoForm, 'title', 'maxlength')">
+        Question has a maximum length of 500 characters.
+      </mat-error>
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <div class="button">
+      <button mat-raised-button mat-dialog-close tabindex="-1">
+        Cancel
+      </button>
+    </div>
+    <div class="button">
+      <button class="" mat-raised-button color="accent" [disabled]="infoForm.invalid || submitted" type="submit">
+        Submit
+      </button>
+    </div>
+  </mat-dialog-actions>
+</form>

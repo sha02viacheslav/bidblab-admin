@@ -1,0 +1,8 @@
+<div class="image-block" fxLayout="column" fxLayoutAlign="space-between center">
+  <div class="question-image" [style.background-image]="question?.questionPicture?.path?
+    'url(' + serverUrl +'/' + question.questionPicture.path + ')' : 'url(assets/imgs/empty-image.png)'">
+  </div>
+  <div class="TV-show">
+    <button mat-button>Category: TV shows</button>
+  </div>
+</div>

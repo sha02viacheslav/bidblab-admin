@@ -1,0 +1,76 @@
+<header>
+  <mat-toolbar>
+    <div class="fill-remaining-space">
+      <button (click)="goHome()" color="primary" class="no-hover-effect" mat-button>
+        <img class="logo-wrap" src="assets/icons/logo.svg" />
+      </button>
+    </div>
+    <ng-container *ngIf="isAuthenticated(); else notAuthenticated">
+      <mat-menu #userMenu="matMenu">
+        <button (click)="openProfile()" mat-menu-item>Account Information</button>
+        <button (click)="logout()" mat-menu-item>Logout</button>
+      </mat-menu>
+      <button *ngIf="isMediaActive('gt-xs')" color="primary" class="no-hover-effect" mat-button [matMenuTriggerFor]="userMenu">
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <div class="avatar margin-right-1rem" [style.background-image]="user?.profilePicture?.path?
+            'url(' + serverUrl +'/' + user.profilePicture.path + ')' : 'url(assets/imgs/user.svg)'">
+          </div>
+          <small class="">{{user.username}}</small>
+        </div>
+      </button>
+      <button *ngIf="!isMediaActive('gt-xs')" [ngClass]="{'is-active': !menuHidden}" (click)="toggleMenu()"
+        mat-icon-button>
+        <mat-icon *ngIf="!menuHidden">menu</mat-icon>
+        <mat-icon *ngIf="menuHidden">close</mat-icon>
+      </button>
+    </ng-container>
+    <ng-template #notAuthenticated>
+      <mat-menu #authMenu="matMenu">
+        <button (click)="openDialog('signup')" mat-menu-item>Signup</button>
+        <button (click)="openDialog('login')" mat-menu-item>Login</button>
+      </mat-menu>
+      <ng-container *ngIf="isMediaActive('gt-xs')">
+        <div class="buttons-row">
+          <button (click)="openDialog('signup')" mat-button>Signup</button>
+          <button (click)="openDialog('login')" mat-button>Login</button>
+        </div>
+      </ng-container>
+      <button *ngIf="!isMediaActive('gt-xs')" mat-icon-button [matMenuTriggerFor]="authMenu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+    </ng-template>
+
+  </mat-toolbar>
+</header>
+
+<div *ngIf="isMediaActive('gt-xs')" class="tab-nav-wrap">
+  <div mat-tab-nav-bar>
+    <a mat-tab-link *ngFor="let link of mainNavLinks" [routerLink]="link.link" routerLinkActive #rla="routerLinkActive"
+      [active]="rla.isActive">
+      {{link.label}}
+    </a>
+  </div>
+</div>
+
+<div class="mobile-menu-w" *ngIf="menuHidden">
+  <div>
+    <div>
+      <a class="mobile-nav" *ngFor="let link of mainNavLinks" [routerLink]="link.link" routerLinkActive #rla="routerLinkActive"
+        (click)="closeMenu()">
+        <span class="nav-label">{{link.label}}</span>
+      </a>
+    </div>
+    <div class="spiliter"></div>
+    <div>
+      <a class="mobile-nav" *ngFor="let link of accountNavLinks" [routerLink]="link.link" routerLinkActive #rla="routerLinkActive"
+        (click)="closeMenu()">
+        <span class="nav-label">{{link.label}}</span>
+      </a>
+    </div>
+    <div class="spiliter"></div>
+    <div class="bottom-wrap">
+      <button (click)="logout()" mat-button color="accent">Logout</button>
+    </div>
+
+  </div>
+</div>

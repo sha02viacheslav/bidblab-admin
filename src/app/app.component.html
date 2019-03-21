@@ -1,0 +1,11 @@
+<block-ui >
+  <div class="app-wrapper">
+    <div class="app-content-wrap">
+      <app-header></app-header> 
+      <div [className]="isMediaActive('gt-xs')? 'padding-1rem' : 'padding-05rem'"><router-outlet></router-outlet></div>  
+    </div>   
+    <div class="sticky-footer-wrap">
+      <app-footer></app-footer>
+    </div>    
+  </div>
+</block-ui>

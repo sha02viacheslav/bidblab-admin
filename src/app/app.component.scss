@@ -1,0 +1,12 @@
+.app-wrapper{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+.sticky-footer-wrap {
+    flex-shrink: 0;
+    padding-top: 1rem;
+}
+.app-content-wrap{
+    flex: 1 0 auto;
+}

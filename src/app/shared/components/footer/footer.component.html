@@ -1,0 +1,20 @@
+<footer>
+  <mat-toolbar fxLayout="column" fxLayoutAlign="none" color="primary" style="height:inherit;">
+    <div class="footer-main" fxLayout="row" fxLayoutAlign="space-between center">
+      <div [className]="isMediaActive('gt-xs')? 'desktop-favorite' : 'mobile-favorite'">
+          <a class="margin-right-1rem" href="/">About</a>
+          <a class="margin-right-1rem" href="/">Contact us</a>
+          <a href="/">How it works</a>
+      </div>
+      <div class="social-wrap" fxLayout="row" fxLayoutAlign="space-around center">
+        <a href="http://www.facebook.com/awwards/"><img src="assets/icons/icons8-facebook.svg" /></a>
+        <a href="http://www.instagram.com/awwards/"><img src="assets/icons/icons8-instagram.svg" /></a>
+        <a href="http://www.google.com/awwards/"><img src="assets/icons/icons8-google-plus.svg" /></a>
+        <a href="http://twitter.com/awwards/"><img src="assets/icons/icons8-twitter.svg" /></a>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center" class="copyright-wrap">
+      <small class="copyrights">&copy; Dev Pony 2018</small>
+    </div>
+  </mat-toolbar>
+</footer>

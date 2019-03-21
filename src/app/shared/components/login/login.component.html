@@ -1,0 +1,66 @@
+<div fxLayout="row" fxLayoutAlign="space-between">
+  <h2 mat-dialog-title>{{forgotMode ? 'Forgot Password' : 'Login'}}</h2>
+  <button mat-icon-button mat-dialog-close tabindex="-1">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<ng-container *ngTemplateOutlet="forgotMode ? forgotPassword : login"></ng-container>
+
+<ng-template #login>
+  <form [formGroup]="loginForm" (ngSubmit)="submitForm()" autocomplete="off" novalidate>
+    <mat-dialog-content fxLayout="column">
+      <mat-form-field appearance="outline">
+        <mat-label>Username</mat-label>
+        <input type="text" matInput formControlName="username" required>
+        <mat-error *ngIf="checkError(loginForm, 'username', ['required', 'blank'])">
+          Required.
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input [type]="passwordVisibility ? 'text' : 'password'" matInput formControlName="password" required>
+        <mat-icon matSuffix (touchstart)="togglePasswordVisibility($event)" (touchend)="togglePasswordVisibility($event)"
+          (mousedown)="togglePasswordVisibility($event)" (mouseup)="togglePasswordVisibility($event)" (mouseleave)="togglePasswordVisibility($event)"
+          style="cursor: pointer">
+          {{ passwordVisibility ? 'visibility' : 'visibility_off' }}
+        </mat-icon>
+        <mat-error *ngIf="checkError(loginForm, 'password', 'required')">
+          Required.
+        </mat-error>
+      </mat-form-field>
+      <div class="" fxLayout="row" fxLayoutAlign="end center">
+        <button type="button" (click)="toggleForgotMode()" mat-button color="accent">Forgot Password?</button>
+      </div>
+    </mat-dialog-content>
+    <mat-dialog-actions fxLayout="row" fxLayoutAlign="center center">
+      <button class="" mat-raised-button color="accent" [disabled]="loginForm.invalid || submitted" type="submit">
+        Login
+      </button>
+    </mat-dialog-actions>
+  </form>
+</ng-template>
+
+<ng-template #forgotPassword>
+  <form [formGroup]="forgotForm" (ngSubmit)="submitForm()" autocomplete="off" novalidate>
+    <mat-dialog-content fxLayout="column">
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input type="email" matInput formControlName="email" required>
+        <mat-error *ngIf="checkError(forgotForm, 'email', ['required', 'blank'])">
+          Required.
+        </mat-error>
+        <mat-error *ngIf="checkError(forgotForm, 'email', 'email') && !checkError(forgotForm, 'email', ['required', 'blank'])">
+          Email must be in a valid format.
+        </mat-error>
+      </mat-form-field>
+      <div class="" fxLayout="row" fxLayoutAlign="end">
+        <button type="button" (click)="toggleForgotMode()" mat-button color="accent">Back to Login</button>
+      </div>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button class="" mat-raised-button color="accent" [disabled]="forgotForm.invalid || submitted" type="submit">
+        Reset
+      </button>
+    </mat-dialog-actions>
+  </form>
+</ng-template>
