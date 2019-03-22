@@ -221,6 +221,13 @@ export class CommonService {
     );
   }
 
+  sendMessage(body) {
+    return this.httpClient.post(
+      `${environment.apiUrl}/api/admin/sendMessage`,
+      body
+    );
+  }  
+
   goHome() {
     this.router.navigateByUrl('/');
   }

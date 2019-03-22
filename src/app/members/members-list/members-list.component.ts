@@ -21,10 +21,13 @@ import { User } from '../../shared/models/user.model';
 import { SocketsService } from '../../shared/services/sockets.service';
 import { AlertDialogComponent } from '../../shared/components/alert-dialog/alert-dialog.component';
 
-import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import {MatPaginator, MatSort, MatTableDataSource, MatCheckbox} from '@angular/material';
 
 import {animate, state, style, transition, trigger} from '@angular/animations';
+import {SelectionModel} from '@angular/cdk/collections';
 
+import { environment } from '../../../environments/environment';
+import { MessageBoxComponent } from '../../shared/components/message-box/message-box.component';
 @Component({
   selector: 'app-members-list',
   templateUrl: './members-list.component.html',
@@ -46,12 +49,14 @@ export class MembersListComponent implements OnInit, AfterViewInit {
   //                            "createdAt",  "updatedAt",
   //                            'details', 'update', 'delete'];
 
-  public displayedColumns = ['username', 'birthday', 'physicaladdress', 'details', 'update', 'delete'];
+  public displayedColumns = ['select', 'index', 'name', 'gender', 'birthday', 'username', 'email', 'verified', 'address', 'details', 'update', 'delete'];
 
-  public dataSource = new MatTableDataSource<User>();
+  public dataSource = new MatTableDataSource<any>();
   private totalMembers: number;
   private pageSize: number;
   form: FormGroup;
+  selection = new SelectionModel<number>(true, []);
+  serverUrl = environment.apiUrl;
 
   @ViewChild(MatSort) sort: MatSort;
  
@@ -79,6 +84,28 @@ export class MembersListComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
   }
+
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    this.isAllSelected() ?
+        this.selection.clear() :
+        this.dataSource.data.forEach( (row, index) => this.selection.select(index));
+  }
+
+
+  /** The label for the checkbox on the passed row */
+  checkboxLabel(row?: number): string {
+    if (!row) {
+      return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
+    }
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row + 1}`;
+  }
  
   public getAllMembers(event?) {
     this.blockUIService.setBlockStatus(true);
@@ -96,7 +123,7 @@ export class MembersListComponent implements OnInit, AfterViewInit {
     observable.subscribe(
       (res: any) => {
         this.totalMembers = res.data.totalMembers;
-        this.dataSource.data = res.data.members as User[];
+        this.dataSource.data = res.data.members;
         this.blockUIService.setBlockStatus(false);
       },
       (err: HttpErrorResponse) => {
@@ -117,5 +144,17 @@ export class MembersListComponent implements OnInit, AfterViewInit {
   public redirectToDelete = (id: string) => {
     console.log(id);
   }
- 
+
+  public openSendMessageBox(event){
+    event.stopPropagation();
+    const email = event.target.innerText;
+    this.dialogService
+    .open(MessageBoxComponent, {
+      data: {
+        email,
+      },
+      width: '600px'
+    }) 
+  }
+
 }

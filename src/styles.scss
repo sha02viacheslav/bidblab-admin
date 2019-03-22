@@ -130,8 +130,12 @@ div.avatar {
 .margin-bottom-05rem{
   margin-bottom: 0.5rem;;
 }
-span.accent{
+.accent{
   color: $accent;
+}
+
+.primary{
+  color: $primary;
 }
 
 @media (max-width: 599px){
