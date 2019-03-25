@@ -3,7 +3,6 @@
 import { Component, OnDestroy, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-
 import { CommonService } from '../../shared/services/common.service';
 import { MatSnackBar } from '@angular/material';
 import { DialogService } from '../../shared/services/dialog.service';
@@ -12,7 +11,7 @@ import { BlockUIService } from '../../shared/services/block-ui.service';
 import { Question } from '../../shared/models/question.model';
 import { QuestionDialogComponent } from '../../shared/components/question-dialog/question-dialog.component';
 import { LoginComponent } from '../../shared/components/login/login.component';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, EmailValidator } from '@angular/forms';
 import { debounceTime, filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { AnswerDialogComponent } from '../../shared/components/answer-dialog/answer-dialog.component';
@@ -20,12 +19,9 @@ import { Answer } from '../../shared/models/answer.model';
 import { User } from '../../shared/models/user.model';
 import { SocketsService } from '../../shared/services/sockets.service';
 import { AlertDialogComponent } from '../../shared/components/alert-dialog/alert-dialog.component';
-
 import {MatPaginator, MatSort, MatTableDataSource, MatCheckbox} from '@angular/material';
-
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {SelectionModel} from '@angular/cdk/collections';
-
 import { environment } from '../../../environments/environment';
 import { MessageBoxComponent } from '../../shared/components/message-box/message-box.component';
 @Component({
@@ -124,6 +120,8 @@ export class MembersListComponent implements OnInit, AfterViewInit {
       (res: any) => {
         this.totalMembers = res.data.totalMembers;
         this.dataSource.data = res.data.members;
+        this.selection.clear();
+        //console.log(this.dataSource.data);
         this.blockUIService.setBlockStatus(false);
       },
       (err: HttpErrorResponse) => {
@@ -155,6 +153,24 @@ export class MembersListComponent implements OnInit, AfterViewInit {
       },
       width: '600px'
     }) 
+  }
+
+  public sendMessage(){
+    var email = [];
+    this.dataSource.data.forEach( (row, index) => {
+      if(this.selection.selected.some( selected => selected == index )){
+        ///console.log("i", index);
+        email.push(row.email);
+      }
+    });
+    console.log(email);
+    // this.dialogService
+    // .open(MessageBoxComponent, {
+    //   data: {
+    //     email,
+    //   },
+    //   width: '600px'
+    // }) 
   }
 
 }

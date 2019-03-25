@@ -1,7 +1,9 @@
+<div class="button-wrap">
+  <button mat-raised-button color="accent" (click)="sendMessage()">Send Message</button>
+</div>
 <div class="mat-elevation-z8 data-table">
   <table mat-table class="full-width-table" [dataSource]="dataSource" matSort multiTemplateDataRows
     aria-label="Elements" class="mat-elevation-z8">
-
     <ng-container matColumnDef="select">
       <th mat-header-cell *matHeaderCellDef>
         <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
@@ -14,50 +16,41 @@
         </mat-checkbox>
       </td>
     </ng-container>
-
     <ng-container matColumnDef="index">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> No </th>
-      <td mat-cell *matCellDef="let element; let rIndex = dataIndex;"> {{rIndex+1}}</td>
+      <td mat-cell *matCellDef="let element;"> {{element.index + 1}}</td>
     </ng-container>
-
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
       <td mat-cell *matCellDef="let element"> {{element.firstName}},&nbsp;{{element.lastName}} </td>
     </ng-container>
-
     <ng-container matColumnDef="gender">
       <th mat-header-cell *matHeaderCellDef> Gender </th>
       <td mat-cell *matCellDef="let element"> {{element.gender}} </td>
     </ng-container>
-
     <ng-container matColumnDef="birthday">
       <th mat-header-cell *matHeaderCellDef> Birthday </th>
       <td mat-cell *matCellDef="let element"> {{element.birthday | date}} </td>
     </ng-container>
-
     <ng-container matColumnDef="username">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Username </th>
       <td mat-cell *matCellDef="let element"> {{element.username}} </td>
     </ng-container>
-
     <ng-container matColumnDef="email">
       <th mat-header-cell *matHeaderCellDef> email </th>
       <td mat-cell  *matCellDef="let element"> 
         <span class="send-email-btn" (click)="openSendMessageBox($event)">{{element.email}} </span>
       </td>
     </ng-container>
-
     <ng-container matColumnDef="verified">
       <th mat-header-cell *matHeaderCellDef> Verified </th>
       <td mat-cell *matCellDef="let element"> {{element.verified}} </td>
     </ng-container>
-
     <ng-container matColumnDef="address">
       <th mat-header-cell *matHeaderCellDef> Address </th>
       <td mat-cell *matCellDef="let element"> {{element.physicaladdress}}, {{element.physicalcity}},
         {{element.physicalstate}} </td>
     </ng-container>
-
     <ng-container matColumnDef="details">
       <th mat-header-cell *matHeaderCellDef> Details </th>
       <td mat-cell *matCellDef="let element">
@@ -66,7 +59,6 @@
         </button>
       </td>
     </ng-container>
-
     <ng-container matColumnDef="update">
       <th mat-header-cell *matHeaderCellDef> Update </th>
       <td mat-cell *matCellDef="let element">
@@ -75,7 +67,6 @@
         </button>
       </td>
     </ng-container>
-
     <ng-container matColumnDef="delete">
       <th mat-header-cell *matHeaderCellDef> Delete </th>
       <td mat-cell *matCellDef="let element">
@@ -84,7 +75,6 @@
         </button>
       </td>
     </ng-container>
-
     <ng-container matColumnDef="expandedDetail">
       <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
         <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
@@ -111,17 +101,17 @@
         </div>
       </td>
     </ng-container>
-
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let element; columns: displayedColumns;" class="example-element-row"
       [class.example-expanded-row]="expandedElement === element"
       (click)="expandedElement = expandedElement === element ? null : element">
     </tr>
     <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
-
   </table>
-
-  <mat-paginator #paginator [length]="dataSource.data.length" [pageIndex]="0" [pageSize]="50"
-    [pageSizeOptions]="[10, 25, 50, 100, 250]">
-  </mat-paginator>
 </div>
+<div class="pagination">
+    <mat-paginator class="" [length]="totalMembers" [pageSizeOptions]="[10, 25, 50, 75, 100]"
+      (page)="getAllMembers($event)">
+    </mat-paginator>
+  </div>
+  
