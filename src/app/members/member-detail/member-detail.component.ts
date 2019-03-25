@@ -3,32 +3,33 @@ import { Subscription } from 'rxjs';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material';
-import { FormValidationService } from '../shared/services/form-validation.service';
-import { BlockUIService } from '../shared/services/block-ui.service';
-import { AuthenticationService } from '../shared/services/authentication.service';
-import { User } from '../shared/models/user.model';
-import { UserService } from '../shared/services/user.service';
-import { Question } from '../shared/models/question.model';
-import { AnswerDialogComponent } from '../shared/components/answer-dialog/answer-dialog.component';
-import { DialogService } from '../shared/services/dialog.service';
-import { CommonService } from '../shared/services/common.service';
+import { FormValidationService } from '../../shared/services/form-validation.service';
+import { BlockUIService } from '../../shared/services/block-ui.service';
+import { AuthenticationService } from '../../shared/services/authentication.service';
+import { User } from '../../shared/models/user.model';
+import { UserService } from '../../shared/services/user.service';
+import { Question } from '../../shared/models/question.model';
+import { AnswerDialogComponent } from '../../shared/components/answer-dialog/answer-dialog.component';
+import { DialogService } from '../../shared/services/dialog.service';
+import { CommonService } from '../../shared/services/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Answer } from '../shared/models/answer.model';
-import { QuestionDialogComponent } from '../shared/components/question-dialog/question-dialog.component';
-import { SocketsService } from '../shared/services/sockets.service';
-import { LoginComponent } from '../shared/components/login/login.component';
+import { Answer } from '../../shared/models/answer.model';
+import { QuestionDialogComponent } from '../../shared/components/question-dialog/question-dialog.component';
+import { SocketsService } from '../../shared/services/sockets.service';
+import { LoginComponent } from '../../shared/components/login/login.component';
 import { debounceTime, filter } from 'rxjs/operators';
-import { AlertDialogComponent } from '../shared/components/alert-dialog/alert-dialog.component';
-import { environment } from '../../environments/environment';
+import { AlertDialogComponent } from '../../shared/components/alert-dialog/alert-dialog.component';
+import { environment } from '../../../environments/environment';
 import { ObservableMedia } from '@angular/flex-layout';
 import { MatOption } from '@angular/material';
 
+
 @Component({
-  selector: 'app-user',
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.scss']
+  selector: 'app-member-detail',
+  templateUrl: './member-detail.component.html',
+  styleUrls: ['./member-detail.component.scss']
 })
-export class UserComponent implements OnInit, OnDestroy {
+export class MemberDetailComponent implements OnInit, OnDestroy {
   user: User;
   submitted: boolean;
   passwordVisibility: boolean;
@@ -76,6 +77,8 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   initialize(){
+    this.total_answers = 0;
+    this.total_questions = 0;
     this.getUserData();
     this.followed = true;
     this.selected_tag = ["alltags"];
@@ -117,11 +120,11 @@ export class UserComponent implements OnInit, OnDestroy {
 
   private getUserData() {
     this.route.paramMap.subscribe(params => {
-      if (params.has('userId')) {
-        const userId = params.get('userId');
-        this.getUserDataByuserId(userId);
-        this.getUserAnswerByuserId(userId, null);
-        this.getUserQuestionByuserId(userId, null);
+      if (params.has('memberId')) {
+        const memberId = params.get('memberId');
+        this.getUserDataByuserId(memberId);
+        this.getUserAnswerByuserId(memberId, null);
+        this.getUserQuestionByuserId(memberId, null);
       }
     });
   }

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { MembersRoutingModule } from './members-routing.module';
 import { MembersComponent } from './members.component';
 import {
@@ -42,6 +41,7 @@ import {
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MembersListComponent } from './members-list/members-list.component';
+import { MemberDetailComponent } from './member-detail/member-detail.component';
 
 
 @NgModule({
@@ -88,7 +88,7 @@ import { MembersListComponent } from './members-list/members-list.component';
     MatDividerModule,
     MembersRoutingModule,
   ],
-  declarations: [MembersComponent, MembersListComponent],
+  declarations: [MembersComponent, MembersListComponent, MemberDetailComponent],
   exports: [
     MatSortModule,
     MatTableModule,
