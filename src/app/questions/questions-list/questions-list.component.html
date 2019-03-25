@@ -1,51 +1,87 @@
-<div class="search-box">
-  <div class="row">
-    <div class="col-sm-12 col-md-3 col-lg-3 col-xl-3">
-      <div class="search-label-w">
-        Submit your question to earn BidBlab credit
-      </div>
-    </div>
-    <div class="col-sm-12 col-md-6 col-lg-7 col-xl-7">
-      <div fxLayout="row" fxLayoutAlign="center center">
-        <form fxFlex class="stretch" [formGroup]="form" (ngSubmit)="searchBoxAction()" autocomplete="off" novalidate>
-          <mat-form-field class="" appearance="outline">
-            <mat-label>Search</mat-label>
-            <button type="submit" mat-icon-button matSuffix>
-              <mat-icon *ngIf="!newQuestionFlag">search</mat-icon>
-              <mat-icon *ngIf="newQuestionFlag">add_comment</mat-icon>
-            </button>
-            <input type="text" formControlName="search" matInput [matAutocomplete]="auto">
-            <mat-autocomplete (optionSelected)="getQuestions()" (closed)="searchBoxAction()" #auto="matAutocomplete">
-              <mat-option *ngFor="let question of autocomplete" [value]="question.title">
-                {{question.title}}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
-        </form>
-      </div>
-    </div>
-    <div class="col-sm-12 col-md-3 col-lg-2 col-xl-2">
-      <div class="ask-btn-w" fxLayout="row" fxLayoutAlign="end center" >
-        <button (click)="openQuestionDialog()" mat-raised-button color="accent">
-          Ask Question
-        </button>
-      </div>
-    </div>
-  </div>
+<div class="button-wrap">
+  <form class="filter-wrap" [formGroup]="infoForm" (ngSubmit)="searchBoxAction()" autocomplete="off" novalidate>
+    <mat-form-field>
+      <mat-label>Filter</mat-label>
+      <button type="submit" mat-icon-button matSuffix>
+        <mat-icon *ngIf="!newQuestionFlag">search</mat-icon>
+        <mat-icon *ngIf="newQuestionFlag">add_comment</mat-icon>
+      </button>
+      <input type="text" formControlName="filter" matInput>
+      <!-- <mat-autocomplete (optionSelected)="getQuestions()" (closed)="searchBoxAction()" #auto="matAutocomplete">
+          <mat-option *ngFor="let question of autocomplete" [value]="question.title">
+            {{question.title}}
+          </mat-option>
+        </mat-autocomplete> -->
+    </mat-form-field>
+  </form>
+  <button mat-raised-button color="accent" (click)="openQuestionDialog()">Ask Question</button>
+  <button mat-raised-button color="warn" (click)="deleteQuestions()">Delete</button>
 </div>
-<div>
-  <div *ngIf="questions" class="questions">
-    <ng-container *ngIf="questions.length; else noQuestions">
-      <div *ngFor="let question of questions" fxLayout="column">
-        <app-question-box [question]="question"></app-question-box>
-      </div>
+<div class="mat-elevation-z8 data-table">
+  <table mat-table class="full-width-table" [dataSource]="dataSource" matSort multiTemplateDataRows
+    aria-label="Elements" class="mat-elevation-z8" (matSortChange)="customSort($event)">
+    <ng-container matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+          [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+        </mat-checkbox>
+      </th>
+      <td mat-cell *matCellDef="let row; let rIndex = dataIndex;">
+        <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(rIndex) : null"
+          [checked]="selection.isSelected(rIndex)" [aria-label]="checkboxLabel(rIndex)">
+        </mat-checkbox>
+      </td>
     </ng-container>
-  </div>
+    <ng-container matColumnDef="index">
+      <th mat-header-cell *matHeaderCellDef> No </th>
+      <td mat-cell *matCellDef="let element;"> {{element.index + 1}}</td>
+    </ng-container>
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Title </th>
+      <td mat-cell *matCellDef="let element"> {{ element.title | slice:0:100 }}{{element.title.length > 100? '...' : ''}}</td>
+    </ng-container>
+    <ng-container matColumnDef="details">
+      <th mat-header-cell *matHeaderCellDef> Details </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button color="primary" routerLink="/questions/question-detail/{{element._id}}">
+          <mat-icon class="mat-18">reorder</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="update">
+      <th mat-header-cell *matHeaderCellDef> Update </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button color="accent" (click)="redirectToUpdate(element.id)">
+          <mat-icon class="mat-18">system_update</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="delete">
+      <th mat-header-cell *matHeaderCellDef> Delete </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button color="warn" (click)="deleteQuestion($event, element._id)">
+          <mat-icon class="mat-18">delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="expandedDetail">
+      <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+        <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+          <div class="member-detail-wrap">
+          </div>
+        </div>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let element; columns: displayedColumns;" class="example-element-row"
+      [class.example-expanded-row]="expandedElement === element"
+      (click)="expandedElement = expandedElement === element ? null : element">
+    </tr>
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+  </table>
 </div>
-<ng-template #noQuestions>
-  <h2 class="accent stretch" style="text-align: center">No questions available</h2>
-</ng-template>
 <div class="pagination">
-  <mat-paginator class="" [length]="totalQuestionsCount" [pageSizeOptions]="[10, 25, 50, 75, 100]" (page)="getQuestions($event)">
+  <mat-paginator [length]="totalQuestions" [pageIndex]="pageIndex" [pageSizeOptions]="[10, 25, 50, 75, 100]"
+    (page)="getQuestions($event)">
   </mat-paginator>
 </div>

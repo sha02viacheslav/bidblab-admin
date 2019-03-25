@@ -1,5 +1,5 @@
 <div class="button-wrap">
-  <form class="filter-wrap" [formGroup]="infoForm" (ngSubmit)="doFilter()" autocomplete="off" novalidate>
+  <form class="filter-wrap" [formGroup]="infoForm" autocomplete="off" novalidate>
     <mat-form-field>
       <mat-label>Filter</mat-label>
       <!-- <button type="submit" mat-icon-button matSuffix>
@@ -138,7 +138,7 @@
   </table>
 </div>
 <div class="pagination">
-  <mat-paginator class="" [length]="totalMembers" [pageSizeOptions]="[10, 25, 50, 75, 100]"
+  <mat-paginator class="" [length]="totalMembers" [pageIndex]="pageIndex" [pageSizeOptions]="[10, 25, 50, 75, 100]"
     (page)="getAllMembers($event)">
   </mat-paginator>
 </div>

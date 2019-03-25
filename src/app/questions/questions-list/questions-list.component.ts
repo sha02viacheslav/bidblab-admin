@@ -1,7 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, AfterViewInit, ViewChild  } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-
 import { CommonService } from '../../shared/services/common.service';
 import { MatSnackBar } from '@angular/material';
 import { DialogService } from '../../shared/services/dialog.service';
@@ -17,24 +16,41 @@ import { AnswerDialogComponent } from '../../shared/components/answer-dialog/ans
 import { Answer } from '../../shared/models/answer.model';
 import { SocketsService } from '../../shared/services/sockets.service';
 import { AlertDialogComponent } from '../../shared/components/alert-dialog/alert-dialog.component';
-
+import { animate, state, style, transition, trigger} from '@angular/animations';
+import { MatPaginator, MatSort, MatTableDataSource, MatCheckbox} from '@angular/material';
+import { SelectionModel} from '@angular/cdk/collections';
 
 @Component({
   selector: 'app-questions-list',
   templateUrl: './questions-list.component.html',
-  styleUrls: ['./questions-list.component.scss']
+  styleUrls: ['./questions-list.component.scss'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0', display: 'none'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class QuestionsListComponent implements OnInit, OnDestroy {
-  form: FormGroup;
+  public displayedColumns = ['select', 'index', 'title',
+                            'details', 'update', 'delete'];
+  public dataSource = new MatTableDataSource<any>();
+  selection = new SelectionModel<number>(true, []);
+  private pageSize: number;
+  private pageIndex: number;
+  private sortParam = {
+    active: 'name',
+    direction: 'asc',
+  };
+  infoForm: FormGroup;
   questions: Question[];
-  //answers: Answer[];
-  totalQuestionsCount: number;
-  autocomplete: Question[];
+  totalQuestions: number;
   private autocompleteSubscription: Subscription;
   private socketEventsSubscription: Subscription;
-  private pageSize: number;
   newQuestionFlag: boolean;
 
+  @ViewChild(MatSort) sort: MatSort;
  
   constructor(
     private fb: FormBuilder,
@@ -50,28 +66,17 @@ export class QuestionsListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.newQuestionFlag = false;
     this.pageSize = 10;
-    this.autocomplete = [];
-    this.form = this.fb.group({
-      search: ''
+    this.pageIndex = 0;
+    this.infoForm = this.fb.group({
+      filter: ''
     });
-    this.autocompleteSubscription = this.form
-      .get('search')
-      .valueChanges.pipe(debounceTime(100))
+    this.autocompleteSubscription = this.infoForm
+      .get('filter')
+      .valueChanges.pipe(debounceTime(300))
       .subscribe(text => {
         if (text.trim()) {
-          this.commonService
-            .getQuestions(null, null, text)
-            .subscribe((res: any) => {
-              this.autocomplete = res.data.questions;
-              if(!this.autocomplete.length){
-                this.newQuestionFlag = true;
-              }
-              else{
-                this.newQuestionFlag = false;
-              }
-            });
+          this.getQuestions();
         } else {
-          this.autocomplete.splice(0);
           this.newQuestionFlag = false;
         }
       });
@@ -82,6 +87,26 @@ export class QuestionsListComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.autocompleteSubscription.unsubscribe();
     this.socketEventsSubscription.unsubscribe();
+  }
+
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  masterToggle() {
+    this.isAllSelected() ?
+        this.selection.clear() :
+        this.dataSource.data.forEach( (row, index) => this.selection.select(index));
+  }
+
+
+  checkboxLabel(row?: number): string {
+    if (!row) {
+      return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
+    }
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row + 1}`;
   }
 
   openQuestionDialog(newTitle?: String, question?: Question) {
@@ -127,88 +152,49 @@ export class QuestionsListComponent implements OnInit, OnDestroy {
     }
   }
 
-  openAnswerDialog(questionId, answer?: Answer) {
-    if (this.authenticationService.isAdmin()) {
-      this.dialogService
-        .open(AnswerDialogComponent, {
-          data: {
-            questionId,
-            answer
-          }
-        })
-        .afterClosed()
-        .subscribe(newAnswer => {
-          if (newAnswer) {
-            let index = this.questions.findIndex(
-              question => question._id === questionId
-            );
-            if (index !== -1) {
-              const question = this.questions[index];
-              if (answer) {
-                index = question.answers.findIndex(
-                  currentAnswer => currentAnswer._id === answer._id
-                );
-                if (index !== -1) {
-                  question.answers[index] = newAnswer;
-                }
-              } else {
-                question.answers.push(newAnswer);
-              }
-            }
-          }
-        });
-    } else {
-      this.dialogService.open(LoginComponent);
-    }
-  }
-
   searchBoxAction(){
     if(this.newQuestionFlag){
       this.newQuestionFlag = false;
-      this.openQuestionDialog(this.form.value.search);
+      this.openQuestionDialog(this.infoForm.value.filter);
     }
     else{
       this.getQuestions();
     }
   }
+
   getQuestions(event?) {
     this.blockUIService.setBlockStatus(true);
     if (event) {
       this.pageSize = event.pageSize;
+      this.pageIndex = event.pageIndex;
     }
-    this.autocomplete.splice(0);
-    const observable = event
-      ? this.commonService.getQuestions(
-          event.pageSize,
-          event.pageIndex,
-          this.form.value.search
-        )
-      : this.commonService.getQuestions(null, null, this.form.value.search);
+    const observable = this.commonService.getQuestions(
+      this.pageSize,
+      this.pageIndex,
+      this.infoForm.value.filter,
+      this.sortParam.active,
+      this.sortParam.direction,
+    );
     observable.subscribe(
       (res: any) => {
-        this.totalQuestionsCount = res.data.count;
-        this.questions = res.data.questions;
+        this.totalQuestions = res.data.totalQuestions;
+        this.dataSource.data = res.data.questions;
+        this.selection.clear();
+        if(this.totalQuestions <= this.pageSize * this.pageIndex){
+          this.pageIndex = 0;
+        }
+        if(!this.totalQuestions){
+          this.newQuestionFlag = true;
+        }
+        else{
+          this.newQuestionFlag = false;
+        }
         this.blockUIService.setBlockStatus(false);
       },
       (err: HttpErrorResponse) => {
         this.snackBar.open(err.error.msg, 'Dismiss');
       }
     );
-  }
-
-  isAsker(questionId) {
-    const question = this.questions.find(
-      currentQuestion => currentQuestion._id === questionId
-    );
-    return (
-      this.authenticationService.getUser() &&
-      question.asker &&
-      question.asker._id === this.authenticationService.getUser()._id
-    );
-  }
-
-  isAdmin() {
-    return this.authenticationService.isAdmin();
   }
 
   canAnswer(questionId) {
@@ -234,7 +220,7 @@ export class QuestionsListComponent implements OnInit, OnDestroy {
         });
         if (event.payload.type === 'question') {
           if (event.name === 'createdData') {
-            this.totalQuestionsCount++;
+            this.totalQuestions++;
             if (this.questions.length < this.pageSize) {
               this.questions.push(event.payload.data);
             }
@@ -247,7 +233,7 @@ export class QuestionsListComponent implements OnInit, OnDestroy {
                 this.questions[index] = event.payload.data;
               } else {
                 this.questions.splice(index, 1);
-                this.totalQuestionsCount--;
+                this.totalQuestions--;
               }
             }
           }
@@ -277,25 +263,55 @@ export class QuestionsListComponent implements OnInit, OnDestroy {
       });
   }
 
-  async deleteQuestion(questionId) {
-    try {
-      const res = (await this.commonService.deleteQuestion(questionId)) as any;
-      this.socketsService.notify('deletedData', {
-        type: 'question',
-        data: res.data
-      });
-      this.snackBar.open(res.msg, 'Dismiss', {
-        duration: 1500
-      });
-      const index = this.questions.findIndex(
-        currentQuestion => currentQuestion._id === questionId
-      );
-      if (index !== -1) {
-        this.questions.splice(index, 1);
+  public deleteQuestions(){
+    var questionIds = [];
+    this.dataSource.data.forEach( (row, index) => {
+      if(this.selection.selected.some( selected => selected == index )){
+        ///console.log("i", index);
+        questionIds.push(row._id);
       }
-    } catch (err) {
-      this.snackBar.open(err.error.msg, 'Dismiss');
+    });
+    //console.log(questionIds);
+    this.finalDeleteQuestions(questionIds);
+  }
+
+  public deleteQuestion(event, questionId){
+    event.stopPropagation();
+    var questionIds = [];
+    questionIds.push(questionId);
+    //console.log(questionIds);
+    this.finalDeleteQuestions(questionIds);
+  }
+
+  public finalDeleteQuestions(questionIds) {
+    console.log(questionIds);
+    if(questionIds.length){
+      if(confirm("Are you sure to delete "+name)){
+        this.blockUIService.setBlockStatus(true);
+        this.commonService.deleteQuestions(questionIds)
+        .subscribe(
+          (res: any) => {
+            this.snackBar.open(res.data.totalDeleteQuestions+" of "+questionIds.length+" questions are deleted.", 
+            'Dismiss', 
+            {duration: 1500});
+            this.getQuestions();
+            this.blockUIService.setBlockStatus(false);
+          },
+          (err: HttpErrorResponse) => {
+            this.snackBar.open(err.error.msg, 'Dismiss');
+            this.blockUIService.setBlockStatus(false);
+          }
+        );
+      }
     }
+    else{
+      alert("Select the questions");
+    }
+  }
+  public customSort(event){
+    this.sortParam = event;
+    //console.log(this.sortParam);
+    this.getQuestions();
   }
 
 }

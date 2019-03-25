@@ -57,13 +57,6 @@ export class CommonService {
     );
   }
 
-  getQuestions(limit?, offset?, search?) {
-    return this.httpClient.get(
-      `${environment.apiUrl}/api/common/getQuestions?limit=${limit ||
-        10}&offset=${offset || 0}&search=${search || ''}`
-    );
-  }
-
   getQuestionsCanAnswer(limit?, offset?, search?) {
     return this.httpClient.get(
       `${environment.apiUrl}/api/common/getQuestionsCanAnswer?limit=${limit ||
@@ -232,6 +225,20 @@ export class CommonService {
   changeMembersRole(body, roleType) {
     return this.httpClient.post(
       `${environment.apiUrl}/api/admin/changeMembersRole/${roleType}`,
+      body
+    );
+  }  
+
+  getQuestions(limit?, offset?, filter?, active?, direction?) {
+    return this.httpClient.get(
+      `${environment.apiUrl}/api/admin/getQuestions?limit=${limit ||
+        10}&offset=${offset || 0}&filter=${filter || ''}&active=${active || ''}&direction=${direction || ''}`
+    );
+  }
+
+  deleteQuestions(body) {
+    return this.httpClient.post(
+      `${environment.apiUrl}/api/admin/deleteQuestions`,
       body
     );
   }  

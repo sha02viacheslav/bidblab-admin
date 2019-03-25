@@ -19,9 +19,9 @@ import { Answer } from '../../shared/models/answer.model';
 import { User } from '../../shared/models/user.model';
 import { SocketsService } from '../../shared/services/sockets.service';
 import { AlertDialogComponent } from '../../shared/components/alert-dialog/alert-dialog.component';
-import {MatPaginator, MatSort, MatTableDataSource, MatCheckbox} from '@angular/material';
-import {animate, state, style, transition, trigger} from '@angular/animations';
-import {SelectionModel} from '@angular/cdk/collections';
+import { MatPaginator, MatSort, MatTableDataSource, MatCheckbox} from '@angular/material';
+import { animate, state, style, transition, trigger} from '@angular/animations';
+import { SelectionModel} from '@angular/cdk/collections';
 import { environment } from '../../../environments/environment';
 import { MessageBoxComponent } from '../../shared/components/message-box/message-box.component';
 @Component({
@@ -37,18 +37,9 @@ import { MessageBoxComponent } from '../../shared/components/message-box/message
   ],
 })
 export class MembersListComponent implements OnInit, AfterViewInit {
-
-  // public displayedColumns = ['firstname', 'lastname', 'username', 'email', 'profilePicture', 'aboutme',
-  //                            'gender', 'birthday', 'phone', 'physicaladdress', 'shippingaddress',
-  //                            'tags', 'follows',
-  //                            'verified', 'verificationTokenExpiry', "resetPasswordTokenExpiry",
-  //                            "createdAt",  "updatedAt",
-  //                            'details', 'update', 'delete'];
-
   public displayedColumns = ['select', 'index', 'name', 'gender', 'birthday',
                             'username', 'email', 'verified', 'address', 
                             'details', 'update', 'suspend', 'delete'];
-
   public dataSource = new MatTableDataSource<any>();
   private totalMembers: number;
   private pageSize: number;
@@ -115,7 +106,6 @@ export class MembersListComponent implements OnInit, AfterViewInit {
     return numSelected === numRows;
   }
 
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
     this.isAllSelected() ?
         this.selection.clear() :
@@ -123,7 +113,6 @@ export class MembersListComponent implements OnInit, AfterViewInit {
   }
 
 
-  /** The label for the checkbox on the passed row */
   checkboxLabel(row?: number): string {
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
@@ -138,22 +127,21 @@ export class MembersListComponent implements OnInit, AfterViewInit {
       this.pageIndex = event.pageIndex;
     }
 
-
-    //this.autocomplete.splice(0);
     const observable = this.commonService.getMembers(
-          this.pageSize,
-          this.pageIndex,
-          this.infoForm.value.filter,
-          this.sortParam.active,
-          this.sortParam.direction,
-         
-        );
+      this.pageSize,
+      this.pageIndex,
+      this.infoForm.value.filter,
+      this.sortParam.active,
+      this.sortParam.direction,
+    );
     observable.subscribe(
       (res: any) => {
         this.totalMembers = res.data.totalMembers;
         this.dataSource.data = res.data.members;
         this.selection.clear();
-        //console.log(this.dataSource.data);
+        if(this.totalMembers <= this.pageSize * this.pageIndex){
+          this.pageIndex = 0;
+        }
         this.blockUIService.setBlockStatus(false);
       },
       (err: HttpErrorResponse) => {
