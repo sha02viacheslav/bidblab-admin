@@ -176,7 +176,51 @@ export class MembersListComponent implements OnInit, AfterViewInit {
     else{
       alert("You must select the members");
     }
-   
+  }
+
+  public deleteMembers(){
+    var memberIds = [];
+    this.dataSource.data.forEach( (row, index) => {
+      if(this.selection.selected.some( selected => selected == index )){
+        ///console.log("i", index);
+        memberIds.push(row._id);
+      }
+    });
+    //console.log(memberIds);
+    this.finalDeleteMembers(memberIds);
+  }
+
+  public deleteMember(event, memberId){
+    event.stopPropagation();
+    var memberIds = [];
+    memberIds.push(memberId);
+    //console.log(memberIds);
+    this.finalDeleteMembers(memberIds);
+  }
+
+  public finalDeleteMembers(memberIds) {
+    console.log(memberIds);
+    if(memberIds.length){
+      if(confirm("Are you sure to delete "+name)){
+        this.blockUIService.setBlockStatus(true);
+        this.commonService.deleteMembers(memberIds)
+        .subscribe(
+          (res: any) => {
+            this.snackBar.open(res.data.totalDeleteMembers+" of "+memberIds.length+" members are deleted.", 
+            'Dismiss', 
+            {duration: 1500});
+            this.blockUIService.setBlockStatus(false);
+          },
+          (err: HttpErrorResponse) => {
+            this.snackBar.open(err.error.msg, 'Dismiss');
+            this.blockUIService.setBlockStatus(false);
+          }
+        );
+      }
+    }
+    else{
+      alert("Select the members");
+    }
   }
 
 }

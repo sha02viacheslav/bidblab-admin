@@ -162,12 +162,6 @@ export class CommonService {
       .toPromise();
   }
 
-  deleteUser(userId) {
-    return this.httpClient
-      .delete(`${environment.apiUrl}/api/admin/deleteUser/${userId}`)
-      .toPromise();
-  }
-
   deleteAnswer(questionId, answerId) {
     return this.httpClient
       .delete(
@@ -224,6 +218,13 @@ export class CommonService {
   sendMessage(body) {
     return this.httpClient.post(
       `${environment.apiUrl}/api/admin/sendMessage`,
+      body
+    );
+  }  
+
+  deleteMembers(body) {
+    return this.httpClient.post(
+      `${environment.apiUrl}/api/admin/deleteMembers`,
       body
     );
   }  

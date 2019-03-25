@@ -91,5 +91,8 @@ tr.example-element-row:not(.example-expanded-row):active {
 .button-wrap{
   margin-bottom: 1rem;
   text-align: right;
+  button{
+    margin-left: 1rem;
+  }
 }
 
