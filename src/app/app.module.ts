@@ -14,7 +14,6 @@ import {
 } from '@angular/material';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
-import { AccountModule } from './account/account.module';
 import { QuestionsModule } from './questions/questions.module';
 import { SharedModule } from './shared/shared.module';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';

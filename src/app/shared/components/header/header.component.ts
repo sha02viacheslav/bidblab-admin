@@ -43,8 +43,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
         link: '/members/memberslist',
         index: 0
       }, {
-        label: 'Bid',
-        link: '/questions/bid',
+        label: 'Questions',
+        link: '/questions/questionslist',
         index: 1
       }, {
         label: 'Blab',

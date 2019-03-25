@@ -20,11 +20,11 @@ import { AlertDialogComponent } from '../../shared/components/alert-dialog/alert
 
 
 @Component({
-  selector: 'app-home-questions',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  selector: 'app-questions-list',
+  templateUrl: './questions-list.component.html',
+  styleUrls: ['./questions-list.component.scss']
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class QuestionsListComponent implements OnInit, OnDestroy {
   form: FormGroup;
   questions: Question[];
   //answers: Answer[];

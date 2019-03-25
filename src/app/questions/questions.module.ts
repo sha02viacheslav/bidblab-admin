@@ -15,11 +15,7 @@ import {
   MatSnackBarModule
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { QuestionDetailComponent } from './question-detail/question-detail.component';
-import { HomeComponent } from './home/home.component';
-import { BlabComponent } from './blab/blab.component';
-import { BidComponent } from './bid/bid.component';
-import { AboutComponent } from './about/about.component';
+import { QuestionsListComponent } from './questions-list/questions-list.component';
 
 @NgModule({
   imports: [
@@ -38,6 +34,6 @@ import { AboutComponent } from './about/about.component';
     SharedModule,
     QuestionsRoutingModule
   ],
-  declarations: [QuestionsComponent, QuestionDetailComponent, HomeComponent, BlabComponent, BidComponent, AboutComponent]
+  declarations: [QuestionsComponent, QuestionsListComponent ]
 })
 export class QuestionsModule {}

@@ -11,7 +11,7 @@ const routes: Routes = [
     children: [
       { path: 'memberslist', component: MembersListComponent },
       { path: 'member-detail/:memberId', component: MemberDetailComponent },
-      { path: '**', redirectTo: '' },
+      { path: '**', redirectTo: 'memberslist' },
     ],
   }
 ];
