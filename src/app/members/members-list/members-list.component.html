@@ -1,11 +1,26 @@
 <div class="button-wrap">
+  <form class="filter-wrap" [formGroup]="infoForm" (ngSubmit)="doFilter()" autocomplete="off" novalidate>
+    <mat-form-field>
+      <mat-label>Filter</mat-label>
+      <!-- <button type="submit" mat-icon-button matSuffix>
+        <mat-icon *ngIf="!newQuestionFlag">search</mat-icon>
+        <mat-icon *ngIf="newQuestionFlag">add_comment</mat-icon>
+      </button> -->
+      <input type="text" formControlName="filter" matInput>
+      <!-- <mat-autocomplete (optionSelected)="getQuestions()" (closed)="searchBoxAction()" #auto="matAutocomplete">
+        <mat-option *ngFor="let question of autocomplete" [value]="question.title">
+          {{question.title}}
+        </mat-option>
+      </mat-autocomplete> -->
+    </mat-form-field>
+  </form>
   <button mat-raised-button color="accent" (click)="sendMessage()">Send Message</button>
-  <button mat-raised-button color="warn" (click)="sendMessage()">Suspend</button>
+  <button mat-raised-button color="warn" (click)="suspendMembers()">Suspend</button>
   <button mat-raised-button color="warn" (click)="deleteMembers()">Delete</button>
 </div>
 <div class="mat-elevation-z8 data-table">
   <table mat-table class="full-width-table" [dataSource]="dataSource" matSort multiTemplateDataRows
-    aria-label="Elements" class="mat-elevation-z8">
+    aria-label="Elements" class="mat-elevation-z8" (matSortChange)="customSort($event)">
     <ng-container matColumnDef="select">
       <th mat-header-cell *matHeaderCellDef>
         <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
@@ -19,7 +34,7 @@
       </td>
     </ng-container>
     <ng-container matColumnDef="index">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> No </th>
+      <th mat-header-cell *matHeaderCellDef> No </th>
       <td mat-cell *matCellDef="let element;"> {{element.index + 1}}</td>
     </ng-container>
     <ng-container matColumnDef="name">
@@ -31,7 +46,7 @@
       <td mat-cell *matCellDef="let element"> {{element.gender}} </td>
     </ng-container>
     <ng-container matColumnDef="birthday">
-      <th mat-header-cell *matHeaderCellDef> Birthday </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Birthday </th>
       <td mat-cell *matCellDef="let element"> {{element.birthday | date}} </td>
     </ng-container>
     <ng-container matColumnDef="username">
@@ -40,7 +55,7 @@
     </ng-container>
     <ng-container matColumnDef="email">
       <th mat-header-cell *matHeaderCellDef> email </th>
-      <td mat-cell  *matCellDef="let element"> 
+      <td mat-cell *matCellDef="let element">
         <span class="send-email-btn" (click)="openSendMessageBox($event)">{{element.email}} </span>
       </td>
     </ng-container>
@@ -66,6 +81,18 @@
       <td mat-cell *matCellDef="let element">
         <button mat-icon-button color="accent" (click)="redirectToUpdate(element.id)">
           <mat-icon class="mat-18">system_update</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="suspend">
+      <th mat-header-cell *matHeaderCellDef> Suspend </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button (click)="suspendMember($event, element._id, 
+          element.role == 'suspend'? 'activate' : 'suspend')">
+          <mat-icon color="primary" *ngIf="element.role != 'suspend'; else suspend" class="mat-18">face</mat-icon>
+          <ng-template #suspend>
+            <mat-icon color="warn" class="mat-18">warning</mat-icon>
+          </ng-template>
         </button>
       </td>
     </ng-container>
@@ -112,8 +139,7 @@
   </table>
 </div>
 <div class="pagination">
-    <mat-paginator class="" [length]="totalMembers" [pageSizeOptions]="[10, 25, 50, 75, 100]"
-      (page)="getAllMembers($event)">
-    </mat-paginator>
-  </div>
-  
+  <mat-paginator class="" [length]="totalMembers" [pageSizeOptions]="[10, 25, 50, 75, 100]"
+    (page)="getAllMembers($event)">
+  </mat-paginator>
+</div>

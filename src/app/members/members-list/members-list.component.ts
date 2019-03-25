@@ -45,15 +45,23 @@ export class MembersListComponent implements OnInit, AfterViewInit {
   //                            "createdAt",  "updatedAt",
   //                            'details', 'update', 'delete'];
 
-  public displayedColumns = ['select', 'index', 'name', 'gender', 'birthday', 'username', 'email', 'verified', 'address', 'details', 'update', 'delete'];
+  public displayedColumns = ['select', 'index', 'name', 'gender', 'birthday',
+                            'username', 'email', 'verified', 'address', 
+                            'details', 'update', 'suspend', 'delete'];
 
   public dataSource = new MatTableDataSource<any>();
   private totalMembers: number;
   private pageSize: number;
   private pageIndex: number;
+  private sortParam = {
+    active: 'name',
+    direction: 'asc',
+  };
   form: FormGroup;
   selection = new SelectionModel<number>(true, []);
   serverUrl = environment.apiUrl;
+  private autocompleteSubscription: Subscription;
+  infoForm: FormGroup;
 
   @ViewChild(MatSort) sort: MatSort;
  
@@ -72,15 +80,33 @@ export class MembersListComponent implements OnInit, AfterViewInit {
     //this.newQuestionFlag = false;
     this.pageSize = 10;
     this.pageIndex = 0;
+    this.infoForm = this.fb.group({
+      filter: ''
+    });
     //this.autocomplete = [];
     // this.form = this.fb.group({
     //   search: ''
     // });
+    this.autocompleteSubscription = this.infoForm
+      .get('filter')
+      .valueChanges.pipe(debounceTime(500))
+      .subscribe(text => {
+        if (text.trim()) {
+          console.log(text);
+          this.getAllMembers();
+          // this.commonService
+          //   .getQuestions(null, null, text)
+          //   .subscribe((res: any) => {
+              
+          //   });
+        } else {
+          this.getAllMembers();
+        }
+      });
     this.getAllMembers();
   }
 
   ngAfterViewInit(): void {
-    this.dataSource.sort = this.sort;
   }
 
   isAllSelected() {
@@ -111,11 +137,16 @@ export class MembersListComponent implements OnInit, AfterViewInit {
       this.pageSize = event.pageSize;
       this.pageIndex = event.pageIndex;
     }
+
+
     //this.autocomplete.splice(0);
     const observable = this.commonService.getMembers(
           this.pageSize,
-          this.pageIndex, ""
-          //this.form.value.search
+          this.pageIndex,
+          this.infoForm.value.filter,
+          this.sortParam.active,
+          this.sortParam.direction,
+         
         );
     observable.subscribe(
       (res: any) => {
@@ -223,6 +254,59 @@ export class MembersListComponent implements OnInit, AfterViewInit {
     else{
       alert("Select the members");
     }
+  }
+
+  public suspendMembers(){
+    var memberIds = [];
+    this.dataSource.data.forEach( (row, index) => {
+      if(this.selection.selected.some( selected => selected == index )){
+        ///console.log("i", index);
+        memberIds.push(row._id);
+      }
+    });
+    //console.log(memberIds);
+    this.finalSuspendMembers(memberIds, 'suspend');
+  }
+
+  public suspendMember(event, memberId, roleType){
+    event.stopPropagation();
+    var memberIds = [];
+    memberIds.push(memberId);
+    //console.log(memberIds);
+    this.finalSuspendMembers(memberIds, roleType);
+  }
+
+  public finalSuspendMembers(memberIds, roleType) {
+    //console.log(memberIds);
+    if(memberIds.length){
+      if(confirm("Are you sure to " + roleType + "?")){
+        this.blockUIService.setBlockStatus(true);
+        this.commonService.changeMembersRole(memberIds, roleType)
+        .subscribe(
+          (res: any) => {
+            this.snackBar.open(res.data.totalSuspendMembers+" of "+memberIds.length+" members are suspended.", 
+              'Dismiss', 
+              {duration: 1500});
+            console.log(res.data);
+            this.getAllMembers();
+            this.blockUIService.setBlockStatus(false);
+          },
+          (err: HttpErrorResponse) => {
+            this.snackBar.open(err.error.msg, 'Dismiss');
+            this.blockUIService.setBlockStatus(false);
+          }
+        );
+      }
+    }
+    else{
+      alert("Select the members");
+    }
+  }
+
+  public customSort(event){
+    this.sortParam = event;
+    //console.log(this.sortParam);
+    this.getAllMembers();
   }
 
 }

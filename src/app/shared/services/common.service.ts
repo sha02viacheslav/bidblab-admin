@@ -208,10 +208,10 @@ export class CommonService {
     );
   }
 
-  getMembers(limit?, offset?, search?) {
+  getMembers(limit?, offset?, filter?, active?, direction?) {
     return this.httpClient.get(
       `${environment.apiUrl}/api/admin/getMembers?limit=${limit ||
-        10}&offset=${offset || 0}&search=${search || ''}`
+        10}&offset=${offset || 0}&filter=${filter || ''}&active=${active || ''}&direction=${direction || ''}`
     );
   }
 
@@ -225,6 +225,13 @@ export class CommonService {
   deleteMembers(body) {
     return this.httpClient.post(
       `${environment.apiUrl}/api/admin/deleteMembers`,
+      body
+    );
+  }  
+
+  changeMembersRole(body, roleType) {
+    return this.httpClient.post(
+      `${environment.apiUrl}/api/admin/changeMembersRole/${roleType}`,
       body
     );
   }  
