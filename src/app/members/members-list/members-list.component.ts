@@ -50,6 +50,7 @@ export class MembersListComponent implements OnInit, AfterViewInit {
   public dataSource = new MatTableDataSource<any>();
   private totalMembers: number;
   private pageSize: number;
+  private pageIndex: number;
   form: FormGroup;
   selection = new SelectionModel<number>(true, []);
   serverUrl = environment.apiUrl;
@@ -70,6 +71,7 @@ export class MembersListComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     //this.newQuestionFlag = false;
     this.pageSize = 10;
+    this.pageIndex = 0;
     //this.autocomplete = [];
     // this.form = this.fb.group({
     //   search: ''
@@ -107,15 +109,14 @@ export class MembersListComponent implements OnInit, AfterViewInit {
     this.blockUIService.setBlockStatus(true);
     if (event) {
       this.pageSize = event.pageSize;
+      this.pageIndex = event.pageIndex;
     }
     //this.autocomplete.splice(0);
-    const observable = event
-      ? this.commonService.getMembers(
-          event.pageSize,
-          event.pageIndex, ""
+    const observable = this.commonService.getMembers(
+          this.pageSize,
+          this.pageIndex, ""
           //this.form.value.search
-        )
-      : this.commonService.getMembers(null, null, "");//this.form.value.search);
+        );
     observable.subscribe(
       (res: any) => {
         this.totalMembers = res.data.totalMembers;
@@ -209,6 +210,7 @@ export class MembersListComponent implements OnInit, AfterViewInit {
             this.snackBar.open(res.data.totalDeleteMembers+" of "+memberIds.length+" members are deleted.", 
             'Dismiss', 
             {duration: 1500});
+            this.getAllMembers();
             this.blockUIService.setBlockStatus(false);
           },
           (err: HttpErrorResponse) => {
