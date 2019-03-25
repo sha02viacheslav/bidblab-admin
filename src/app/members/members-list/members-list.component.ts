@@ -163,14 +163,20 @@ export class MembersListComponent implements OnInit, AfterViewInit {
         email.push(row.email);
       }
     });
-    console.log(email);
-    // this.dialogService
-    // .open(MessageBoxComponent, {
-    //   data: {
-    //     email,
-    //   },
-    //   width: '600px'
-    // }) 
+    //console.log(email);
+    if(email.length){
+      this.dialogService
+      .open(MessageBoxComponent, {
+        data: {
+          email,
+        },
+        width: '600px'
+      }) 
+    }
+    else{
+      alert("You must select the members");
+    }
+   
   }
 
 }
