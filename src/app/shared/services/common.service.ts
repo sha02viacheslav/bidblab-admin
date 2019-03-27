@@ -229,10 +229,12 @@ export class CommonService {
     );
   }  
 
-  getQuestions(limit?, offset?, search?, active?, direction?) {
+  getQuestions(limit?, offset?, search?, filterTags?, active?, direction?) {
+    console.log(filterTags);
     return this.httpClient.get(
       `${environment.apiUrl}/api/admin/getQuestions?limit=${limit ||
-        10}&offset=${offset || 0}&search=${search || ''}&active=${active || ''}&direction=${direction || ''}`
+        10}&offset=${offset || 0}&search=${search || ''}&filterTags=${filterTags || ''}
+        &active=${active || ''}&direction=${direction || ''}`
     );
   }
 

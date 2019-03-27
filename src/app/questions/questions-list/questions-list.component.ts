@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, AfterViewInit, ViewChild  } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild  } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { CommonService } from '../../shared/services/common.service';
@@ -9,7 +9,7 @@ import { BlockUIService } from '../../shared/services/block-ui.service';
 import { Question } from '../../shared/models/question.model';
 import { QuestionDialogComponent } from '../../shared/components/question-dialog/question-dialog.component';
 import { LoginComponent } from '../../shared/components/login/login.component';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { debounceTime, filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { AnswerDialogComponent } from '../../shared/components/answer-dialog/answer-dialog.component';
@@ -19,6 +19,7 @@ import { AlertDialogComponent } from '../../shared/components/alert-dialog/alert
 import { animate, state, style, transition, trigger} from '@angular/animations';
 import { MatPaginator, MatSort, MatTableDataSource, MatCheckbox} from '@angular/material';
 import { SelectionModel} from '@angular/cdk/collections';
+import { MatOption } from '@angular/material';
 
 @Component({
   selector: 'app-questions-list',
@@ -33,7 +34,7 @@ import { SelectionModel} from '@angular/cdk/collections';
   ],
 })
 export class QuestionsListComponent implements OnInit, OnDestroy {
-  public displayedColumns = ['select', 'index', 'title',
+  public displayedColumns = ['select', 'index', 'title', 'tag',
                             'details', 'update', 'delete'];
   public dataSource = new MatTableDataSource<any>();
   selection = new SelectionModel<number>(true, []);
@@ -50,6 +51,9 @@ export class QuestionsListComponent implements OnInit, OnDestroy {
   private socketEventsSubscription: Subscription;
   newQuestionFlag: boolean;
   isInit: boolean;
+  tagsOfQuestionForm: FormGroup;
+  questionTags: string[];
+  @ViewChild('allQuestionTagsSelected') private allQuestionTagsSelected: MatOption;
 
   @ViewChild(MatSort) sort: MatSort;
  
@@ -80,6 +84,9 @@ export class QuestionsListComponent implements OnInit, OnDestroy {
   }
 
   initialize(){
+    this.tagsOfQuestionForm = this.fb.group({
+      tagsOfQuestion: new FormControl('')
+    }); 
     this.newQuestionFlag = false;
     this.pageSize = 10;
     this.pageIndex = 0;
@@ -136,6 +143,31 @@ export class QuestionsListComponent implements OnInit, OnDestroy {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row + 1}`;
+  }
+
+  changeQuestionTag()
+  {
+    this.getQuestions();
+  }
+
+  tosslePerOneOfQuestion(all){ 
+    if (this.allQuestionTagsSelected.selected) {  
+      this.allQuestionTagsSelected.deselect();
+      return false;
+    }
+    if(this.tagsOfQuestionForm.controls.tagsOfQuestion.value.length==this.questionTags.length){
+      this.allQuestionTagsSelected.select();
+    }
+  }
+
+  toggleAllSelectionOfQuestion() {
+    if (this.allQuestionTagsSelected.selected) {
+      this.tagsOfQuestionForm.controls.tagsOfQuestion
+        .patchValue([...this.questionTags.map(item => item), 0]);
+    } 
+    else {
+      this.tagsOfQuestionForm.controls.tagsOfQuestion.patchValue([]);
+    }
   }
 
   openQuestionDialog(newTitle?: String, question?: Question) {
@@ -197,10 +229,12 @@ export class QuestionsListComponent implements OnInit, OnDestroy {
       this.pageSize = event.pageSize;
       this.pageIndex = event.pageIndex;
     }
+    console.log(this.tagsOfQuestionForm.value.tagsOfQuestion);
     const observable = this.commonService.getQuestions(
       this.pageSize,
       this.pageIndex,
       this.infoForm.value.search,
+      this.tagsOfQuestionForm.value.tagsOfQuestion,
       this.sortParam.active,
       this.sortParam.direction,
     );
@@ -208,6 +242,7 @@ export class QuestionsListComponent implements OnInit, OnDestroy {
       (res: any) => {
         this.totalQuestions = res.data.totalQuestions;
         this.dataSource.data = res.data.questions;
+        this.questionTags = res.data.questionTags;
         this.selection.clear();
         if(this.totalQuestions <= this.pageSize * this.pageIndex){
           this.pageIndex = 0;
