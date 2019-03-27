@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MembersRoutingModule } from './members-routing.module';
+import { SharedModule } from '../shared/shared.module';
 import { MembersComponent } from './members.component';
 import {
   MatAutocompleteModule,
@@ -86,6 +87,7 @@ import { MemberDetailComponent } from './member-detail/member-detail.component';
     MatAutocompleteModule,
     MatPaginatorModule,
     MatDividerModule,
+    SharedModule,
     MembersRoutingModule,
   ],
   declarations: [MembersComponent, MembersListComponent, MemberDetailComponent],

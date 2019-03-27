@@ -18,9 +18,9 @@
   <button mat-raised-button color="warn" (click)="suspendMembers()">Suspend</button>
   <button mat-raised-button color="warn" (click)="deleteMembers()">Delete</button>
 </div>
-<div class="mat-elevation-z8 data-table">
+<div class="data-table-wrap">
   <table mat-table class="full-width-table" [dataSource]="dataSource" matSort multiTemplateDataRows
-    aria-label="Elements" class="mat-elevation-z8" (matSortChange)="customSort($event)">
+    aria-label="Elements" (matSortChange)="customSort($event)">
     <ng-container matColumnDef="select">
       <th mat-header-cell *matHeaderCellDef>
         <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"

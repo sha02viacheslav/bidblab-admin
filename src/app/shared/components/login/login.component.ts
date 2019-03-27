@@ -81,7 +81,7 @@ export class LoginComponent implements OnInit {
           })
           .afterOpened()
           .subscribe(() => {
-            this.dialogRef.close();
+            this.dialogRef.close("OK");
           });
       },
       (err: HttpErrorResponse) => {

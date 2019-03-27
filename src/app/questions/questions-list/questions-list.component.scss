@@ -1,5 +1,5 @@
-table.mat-table {
-  width: 100%;
+.data-table-wrap{
+  box-shadow: 0 4px 8px 0 rgba(64,64,65,0.2);
 }
 
 table {
@@ -25,7 +25,6 @@ tr.example-element-row:not(.example-expanded-row):active {
 .example-element-detail {
   overflow: hidden;
   display: flex;
-  background: gray;
   margin-left: -24px;
   margin-right: -24px;
   padding: 1rem;
@@ -44,7 +43,6 @@ tr.example-element-row:not(.example-expanded-row):active {
 
       .member-about-content {
         font-size: 16px;
-        color: white;
         font-family: serif;
       }
     }
@@ -102,4 +100,7 @@ tr.example-element-row:not(.example-expanded-row):active {
     margin-right: 2rem;
     display: inline;
   }
+}
+.pagination{
+  margin-top: 1rem;
 }

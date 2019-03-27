@@ -21,7 +21,7 @@ const routes: Routes = [
     path: 'questions',
     loadChildren: './questions/questions.module#QuestionsModule',
   },
-  { path: '**', redirectTo: 'questions' }
+  { path: '**', redirectTo: 'firstpage' }
 ];
 
 @NgModule({

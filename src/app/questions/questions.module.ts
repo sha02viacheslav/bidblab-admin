@@ -85,6 +85,7 @@ import { QuestionsListComponent } from './questions-list/questions-list.componen
     MatAutocompleteModule,
     MatPaginatorModule,
     MatDividerModule,
+    SharedModule,
     QuestionsRoutingModule
   ],
   declarations: [QuestionsComponent, QuestionsListComponent ]

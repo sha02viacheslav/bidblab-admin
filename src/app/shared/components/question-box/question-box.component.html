@@ -9,7 +9,8 @@
           <div class="avatar-image">
             <div class="avatar" [style.background-image]="question?.asker?.profilePicture?.path?
               'url(' + serverUrl +'/' + question.asker.profilePicture.path + ')' : 'url(assets/imgs/user.svg)'">
-              <button mat-icon-button color="primary" class="no-hover-effect" routerLink="/user/{{question.asker?._id}}">
+              <button mat-icon-button color="primary" class="no-hover-effect" 
+                routerLink="/members/member-detail/{{question.asker?._id}}">
               </button>
             </div>
           </div>
@@ -27,7 +28,8 @@
             <div class="avatar" [style.background-image]="question?.answers[0]?.answerer?.profilePicture?.path?
               'url(' + serverUrl +'/' + question.answers[0].answerer.profilePicture.path + ')' : 'url(assets/imgs/user.svg)'">
               <button *ngIf="question.answers[0].answertype == 'public'; else noPublic" 
-                mat-icon-button color="primary" class="no-hover-effect" routerLink="/user/{{question.answers[0].answerer?._id}}">
+                mat-icon-button color="primary" class="no-hover-effect" 
+                routerLink="/members/member-detail/{{question.answers[0].answerer?._id}}">
               </button>
               <ng-template #noPublic>
                 <button 

@@ -49,6 +49,7 @@ export class QuestionsListComponent implements OnInit, OnDestroy {
   private autocompleteSubscription: Subscription;
   private socketEventsSubscription: Subscription;
   newQuestionFlag: boolean;
+  isInit: boolean;
 
   @ViewChild(MatSort) sort: MatSort;
  
@@ -64,12 +65,26 @@ export class QuestionsListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.newQuestionFlag = false;
-    this.pageSize = 10;
-    this.pageIndex = 0;
+    this.isInit = false;
     this.infoForm = this.fb.group({
       filter: ''
     });
+    this.isAdmin();  
+  }
+
+  ngOnDestroy() {
+    if(this.isInit){
+      this.autocompleteSubscription.unsubscribe();
+      this.socketEventsSubscription.unsubscribe();
+    }
+  }
+
+  initialize(){
+    this.newQuestionFlag = false;
+    this.pageSize = 10;
+    this.pageIndex = 0;
+    console.log("init");
+    
     this.autocompleteSubscription = this.infoForm
       .get('filter')
       .valueChanges.pipe(debounceTime(300))
@@ -84,9 +99,23 @@ export class QuestionsListComponent implements OnInit, OnDestroy {
     this.listenToSocket();
   }
 
-  ngOnDestroy() {
-    this.autocompleteSubscription.unsubscribe();
-    this.socketEventsSubscription.unsubscribe();
+  isAdmin() {
+    if(this.authenticationService.isAdmin()){
+      this.initialize();
+    }
+    else{
+      setTimeout(() => this.dialogService.open(LoginComponent)
+        .afterClosed()
+        .subscribe(result => {
+          if(result == 'OK'){
+            this.initialize();
+          }
+          else{
+            this.commonService.goHome();
+          }
+        })
+      );
+    }
   }
 
   isAllSelected() {

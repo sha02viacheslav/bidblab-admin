@@ -19,7 +19,7 @@ import { environment } from '../../../../environments/environment';
 })
 export class QuestionBoxComponent implements OnInit {
 
-  @Input() question: Question;
+  @Input() question: any;
   
   form: FormGroup;
   currentState = true;
