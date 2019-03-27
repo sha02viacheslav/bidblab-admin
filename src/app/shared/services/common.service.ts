@@ -201,10 +201,10 @@ export class CommonService {
     );
   }
 
-  getMembers(limit?, offset?, filter?, active?, direction?) {
+  getMembers(limit?, offset?, search?, active?, direction?) {
     return this.httpClient.get(
       `${environment.apiUrl}/api/admin/getMembers?limit=${limit ||
-        10}&offset=${offset || 0}&filter=${filter || ''}&active=${active || ''}&direction=${direction || ''}`
+        10}&offset=${offset || 0}&search=${search || ''}&active=${active || ''}&direction=${direction || ''}`
     );
   }
 
@@ -229,10 +229,10 @@ export class CommonService {
     );
   }  
 
-  getQuestions(limit?, offset?, filter?, active?, direction?) {
+  getQuestions(limit?, offset?, search?, active?, direction?) {
     return this.httpClient.get(
       `${environment.apiUrl}/api/admin/getQuestions?limit=${limit ||
-        10}&offset=${offset || 0}&filter=${filter || ''}&active=${active || ''}&direction=${direction || ''}`
+        10}&offset=${offset || 0}&search=${search || ''}&active=${active || ''}&direction=${direction || ''}`
     );
   }
 

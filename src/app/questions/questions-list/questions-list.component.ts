@@ -67,7 +67,7 @@ export class QuestionsListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.isInit = false;
     this.infoForm = this.fb.group({
-      filter: ''
+      search: ''
     });
     this.isAdmin();  
   }
@@ -86,7 +86,7 @@ export class QuestionsListComponent implements OnInit, OnDestroy {
     console.log("init");
     
     this.autocompleteSubscription = this.infoForm
-      .get('filter')
+      .get('search')
       .valueChanges.pipe(debounceTime(300))
       .subscribe(text => {
         if (text.trim()) {
@@ -184,7 +184,7 @@ export class QuestionsListComponent implements OnInit, OnDestroy {
   searchBoxAction(){
     if(this.newQuestionFlag){
       this.newQuestionFlag = false;
-      this.openQuestionDialog(this.infoForm.value.filter);
+      this.openQuestionDialog(this.infoForm.value.search);
     }
     else{
       this.getQuestions();
@@ -200,7 +200,7 @@ export class QuestionsListComponent implements OnInit, OnDestroy {
     const observable = this.commonService.getQuestions(
       this.pageSize,
       this.pageIndex,
-      this.infoForm.value.filter,
+      this.infoForm.value.search,
       this.sortParam.active,
       this.sortParam.direction,
     );

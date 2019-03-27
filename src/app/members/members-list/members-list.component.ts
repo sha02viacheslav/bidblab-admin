@@ -72,14 +72,14 @@ export class MembersListComponent implements OnInit, AfterViewInit {
     this.pageSize = 10;
     this.pageIndex = 0;
     this.infoForm = this.fb.group({
-      filter: ''
+      search: ''
     });
     //this.autocomplete = [];
     // this.form = this.fb.group({
     //   search: ''
     // });
     this.autocompleteSubscription = this.infoForm
-      .get('filter')
+      .get('search')
       .valueChanges.pipe(debounceTime(500))
       .subscribe(text => {
         if (text.trim()) {
@@ -130,7 +130,7 @@ export class MembersListComponent implements OnInit, AfterViewInit {
     const observable = this.commonService.getMembers(
       this.pageSize,
       this.pageIndex,
-      this.infoForm.value.filter,
+      this.infoForm.value.search,
       this.sortParam.active,
       this.sortParam.direction,
     );
