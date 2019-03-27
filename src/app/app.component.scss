@@ -10,7 +10,13 @@
 .app-content-wrap{
     flex: 1 0 auto;
 }
-
+.page-wrap{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .login-wrap{
     margin: 0 auto;
     max-width: 300px;
