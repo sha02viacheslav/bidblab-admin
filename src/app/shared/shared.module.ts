@@ -100,6 +100,7 @@ import { MessageBoxComponent } from './components/message-box/message-box.compon
     AnswerBoxComponent,
     FollowBoxComponent,
     MessageBoxComponent,
+    LoginComponent,
   ]
 })
 export class SharedModule {}

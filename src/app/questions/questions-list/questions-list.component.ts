@@ -90,7 +90,6 @@ export class QuestionsListComponent implements OnInit, OnDestroy {
     this.newQuestionFlag = false;
     this.pageSize = 10;
     this.pageIndex = 0;
-    console.log("init");
     
     this.autocompleteSubscription = this.infoForm
       .get('search')
@@ -229,7 +228,6 @@ export class QuestionsListComponent implements OnInit, OnDestroy {
       this.pageSize = event.pageSize;
       this.pageIndex = event.pageIndex;
     }
-    console.log(this.tagsOfQuestionForm.value.tagsOfQuestion);
     const observable = this.commonService.getQuestions(
       this.pageSize,
       this.pageIndex,
@@ -331,11 +329,9 @@ export class QuestionsListComponent implements OnInit, OnDestroy {
     var questionIds = [];
     this.dataSource.data.forEach( (row, index) => {
       if(this.selection.selected.some( selected => selected == index )){
-        ///console.log("i", index);
         questionIds.push(row._id);
       }
     });
-    //console.log(questionIds);
     this.finalDeleteQuestions(questionIds);
   }
 
@@ -348,7 +344,6 @@ export class QuestionsListComponent implements OnInit, OnDestroy {
   }
 
   public finalDeleteQuestions(questionIds) {
-    console.log(questionIds);
     if(questionIds.length){
       if(confirm("Are you sure to delete "+name)){
         this.blockUIService.setBlockStatus(true);

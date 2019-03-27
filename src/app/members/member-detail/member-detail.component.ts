@@ -199,7 +199,6 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
   changeQuestionTag()
   {
     this.getUserQuestionByuserId(this.user._id, this.tagsOfQuestionForm.value.tagsOfQuestion);
-    console.log(this.tagsOfQuestionForm.value.tagsOfQuestion);
   }
 
   tosslePerOneOfAnswer(all){ 

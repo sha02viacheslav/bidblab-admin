@@ -30,7 +30,6 @@ export class LoginComponent implements OnInit {
     private commonService: CommonService,
     private router: Router,
     private snackBar: MatSnackBar,
-    private dialogRef: MatDialogRef<LoginComponent>
   ) {}
 
   ngOnInit() {
@@ -81,7 +80,6 @@ export class LoginComponent implements OnInit {
           })
           .afterOpened()
           .subscribe(() => {
-            this.dialogRef.close("OK");
           });
       },
       (err: HttpErrorResponse) => {
@@ -105,7 +103,6 @@ export class LoginComponent implements OnInit {
           .open(res.msg, 'Dismiss')
           .afterOpened()
           .subscribe(() => {
-            this.dialogRef.close();
           });
       },
       (err: HttpErrorResponse) => {

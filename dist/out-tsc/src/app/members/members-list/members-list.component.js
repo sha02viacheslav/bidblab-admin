@@ -40,13 +40,10 @@ var MembersListComponent = /** @class */ (function () {
         this.dataSource = new material_1.MatTableDataSource();
         this.redirectToDetails = function (id) {
             event.preventDefault();
-            console.log(id);
         };
         this.redirectToUpdate = function (id) {
-            console.log(id);
         };
         this.redirectToDelete = function (id) {
-            console.log(id);
         };
     }
     MembersListComponent.prototype.ngOnInit = function () {
