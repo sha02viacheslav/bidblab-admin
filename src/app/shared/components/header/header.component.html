@@ -43,34 +43,3 @@
   </mat-toolbar>
 </header>
 
-<div *ngIf="isMediaActive('gt-xs')" class="tab-nav-wrap">
-  <div mat-tab-nav-bar>
-    <a mat-tab-link *ngFor="let link of mainNavLinks" [routerLink]="link.link" routerLinkActive #rla="routerLinkActive"
-      [active]="rla.isActive">
-      {{link.label}}
-    </a>
-  </div>
-</div>
-
-<div class="mobile-menu-w" *ngIf="menuHidden">
-  <div>
-    <div>
-      <a class="mobile-nav" *ngFor="let link of mainNavLinks" [routerLink]="link.link" routerLinkActive #rla="routerLinkActive"
-        (click)="closeMenu()">
-        <span class="nav-label">{{link.label}}</span>
-      </a>
-    </div>
-    <div class="spiliter"></div>
-    <div>
-      <a class="mobile-nav" *ngFor="let link of accountNavLinks" [routerLink]="link.link" routerLinkActive #rla="routerLinkActive"
-        (click)="closeMenu()">
-        <span class="nav-label">{{link.label}}</span>
-      </a>
-    </div>
-    <div class="spiliter"></div>
-    <div class="bottom-wrap">
-      <button (click)="logout()" mat-button color="accent">Logout</button>
-    </div>
-
-  </div>
-</div>

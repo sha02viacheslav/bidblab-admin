@@ -1,5 +1,5 @@
 <div *ngIf="isAuthenticated(); else login">
-  <!-- <block-ui> -->
+  <block-ui>
     <div class="app-wrapper">
       <div class="app-content-wrap">
         <app-header></app-header>
@@ -20,7 +20,7 @@
       </div>
     </div>
     
-  <!-- </block-ui> -->
+  </block-ui>
 </div>
 <ng-template #login>
   <div class="page-wrap">

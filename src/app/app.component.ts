@@ -50,7 +50,7 @@ export class AppComponent implements OnInit, OnDestroy {
     {
       displayName: 'Members',
       iconName: 'recent_actors',
-      route: 'members',
+      route: 'members/memberlist',
     },
     {
       displayName: 'Credits',

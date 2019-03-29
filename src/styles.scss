@@ -142,9 +142,8 @@ div.avatar {
   .mat-calendar{
     zoom: 0.8;
   }
- 
-  // .mat-autocomplete-panel{
-  //   zoom: 0.68;
-  // }
- 
+}
+
+.mat-list-item-content {
+  flex: 1 1 100%;
 }

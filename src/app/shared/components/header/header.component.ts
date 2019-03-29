@@ -36,65 +36,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private media: ObservableMedia,
     private dialogService: DialogService
     //private media: ObservableMedia,
-  ) {
-    this.mainNavLinks = [
-      {
-        label: 'Members',
-        link: '/members/memberslist',
-        index: 0
-      }, {
-        label: 'Questions',
-        link: '/questions/questionslist',
-        index: 1
-      }, {
-        label: 'Blab',
-        link: '/questions/blab',
-        index: 2
-      }, {
-        label: 'About',
-        link: '/questions/about',
-        index: 3
-      }, 
-    ];
-    this.accountNavLinks = [
-      {
-        label: 'Following',
-        link: '/account/following',
-        index: 0
-      }, {
-        label: 'My Questions',
-        link: '/account/myquestions',
-        index: 1
-      }, {
-        label: 'My answers',
-        link: '/account/myanswers',
-        index: 2
-      }, {
-        label: 'Credits',
-        link: '/account/credits',
-        index: 3
-      }, 
-      {
-        label: 'Profile',
-        link: '/account/profile',
-        index: 3
-      }, 
-    ];
-  }
-
-  
+  ) { }
 
   ngOnInit() {
     this.getUserUpdates();
-
-    this.router.events.subscribe((res) => {
-      this.activeLinkIndex = this.mainNavLinks.indexOf(this.mainNavLinks.find(tab => tab.link === '.' + this.router.url));
-    });
   }
 
   ngOnDestroy() {
     this.userUpdatesSubscription.unsubscribe();
-   
   }
 
   toggleMenu() {

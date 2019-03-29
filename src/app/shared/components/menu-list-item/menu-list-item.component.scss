@@ -1,4 +1,4 @@
-// @import '../theme';
+@import "../../../../assets/scss/theme.scss";
 
 :host {
   display: flex;
@@ -6,23 +6,29 @@
   outline: none;
   width: 100%;
 
-  .mat-list-item.active {
-    // background-color: mat-color($app-primary, 50);
-  }
+  // .mat-list-item.active {
+  //   background-color: $primary !important;
+  // }
   &:hover,
   &:focus {
     >.mat-list-item:not(.expanded) {
-      // background-color: mat-color($app-primary, 100) !important;
+      background-color: $primary !important;
     }
   }
 }
 
 .mat-list-item {
+  box-sizing: content-box;
   padding: 8px 0;
   display: flex;
   width: auto;
+  height: 48px;
 
   .routeIcon {
     margin-right: 40px;
   }
+}
+
+.mat-drawer {
+  padding-top: 56px;
 }
