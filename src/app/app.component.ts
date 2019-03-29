@@ -32,29 +32,29 @@ export class AppComponent implements OnInit, OnDestroy {
   navItems: NavItem[] = [
     {
       displayName: 'Blab',
-      iconName: 'recent_actors',
+      iconName: 'question_answer',
       route: 'questions',
       children: [
         {
           displayName: 'Questions',
-          iconName: 'group',
+          iconName: 'help_outline',
           route: 'questions/questionslist',
         },
         {
           displayName: 'Answers',
-          iconName: 'speaker_notes',
+          iconName: 'event_note',
           route: 'questions/answerslist',
         },
       ]
     },
     {
       displayName: 'Members',
-      iconName: 'recent_actors',
+      iconName: 'group',
       route: 'members/memberlist',
     },
     {
       displayName: 'Credits',
-      iconName: 'recent_actors',
+      iconName: 'score',
       route: 'credits',
     }, 
   ];

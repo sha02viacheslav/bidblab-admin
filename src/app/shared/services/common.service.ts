@@ -237,6 +237,14 @@ export class CommonService {
     );
   }
 
+  changeQuestionsRole(body, roleType) {
+    //console.log("common service");
+    return this.httpClient.post(
+      `${environment.apiUrl}/api/admin/changeQuestionsRole/${roleType}`,
+      body
+    );
+  }  
+
   deleteQuestions(body) {
     return this.httpClient.post(
       `${environment.apiUrl}/api/admin/deleteQuestions`,

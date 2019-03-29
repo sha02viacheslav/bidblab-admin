@@ -39,6 +39,7 @@ import { MessageBoxComponent } from '../../shared/components/message-box/message
 export class MembersListComponent implements OnInit, AfterViewInit {
   public displayedColumns = ['select', 'index', 'name', 'gender', 'birthday',
                             'username', 'email', 'verified', 'address', 
+                            'credit', 'submited',
                             'details', 'update', 'suspend', 'delete'];
   public dataSource = new MatTableDataSource<any>();
   private totalMembers: number;

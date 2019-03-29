@@ -34,8 +34,9 @@ import { MatOption } from '@angular/material';
   ],
 })
 export class QuestionsListComponent implements OnInit, OnDestroy {
-  public displayedColumns = ['select', 'index', 'title', 'tag',
-                            'details', 'update', 'delete'];
+  public displayedColumns = ['select', 'index', 'title', 'tag', 
+                            'credit', 'createdAt',
+                            'details', 'update', 'suspend', 'delete'];
   public dataSource = new MatTableDataSource<any>();
   selection = new SelectionModel<number>(true, []);
   private pageSize: number;
@@ -367,6 +368,53 @@ export class QuestionsListComponent implements OnInit, OnDestroy {
       alert("Select the questions");
     }
   }
+  public suspendQuestions(){
+    var questionIds = [];
+    this.dataSource.data.forEach( (row, index) => {
+      if(this.selection.selected.some( selected => selected == index )){
+        ///console.log("i", index);
+        questionIds.push(row._id);
+      }
+    });
+    //console.log(questionIds);
+    this.finalSuspendQuestions(questionIds, 'suspend');
+  }
+
+  public suspendMember(event, questionId, roleType){
+    event.stopPropagation();
+    var questionIds = [];
+    questionIds.push(questionId);
+    //console.log(questionIds);
+    this.finalSuspendQuestions(questionIds, roleType);
+  }
+
+  public finalSuspendQuestions(questionIds, roleType) {
+    //console.log(questionIds);
+    if(questionIds.length){
+      if(confirm("Are you sure to " + roleType + "?")){
+        this.blockUIService.setBlockStatus(true);
+        this.commonService.changeQuestionsRole(questionIds, roleType)
+        .subscribe(
+          (res: any) => {
+            this.snackBar.open(res.data.totalSuspendQuestions+" of "+questionIds.length+" questions are suspended.", 
+              'Dismiss', 
+              {duration: 1500});
+            console.log(res.data);
+            this.getQuestions();
+            this.blockUIService.setBlockStatus(false);
+          },
+          (err: HttpErrorResponse) => {
+            this.snackBar.open(err.error.msg, 'Dismiss');
+            this.blockUIService.setBlockStatus(false);
+          }
+        );
+      }
+    }
+    else{
+      alert("Select the questions");
+    }
+  }
+  
   public customSort(event){
     this.sortParam = event;
     //console.log(this.sortParam);

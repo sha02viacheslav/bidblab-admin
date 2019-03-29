@@ -53,6 +53,7 @@ export class QuestionDialogComponent implements OnInit, OnDestroy {
     this.getUserUpdates();
 
     this.submitted = false;
+    console.log(this.data);
     this.infoForm = this.fb.group({
       title: [
         this.data.question ? this.data.question.title : (this.data.newTitle? this.data.newTitle : ''),
