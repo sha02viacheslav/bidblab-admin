@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { Subscription } from 'rxjs';
 import { BlockUIService } from './shared/services/block-ui.service';
@@ -13,6 +13,11 @@ import { DialogService } from './shared/services/dialog.service';
 import { ResetPasswordComponent } from './shared/components/reset-password/reset-password.component';
 import { ObservableMedia } from '@angular/flex-layout';
 
+import {VERSION} from '@angular/material';
+
+import {NavItem} from './shared/models/nav-item.model';
+import {NavService} from './shared/services/nav.service';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -22,6 +27,38 @@ export class AppComponent implements OnInit, OnDestroy {
   private blockingSubscription: Subscription;
   private routerSubscription: Subscription;
   @BlockUI() blockUI: NgBlockUI;
+  @ViewChild('appDrawer') appDrawer: ElementRef;
+  version = VERSION;
+  navItems: NavItem[] = [
+    {
+      displayName: 'Blab',
+      iconName: 'recent_actors',
+      route: 'questions',
+      children: [
+        {
+          displayName: 'Questions',
+          iconName: 'group',
+          route: 'questions/questionslist',
+        },
+        {
+          displayName: 'Answers',
+          iconName: 'speaker_notes',
+          route: 'questions/answerslist',
+        },
+      ]
+    },
+    {
+      displayName: 'Members',
+      iconName: 'recent_actors',
+      route: 'members',
+    },
+    {
+      displayName: 'Credits',
+      iconName: 'recent_actors',
+      route: 'credits',
+    }, 
+  ];
+
 
   constructor(
     private blockUIService: BlockUIService,

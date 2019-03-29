@@ -35,6 +35,7 @@ import { AnswerBoxComponent } from './components/answer-box/answer-box.component
 import { FollowBoxComponent } from './components/follow-box/follow-box.component';
 import { ReportDialogComponent } from './components/report-dialog/report-dialog.component';
 import { MessageBoxComponent } from './components/message-box/message-box.component';
+import { MenuListItemComponent } from './components/menu-list-item/menu-list-item.component';
 
 @NgModule({
   imports: [
@@ -76,7 +77,8 @@ import { MessageBoxComponent } from './components/message-box/message-box.compon
     AnswerBoxComponent,
     FollowBoxComponent,
     ReportDialogComponent,
-    MessageBoxComponent
+    MessageBoxComponent,
+    MenuListItemComponent
   
   ],
   entryComponents: [
@@ -89,6 +91,7 @@ import { MessageBoxComponent } from './components/message-box/message-box.compon
     QuestionDialogComponent,
     ReportDialogComponent,
     MessageBoxComponent,
+    MenuListItemComponent
   ],
   exports: [
     FlexLayoutModule,
@@ -101,6 +104,7 @@ import { MessageBoxComponent } from './components/message-box/message-box.compon
     FollowBoxComponent,
     MessageBoxComponent,
     LoginComponent,
+    MenuListItemComponent
   ]
 })
 export class SharedModule {}
