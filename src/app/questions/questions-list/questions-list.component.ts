@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild  } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, HostListener  } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { CommonService } from '../../shared/services/common.service';
@@ -20,6 +20,7 @@ import { animate, state, style, transition, trigger} from '@angular/animations';
 import { MatPaginator, MatSort, MatTableDataSource, MatCheckbox} from '@angular/material';
 import { SelectionModel} from '@angular/cdk/collections';
 import { MatOption } from '@angular/material';
+import { WindowService } from '../../shared/services/window.service';
 
 @Component({
   selector: 'app-questions-list',
@@ -57,6 +58,11 @@ export class QuestionsListComponent implements OnInit, OnDestroy {
   @ViewChild('allQuestionTagsSelected') private allQuestionTagsSelected: MatOption;
 
   @ViewChild(MatSort) sort: MatSort;
+  mainPageHeight: number = window.innerWidth - 700;
+
+  @HostListener('window:resize') newColor() {
+    this.mainPageHeight = window.innerWidth - 700;
+  }
  
   constructor(
     private fb: FormBuilder,
@@ -184,16 +190,15 @@ export class QuestionsListComponent implements OnInit, OnDestroy {
         .subscribe(newQuestion => {
           if (newQuestion) {
             if (question) {
-              const index = this.questions.findIndex(
+              const index = this.dataSource.data.findIndex(
                 currentQuestion => currentQuestion._id === question._id
               );
               if (index !== -1) {
-                this.questions[index] = newQuestion;
+                this.dataSource.data[index] = newQuestion;
               }
             } else {
-              this.questions.push(newQuestion);
-            }
-            this.dialogService.
+              this.dataSource.data.push(newQuestion);
+              this.dialogService.
                 open(AlertDialogComponent, {
                   data: {
                     title: "Question submitted",
@@ -206,6 +211,9 @@ export class QuestionsListComponent implements OnInit, OnDestroy {
                     this.openQuestionDialog();
                   }
                 });
+            }
+            this.getQuestions();
+            
           }
         });
     } else {
@@ -414,7 +422,7 @@ export class QuestionsListComponent implements OnInit, OnDestroy {
       alert("Select the questions");
     }
   }
-  
+
   public customSort(event){
     this.sortParam = event;
     //console.log(this.sortParam);

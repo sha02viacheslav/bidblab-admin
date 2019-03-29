@@ -1,7 +1,7 @@
-<div class="button-wrap">
+<div class="button-wrap sticky-top-menu">
   <form class="search-wrap" [formGroup]="infoForm" (ngSubmit)="searchBoxAction()" autocomplete="off" novalidate>
     <mat-form-field>
-      <mat-label>Search</mat-label>
+      <mat-label>Search{{mainPageHeight}}</mat-label>
       <button type="submit" mat-icon-button matSuffix>
         <mat-icon *ngIf="!newQuestionFlag">search</mat-icon>
         <mat-icon *ngIf="newQuestionFlag">add_comment</mat-icon>
@@ -27,6 +27,7 @@
   <button mat-raised-button color="accent" (click)="openQuestionDialog()">Ask Question</button>
   <button mat-raised-button color="warn" (click)="deleteQuestions()">Delete</button>
 </div>
+{{mainPageHeight}}
 <div class="data-table-wrap">
   <table mat-table class="full-width-table" [dataSource]="dataSource" matSort multiTemplateDataRows
     aria-label="Elements" (matSortChange)="customSort($event)">
@@ -108,16 +109,16 @@
         </div>
       </td>
     </ng-container>
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
     <tr mat-row *matRowDef="let element; columns: displayedColumns;" class="example-element-row"
       [class.example-expanded-row]="expandedElement === element"
       (click)="expandedElement = expandedElement === element ? null : element">
     </tr>
     <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
   </table>
-</div>
-<div class="pagination">
-  <mat-paginator [length]="totalQuestions" [pageIndex]="pageIndex" [pageSizeOptions]="[10, 25, 50, 75, 100]"
-    (page)="getQuestions($event)">
-  </mat-paginator>
+  <div class="pagination">
+      <mat-paginator [length]="totalQuestions" [pageIndex]="pageIndex" [pageSizeOptions]="[10, 25, 50, 75, 100]"
+        (page)="getQuestions($event)">
+      </mat-paginator>
+    </div>
 </div>

@@ -1,4 +1,4 @@
-<div class="button-wrap">
+<div class="button-wrap  sticky-top-menu">
   <form class="search-wrap" [formGroup]="infoForm" autocomplete="off" novalidate>
     <mat-form-field>
       <mat-label>Search</mat-label>
@@ -137,7 +137,7 @@
         </div>
       </td>
     </ng-container>
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
     <tr mat-row *matRowDef="let element; columns: displayedColumns;" class="example-element-row"
       [class.example-expanded-row]="expandedElement === element"
       (click)="expandedElement = expandedElement === element ? null : element">

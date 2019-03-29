@@ -16,6 +16,7 @@ import { SocketsService } from '../../services/sockets.service';
 import { AuthenticationService } from '../../../shared/services/authentication.service';
 import { User } from '../../../shared/models/user.model';
 import { UserService } from '../../../shared/services/user.service';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-question-dialog',
@@ -33,6 +34,7 @@ export class QuestionDialogComponent implements OnInit, OnDestroy {
   questionPictureurl: any;
   standardInterests: string[];
   formArray: FormArray;
+  serverUrl: string = environment.apiUrl;
 
   constructor(
     private fb: FormBuilder,
@@ -49,11 +51,11 @@ export class QuestionDialogComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    
     this.catagories = [];
     this.getUserUpdates();
 
     this.submitted = false;
-    console.log(this.data);
     this.infoForm = this.fb.group({
       title: [
         this.data.question ? this.data.question.title : (this.data.newTitle? this.data.newTitle : ''),
@@ -63,8 +65,11 @@ export class QuestionDialogComponent implements OnInit, OnDestroy {
           this.formValidationService.isBlank
         ]
       ],
-      tag: '',
+      tag: this.data.question ? this.data.question.tag : '',
     });
+    if(this.data.question){
+      this.questionPictureurl = this.serverUrl + '/' + this.data.question.questionPicture.path;
+    }
 
     const observable = this.commonService.getStandardInterests();
     observable.subscribe(
@@ -169,19 +174,25 @@ export class QuestionDialogComponent implements OnInit, OnDestroy {
           .updateQuestion(this.data.question._id, this.infoForm.value)
           .subscribe(
             (res: any) => {
-              this.socketsService.notify('updatedData', {
-                type: 'question',
-                data: res.data
-              });
-              this.blockUIService.setBlockStatus(false);
-              this.snackBar
-                .open(res.msg, 'Dismiss', {
-                  duration: 1500
-                })
-                .afterOpened()
-                .subscribe(() => {
-                  this.dialogRef.close(res.data);
+              if(this.uploadData){
+                this.uploadData.append('questionId', res.data._id);
+                this.uploadpicture();
+              }
+              else{
+                this.socketsService.notify('updatedData', {
+                  type: 'question',
+                  data: res.data
                 });
+                this.blockUIService.setBlockStatus(false);
+                this.snackBar
+                  .open(res.msg, 'Dismiss', {
+                    duration: 1500
+                  })
+                  .afterOpened()
+                  .subscribe(() => {
+                    this.dialogRef.close(res.data);
+                  });
+              }
             },
             (err: HttpErrorResponse) => {
               this.submitted = false;

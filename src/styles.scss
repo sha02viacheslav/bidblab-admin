@@ -147,3 +147,33 @@ div.avatar {
 .mat-list-item-content {
   flex: 1 1 100%;
 }
+.sticky-top-menu{
+  padding-right: 1rem;
+  z-index: 200;
+  background: white;
+  position: fixed;
+  width: 100%;
+  right: 0px;
+  top: 64px;
+  padding-top: 1rem;
+}
+
+.data-table-wrap{
+  //margin-top: 60px;
+  box-shadow: 0 4px 8px 0 rgba(64,64,65,0.2);
+  overflow: auto;
+  overflow-y:scroll;
+  scroll-behavior: smooth;
+  position: fixed;
+  left: 210px;
+  right: 0px;
+  top: 150px;
+  bottom: 90px;
+  margin-right: 1rem;
+  .pagination{
+    position: fixed;
+    bottom: 90px;
+    left: 210px;
+    right: 1rem;
+  }
+}
