@@ -64,7 +64,6 @@ export class SidenavComponent implements OnInit {
       .subscribe(
         (res: any) => {
           this.user = res;
-          console.log(res);
         },
         (err: HttpErrorResponse) => {
           //this.snackBar.open(err.error.msg, 'Dismiss');

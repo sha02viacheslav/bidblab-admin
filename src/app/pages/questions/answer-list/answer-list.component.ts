@@ -168,7 +168,6 @@ export class AnswerListComponent implements OnInit {
   
     public customSort(event){
 		this.sortParam = event;
-		console.log(this.sortParam);
 		this.getAnswers();
 	}
 
@@ -178,7 +177,6 @@ export class AnswerListComponent implements OnInit {
     }
 
 	changeAnswerTag(){
-		console.log(this.tagsOfAnswerForm.value.tagsOfAnswer)
 		this.getAnswers();
 	}
   
@@ -196,7 +194,6 @@ export class AnswerListComponent implements OnInit {
 		event.stopPropagation();
 		var questionIds = [];
 		questionIds.push(questionId);
-		//console.log(questionIds);
 		this.finalDeleteQuestions(questionIds);
     }
   
@@ -228,11 +225,9 @@ export class AnswerListComponent implements OnInit {
 		var questionIds = [];
 		this.dataSource.data.forEach( (row) => {
 			if(this.selection.selected.some( selected => selected.index == row.index )){
-			///console.log("i", index);
 			questionIds.push(row._id);
 			}
 		});
-		//console.log(questionIds);
 		this.finalSuspendQuestions(questionIds, 'suspend');
     }
   
@@ -240,12 +235,10 @@ export class AnswerListComponent implements OnInit {
 		event.stopPropagation();
 		var questionIds = [];
 		questionIds.push(questionId);
-		//console.log(questionIds);
 		this.finalSuspendQuestions(questionIds, roleType);
     }
   
     public finalSuspendQuestions(questionIds, roleType) {
-		//console.log(questionIds);
 		if(questionIds.length){
 			if(confirm("Are you sure to " + roleType + "?")){
 			// this.blockUIService.setBlockStatus(true);
@@ -255,7 +248,6 @@ export class AnswerListComponent implements OnInit {
 				// this.snackBar.open(res.data.totalSuspendQuestions+" of "+questionIds.length+" questions are suspended.", 
 				//   'Dismiss', 
 				//   {duration: 1500});
-				// console.log(res.data);
 				this.getAnswers();
 				// this.blockUIService.setBlockStatus(false);
 				},

@@ -169,7 +169,6 @@ export class QuestionListComponent implements OnInit {
 
 	public customSort(event){
 		this.sortParam = event;
-		console.log(this.sortParam);
 		this.getQuestions();
 	}
 
@@ -179,7 +178,6 @@ export class QuestionListComponent implements OnInit {
 	}
 
 	changeQuestionTag(){
-		console.log(this.tagsOfQuestionForm.value.tagsOfQuestion)
 		this.getQuestions();
 	}
 

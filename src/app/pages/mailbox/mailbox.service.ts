@@ -23,7 +23,6 @@ export class MailboxService {
         });
     }
     sendMessage(body) {
-        console.log("service", body);
         return this.httpClient.post(
           `${environment.apiUrl}/api/admin/sendMessage`,
           body,

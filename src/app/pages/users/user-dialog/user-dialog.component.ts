@@ -27,7 +27,6 @@ import { FormValidationService } from '../../../shared/services/form-validation.
 	ngOnInit() {
 		if(!this.user){
 			this.user = new User();
-			console.log(this.user);
 		} 
 		this.form = this.fb.group({
 			username: [ this.user.username, Validators.compose([Validators.required, Validators.minLength(5)]) ],

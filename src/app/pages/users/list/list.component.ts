@@ -97,7 +97,6 @@ export class ListComponent implements OnInit {
 
 	public customSort(event){
 		this.sortParam = event;
-		console.log(this.sortParam);
 		this.getUsers();
 	}
 
@@ -128,7 +127,6 @@ export class ListComponent implements OnInit {
 	}
 	public sendMessages(){
 		var toEmails = [];
-		console.log(this.selection.selected);
 		this.dataSource.data.forEach( (row, index) => {
 		if(this.selection.selected.some( selected => selected.index == row.index )){
 			///console.log("i", index);
@@ -187,7 +185,6 @@ export class ListComponent implements OnInit {
 	}
 
 	public finalDeleteMembers(memberIds) {
-		console.log(memberIds);
 		if(memberIds.length){
 			if(confirm("Are you sure to delete "+name)){
 				// this.blockUIService.setBlockStatus(true);
@@ -264,7 +261,6 @@ export class ListComponent implements OnInit {
 			data: user
 		}).afterClosed().subscribe(updatedUser => {
 			if(updatedUser){
-				console.log(updatedUser);
 				if(user){
 					this.commonService.updateUser(user._id, updatedUser)
 						.subscribe(
