@@ -75,9 +75,6 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
             this.standardInterests.push(item);
           };
         });
-        this.snackBar.open(res.msg, 'Dismiss', {
-          duration: 1500
-        });
       },
       (err: HttpErrorResponse) => {
         this.snackBar.open(err.error.msg, 'Dismiss', {

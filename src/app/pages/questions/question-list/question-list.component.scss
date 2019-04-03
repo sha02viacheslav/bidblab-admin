@@ -1,3 +1,60 @@
+tr.example-detail-row {
+    height: 0;
+}
+
+.example-element-detail {
+    overflow: hidden;
+    margin-left: -24px;
+    margin-right: -24px;
+    padding: 1rem;
+}
+
+.user-content {
+    padding: 10px;
+
+    .user-img {
+        position: relative;
+
+        img {
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+
+            &.blocked {
+                opacity: 0.5;
+            }
+        }
+
+        .mat-icon {
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            font-size: 96px;
+            height: 96px;
+            width: 96px;
+        }
+    }
+
+    .mat-slide-toggle {
+        margin-top: 15px;
+    }
+
+    .user-details {
+        span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .mat-icon {
+            padding: 2px 10px;
+        }
+
+        &.blocked {
+            opacity: 0.5;
+        }
+    }
+}
+
 .user-search {
 	width: 0;
 	overflow: hidden;

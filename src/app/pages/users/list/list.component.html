@@ -1,203 +1,206 @@
 <div fxLayout="column">
-  <div class="flex-p">
-    <div fxLayout="row" fxLayoutAlign="space-between center">
-      <div fxLayout="row">
-        <mat-button-toggle-group #controls="matButtonToggleGroup" appearance="legacy">
-          <mat-button-toggle value="add" (click)="openUserDialog(null)">
-            <mat-icon>person_add</mat-icon>
-          </mat-button-toggle>
-          <mat-button-toggle value="search">
-            <mat-icon>search</mat-icon>
-          </mat-button-toggle>
-        </mat-button-toggle-group>
-      </div>
-      <form class="user-search" [class.show]="controls.value == 'search'">
-        <mat-form-field class="user-search-input">
-          <input matInput placeholder="Search user by name..." (keyup)="applySearch($event.target.value)" name="search">
-        </mat-form-field>
-      </form>
-      <div fxLayout="row" fxLayoutAlign="space-between center">
-        <button mat-raised-button color="primary" class="m-1" (click)="sendMessages()">Send Message</button>
-        <button mat-raised-button color="accent" class="m-1" (click)="suspendMembers()">Suspend</button>
-        <button mat-raised-button color="warn" class="m-1" (click)="deleteMembers()">Delete</button>
-      </div>
-    </div>
-    <table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows class="mat-elevation-z8 w-100"
-      (matSortChange)="customSort($event)">
-      <ng-container matColumnDef="select">
-        <th mat-header-cell *matHeaderCellDef>
-          <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
-            [indeterminate]="selection.hasValue() && !isAllSelected()">
-          </mat-checkbox>
-        </th>
-        <td mat-cell *matCellDef="let row">
-          <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
-            [checked]="selection.isSelected(row)">
-          </mat-checkbox>
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="index">
-        <th mat-header-cell *matHeaderCellDef> No </th>
-        <td mat-cell *matCellDef="let element;"> {{element.index + 1}}</td>
-      </ng-container>
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> Name </th>
-        <td mat-cell *matCellDef="let element"> {{element.firstName}}&nbsp;{{element.lastName}} </td>
-      </ng-container>
-      <ng-container matColumnDef="gender">
-        <th mat-header-cell *matHeaderCellDef> Gender </th>
-        <td mat-cell *matCellDef="let element"> {{element.gender}} </td>
-      </ng-container>
-      <!-- <ng-container matColumnDef="birthday">
+	<div class="flex-p">
+		<div fxLayout="row" fxLayoutAlign="space-between center">
+			<div fxLayout="row">
+				<mat-button-toggle-group #controls="matButtonToggleGroup" appearance="legacy">
+					<mat-button-toggle value="add" (click)="openUserDialog(null)">
+						<mat-icon>person_add</mat-icon>
+					</mat-button-toggle>
+					<mat-button-toggle value="search">
+						<mat-icon>search</mat-icon>
+					</mat-button-toggle>
+				</mat-button-toggle-group>
+			</div>
+			<form class="user-search" [class.show]="controls.value == 'search'">
+				<mat-form-field class="user-search-input">
+					<input matInput placeholder="Search user by name..." (keyup)="applySearch($event.target.value)"
+						name="search">
+				</mat-form-field>
+			</form>
+			<div fxLayout="row" fxLayoutAlign="space-between center">
+				<button mat-raised-button color="primary" class="m-1" (click)="sendMessages()">Send Message</button>
+				<button mat-raised-button color="accent" class="m-1" (click)="suspendMembers()">Suspend</button>
+				<button mat-raised-button color="warn" class="m-1" (click)="deleteMembers()">Delete</button>
+			</div>
+		</div>
+		<table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows class="mat-elevation-z8 w-100"
+			(matSortChange)="customSort($event)">
+			<ng-container matColumnDef="select">
+				<th mat-header-cell *matHeaderCellDef>
+					<mat-checkbox (change)="$event ? masterToggle() : null"
+						[checked]="selection.hasValue() && isAllSelected()"
+						[indeterminate]="selection.hasValue() && !isAllSelected()">
+					</mat-checkbox>
+				</th>
+				<td mat-cell *matCellDef="let row">
+					<mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+						[checked]="selection.isSelected(row)">
+					</mat-checkbox>
+				</td>
+			</ng-container>
+			<ng-container matColumnDef="index">
+				<th mat-header-cell *matHeaderCellDef> No </th>
+				<td mat-cell *matCellDef="let element;"> {{element.index + 1}}</td>
+			</ng-container>
+			<ng-container matColumnDef="name">
+				<th mat-header-cell *matHeaderCellDef> Name </th>
+				<td mat-cell *matCellDef="let element"> {{element.firstName}}&nbsp;{{element.lastName}} </td>
+			</ng-container>
+			<ng-container matColumnDef="gender">
+				<th mat-header-cell *matHeaderCellDef> Gender </th>
+				<td mat-cell *matCellDef="let element"> {{element.gender}} </td>
+			</ng-container>
+			<!-- <ng-container matColumnDef="birthday">
             <th mat-header-cell *matHeaderCellDef> Birthday </th>
             <td mat-cell *matCellDef="let element"> {{element.birthday | date}} </td>
           </ng-container> -->
-      <ng-container matColumnDef="username">
-        <th mat-header-cell *matHeaderCellDef> Username </th>
-        <td mat-cell *matCellDef="let element"> {{element.username}} </td>
-      </ng-container>
-      <ng-container matColumnDef="email">
-        <th mat-header-cell *matHeaderCellDef> email </th>
-        <td mat-cell *matCellDef="let element">
-          <span class="send-email-btn" (click)="sendMessage($event, element.email)">{{element.email}} </span>
-        </td>
-      </ng-container>
-      <!-- <ng-container matColumnDef="verified">
+			<ng-container matColumnDef="username">
+				<th mat-header-cell *matHeaderCellDef> Username </th>
+				<td mat-cell *matCellDef="let element"> {{element.username}} </td>
+			</ng-container>
+			<ng-container matColumnDef="email">
+				<th mat-header-cell *matHeaderCellDef> email </th>
+				<td mat-cell *matCellDef="let element">
+					<span class="send-email-btn" (click)="sendMessage($event, element.email)">{{element.email}} </span>
+				</td>
+			</ng-container>
+			<!-- <ng-container matColumnDef="verified">
             <th mat-header-cell *matHeaderCellDef> Verified </th>
             <td mat-cell *matCellDef="let element"> {{element.verified}} </td>
           </ng-container> -->
-      <ng-container matColumnDef="role">
-        <th mat-header-cell *matHeaderCellDef>
-          <div fxLayout="row" fxLayoutAlign="center center"> Suspend </div>
-        </th>
-        <td mat-cell *matCellDef="let element">
-          <div fxLayout="row" fxLayoutAlign="center center">
-            <mat-icon color="{{element.role == 'suspend'? 'warn' : 'primary'}}">
-              {{element.role == 'suspend'? 'block' : 'face'}}
-            </mat-icon>
-          </div>
-      </ng-container>
-      <ng-container matColumnDef="credit">
-        <th mat-header-cell *matHeaderCellDef> Credit </th>
-        <td mat-cell *matCellDef="let element">
-          {{element.questionCredits + element.answerCredits + element.referalCredits}}</td>
-      </ng-container>
-      <ng-container matColumnDef="createdAt">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Submited </th>
-        <td mat-cell *matCellDef="let element"> {{element.createdAt | date}}</td>
-      </ng-container>
+			<ng-container matColumnDef="role">
+				<th mat-header-cell *matHeaderCellDef>
+					<div fxLayout="row" fxLayoutAlign="center center"> Suspend </div>
+				</th>
+				<td mat-cell *matCellDef="let element">
+					<div fxLayout="row" fxLayoutAlign="center center">
+						<mat-icon color="{{element.role == 'suspend'? 'warn' : 'primary'}}">
+							{{element.role == 'suspend'? 'block' : 'face'}}
+						</mat-icon>
+					</div>
+			</ng-container>
+			<ng-container matColumnDef="credit">
+				<th mat-header-cell *matHeaderCellDef> Credit </th>
+				<td mat-cell *matCellDef="let element">
+					{{element.questionCredits + element.answerCredits + element.referalCredits}}</td>
+			</ng-container>
+			<ng-container matColumnDef="createdAt">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header> Submited </th>
+				<td mat-cell *matCellDef="let element"> {{element.createdAt | date}}</td>
+			</ng-container>
 
-      <ng-container matColumnDef="menu">
-        <th mat-header-cell *matHeaderCellDef> </th>
-        <td mat-cell *matCellDef="let element">
-          <button mat-icon-button [matMenuTriggerFor]="menu" #menuTrigger="matMenuTrigger"
-            (click)="$event.stopPropagation()">
-            <mat-icon>more_vert</mat-icon>
-          </button>
-          <mat-menu #menu="matMenu" xPosition="before" overlapTrigger="true">
-            <span (mouseleave)="menuTrigger.closeMenu()">
-              <button mat-menu-item (click)="openUserDialog(element);">
-                <mat-icon>edit</mat-icon>
-                <span>Edit</span>
-              </button>
-              <button mat-menu-item routerLink="/users/userdetail/{{element._id}}">
-                <mat-icon>reorder</mat-icon>
-                <span>Detail</span>
-              </button>
-              <button mat-menu-item (click)="suspendMember($event, element._id, 
+			<ng-container matColumnDef="menu">
+				<th mat-header-cell *matHeaderCellDef> </th>
+				<td mat-cell *matCellDef="let element">
+					<button mat-icon-button [matMenuTriggerFor]="menu" #menuTrigger="matMenuTrigger"
+						(click)="$event.stopPropagation()">
+						<mat-icon>more_vert</mat-icon>
+					</button>
+					<mat-menu #menu="matMenu" xPosition="before" overlapTrigger="true">
+						<span (mouseleave)="menuTrigger.closeMenu()">
+							<button mat-menu-item (click)="openUserDialog(element);">
+								<mat-icon>edit</mat-icon>
+								<span>Edit</span>
+							</button>
+							<button mat-menu-item routerLink="/users/userdetail/{{element._id}}">
+								<mat-icon>reorder</mat-icon>
+								<span>Detail</span>
+							</button>
+							<button mat-menu-item (click)="suspendMember($event, element._id, 
                                   element.role == 'suspend'? 'activate' : 'suspend')">
-                <mat-icon>{{element.role == 'suspend'? 'warning' : 'face'}}</mat-icon>
-                <span>{{element.role == 'suspend'? 'Activate' : 'Suspend'}}</span>
-              </button>
-              <button mat-menu-item (click)="deleteMember($event, element._id)">
-                <mat-icon>delete</mat-icon>
-                <span>Delete</span>
-              </button>
-            </span>
-          </mat-menu>
-        </td>
-      </ng-container>
-
-
-      <ng-container matColumnDef="expandedDetail">
-        <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
-          <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-            <div class="member-detail-wrap">
-              <div class="user-content" fxLayout="row" fxLayoutAlign="space-around center">
-                <div fxFlex="20" fxFlex.xs="30" fxLayout="column" fxLayoutAlign="center center">
-                  <div class="user-img">
-                    <img [src]="element?.profilePicture?.path? serverUrl+'/'+element.profilePicture.path:
-                                    'assets/img/users/default-user.jpg'" class="transition-2"
-                      [class.blocked]="element.role == 'suspend'">
-                    <mat-icon *ngIf="element.role == 'suspend'" class="warn-color">block</mat-icon>
-                  </div>
-                  <div class="user-social">
-                  </div>
-                </div>
-                <div fxFlex="80" fxFlex.xs="70" fxLayout="row" fxLayout.xs="column" class="user-details transition-2">
-                  <div fxFlex="30" fxFlex.xs="100" fxLayout="column">
-                    <p fxLayout="row" fxLayoutAlign="start center">
-                      <mat-icon class="muted-text">mail_outline</mat-icon>
-                      <span>{{element.email}}</span>
-                    </p>
-                    <p fxLayout="row" fxLayoutAlign="start center">
-                      <mat-icon class="muted-text">call</mat-icon>
-                      <span>{{element.phone == 'Not set'? '---' : element.phone}}</span>
-                    </p>
-                    <p fxLayout="row" fxLayoutAlign="start center">
-                      <mat-icon class="muted-text">location_on</mat-icon>
-                      <span>{{element.physicalcity}}&nbsp;{{element.physicalstate}}</span>
-                    </p>
-                  </div>
-                  <div fxFlex="40" fxFlex.xs="100" fxLayout="column">
-                    <p fxLayout="row" fxLayoutAlign="start center">
-                      <mat-icon class="muted-text">label</mat-icon>
-                      <span>{{element.questionCredits}}&nbsp;Question Credits</span>
-                    </p>
-                    <p fxLayout="row" fxLayoutAlign="start center">
-                      <mat-icon class="muted-text">label</mat-icon>
-                      <span>{{element.answerCredits}}&nbsp;Answer Credits</span>
-                    </p>
-                    <p fxLayout="row" fxLayoutAlign="start center">
-                      <mat-icon class="muted-text">label</mat-icon>
-                      <span>{{element.referalCredits}}&nbsp;Referal Credits</span>
-                    </p>
-                    <p fxLayout="row" fxLayoutAlign="start center">
-                      <mat-icon class="muted-text">label</mat-icon>
-                      <span>
-                        {{element.questionCredits + element.answerCredits + element.referalCredits}}&nbsp;Total Credits
-                      </span>
-                    </p>
-                  </div>
-                  <div fxFlex="40" fxFlex.xs="100" fxLayout="column">
-                    <p fxLayout="row" fxLayoutAlign="start center">
-                      <mat-icon class="muted-text">label</mat-icon>
-                      <span>{{element.totalQuestions}}&nbsp;Submitted Questions</span>
-                    </p>
-                    <p fxLayout="row" fxLayoutAlign="start center">
-                      <mat-icon class="muted-text">label</mat-icon>
-                      <span>{{element.totalAnswers}}&nbsp;Answered Questions</span>
-                    </p>
-                    <p fxLayout="row" fxLayoutAlign="start center">
-                      <mat-icon class="muted-text">label</mat-icon>
-                      <span>{{element.follows.length}}&nbsp;Folling Users</span>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </td>
-      </ng-container>
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let element; columns: displayedColumns;" class="example-element-row"
-        [class.example-expanded-row]="expandedElement === element"
-        (click)="expandedElement = expandedElement === element ? null : element">
-      </tr>
-      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
-    </table>
-    <mat-paginator #paginator [pageSize]="10" [length]="totalMembers" [pageIndex]="pageIndex"
-      [pageSizeOptions]="[5, 10, 20]" (page)="getUsers($event)">
-    </mat-paginator>
-  </div>
+								<mat-icon>{{element.role == 'suspend'? 'warning' : 'face'}}</mat-icon>
+								<span>{{element.role == 'suspend'? 'Activate' : 'Suspend'}}</span>
+							</button>
+							<button mat-menu-item (click)="deleteMember($event, element._id)">
+								<mat-icon>delete</mat-icon>
+								<span>Delete</span>
+							</button>
+						</span>
+					</mat-menu>
+				</td>
+			</ng-container>
+			<ng-container matColumnDef="expandedDetail">
+				<td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+					<div class="example-element-detail"
+						[@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+						<div class="member-detail-wrap">
+							<div class="user-content" fxLayout="row" fxLayoutAlign="space-around center">
+								<div fxFlex="20" fxFlex.xs="30" fxLayout="column" fxLayoutAlign="center center">
+									<div class="user-img">
+										<img [src]="element?.profilePicture?.path? serverUrl+'/'+element.profilePicture.path:
+                                    		'assets/img/users/default-user.jpg'" class="transition-2"
+											[class.blocked]="element.role == 'suspend'">
+										<mat-icon *ngIf="element.role == 'suspend'" class="warn-color">block</mat-icon>
+									</div>
+									<div class="user-social">
+									</div>
+								</div>
+								<div fxFlex="80" fxFlex.xs="70" fxLayout="row" fxLayout.xs="column"
+									class="user-details transition-2">
+									<div fxFlex="30" fxFlex.xs="100" fxLayout="column">
+										<p fxLayout="row" fxLayoutAlign="start center">
+											<mat-icon class="muted-text">mail_outline</mat-icon>
+											<span>{{element.email}}</span>
+										</p>
+										<p fxLayout="row" fxLayoutAlign="start center">
+											<mat-icon class="muted-text">call</mat-icon>
+											<span>{{element.phone == 'Not set'? '---' : element.phone}}</span>
+										</p>
+										<p fxLayout="row" fxLayoutAlign="start center">
+											<mat-icon class="muted-text">location_on</mat-icon>
+											<span>{{element.physicalcity}}&nbsp;{{element.physicalstate}}</span>
+										</p>
+									</div>
+									<div fxFlex="40" fxFlex.xs="100" fxLayout="column">
+										<p fxLayout="row" fxLayoutAlign="start center">
+											<mat-icon class="muted-text">label</mat-icon>
+											<span>{{element.questionCredits}}&nbsp;Question Credits</span>
+										</p>
+										<p fxLayout="row" fxLayoutAlign="start center">
+											<mat-icon class="muted-text">label</mat-icon>
+											<span>{{element.answerCredits}}&nbsp;Answer Credits</span>
+										</p>
+										<p fxLayout="row" fxLayoutAlign="start center">
+											<mat-icon class="muted-text">label</mat-icon>
+											<span>{{element.referalCredits}}&nbsp;Referal Credits</span>
+										</p>
+										<p fxLayout="row" fxLayoutAlign="start center">
+											<mat-icon class="muted-text">label</mat-icon>
+											<span>
+												{{element.questionCredits + element.answerCredits + element.referalCredits}}&nbsp;Total
+												Credits
+											</span>
+										</p>
+									</div>
+									<div fxFlex="40" fxFlex.xs="100" fxLayout="column">
+										<p fxLayout="row" fxLayoutAlign="start center">
+											<mat-icon class="muted-text">label</mat-icon>
+											<span>{{element.totalQuestions}}&nbsp;Submitted Questions</span>
+										</p>
+										<p fxLayout="row" fxLayoutAlign="start center">
+											<mat-icon class="muted-text">label</mat-icon>
+											<span>{{element.totalAnswers}}&nbsp;Answered Questions</span>
+										</p>
+										<p fxLayout="row" fxLayoutAlign="start center">
+											<mat-icon class="muted-text">label</mat-icon>
+											<span>{{element.follows.length}}&nbsp;Folling Users</span>
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</td>
+			</ng-container>
+			<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+			<tr mat-row *matRowDef="let element; columns: displayedColumns;" class="example-element-row"
+				[class.example-expanded-row]="expandedElement === element"
+				(click)="expandedElement = expandedElement === element ? null : element">
+			</tr>
+			<tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+		</table>
+		<mat-paginator #paginator [pageSize]="10" [length]="totalMembers" [pageIndex]="pageIndex"
+			[pageSizeOptions]="[5, 10, 20]" (page)="getUsers($event)">
+		</mat-paginator>
+	</div>
 </div>
