@@ -133,10 +133,10 @@
 									<mat-icon>edit</mat-icon>
 									<span>Edit</span>
 								</button>
-								<button mat-menu-item routerLink="/questions/questiondetail/{{element._id}}">
+								<!-- <button mat-menu-item routerLink="/questions/questiondetail/{{element._id}}">
 									<mat-icon>reorder</mat-icon>
 									<span>Detail</span>
-								</button>
+								</button> -->
 								<button mat-menu-item (click)="suspendQuestion($event, element._id, 
 									  element.role == 'suspend'? 'activate' : 'suspend')">
 									<mat-icon>{{element.role == 'suspend'? 'warning' : 'face'}}</mat-icon>

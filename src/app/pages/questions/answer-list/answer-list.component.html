@@ -70,14 +70,14 @@
 				<th mat-header-cell *matHeaderCellDef mat-sort-header> Submited </th>
 				<td mat-cell *matCellDef="let element"> {{element.createdAt | date}}</td>
 			</ng-container>
-			<ng-container matColumnDef="details">
+			<!-- <ng-container matColumnDef="details">
 				<th mat-header-cell *matHeaderCellDef> Details </th>
 				<td mat-cell *matCellDef="let element">
 					<button mat-icon-button color="primary" routerLink="/members/member-detail/{{element._id}}">
 						<mat-icon class="mat-18">reorder</mat-icon>
 					</button>
 				</td>
-			</ng-container>
+			</ng-container> -->
 			<ng-container matColumnDef="update">
 				<th mat-header-cell *matHeaderCellDef> Update </th>
 				<td mat-cell *matCellDef="let element">
@@ -107,8 +107,70 @@
 					</button>
 				</td>
 			</ng-container>
+			<ng-container matColumnDef="expandedDetail">
+					<td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+						<div class="example-element-detail"
+							[@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+							<div>
+								<div class="user-content" fxLayout="row" fxLayoutAlign="space-around start">
+									<div fxFlex="20" fxFlex.xs="30" fxLayout="column" fxLayoutAlign="center center">
+										<div class="user-img">
+											<img [src]="element?.answerer?.profilePicture?.path? 
+												serverUrl+'/'+element.answerer.profilePicture.path : 'assets/img/users/default-user.jpg'" 
+												class="transition-2" 
+												[class.blocked]="element?.answerer?.role? (element.answerer.role == 'suspend') : false">
+											<mat-icon *ngIf="element?.answerer?.role? (element.answerer.role == 'suspend') : false" 
+												class="warn-color">block
+											</mat-icon>
+										</div>
+										<span>{{element?.answerer?.firstName? element.answerer.firstName : '***'}}&nbsp;
+											{{element?.answerer?.lastName? element.answerer.lastName : '***'}}
+										</span>
+									</div>
+									<div fxFlex="80" fxFlex.xs="70" fxLayout="column"  fxLayoutAlign="none none"
+										class="user-details transition-2">
+										<div fxFlex="100" fxFlex.xs="100" fxLayout="column">
+											<p fxLayout="row" fxLayoutAlign="start start">
+												<mat-icon class="muted-text">live_help</mat-icon>
+												<span style="text-align: justify;">{{element.title}}</span>
+											</p>
+										</div>
+										<div fxFlex="100" fxFlex.xs="100" fxLayout="column">
+											<p fxLayout="row" fxLayoutAlign="start start">
+												<mat-icon class="muted-text">mail_outline</mat-icon>
+												<span style="text-align: justify;">{{element.content}}</span>
+											</p>
+										</div>
+										<div fxFlex="100" fxFlex.xs="100" fxLayout="row" fxLayoutAlign="space-between center">
+											<p fxFlex="25" fxLayout="row" fxLayoutAlign="start center">
+												<mat-icon class="muted-text">thumb_up</mat-icon>
+												<span>{{element.thumbupcnt? element.thumbupcnt : 0}}&nbsp;</span>
+											</p>
+											<p fxFlex="25" fxLayout="row" fxLayoutAlign="start center">
+												<mat-icon class="muted-text">thumb_down</mat-icon>
+												<span>{{element.thumbdowncnt? element.thumbdowncnt : 0}}&nbsp;</span>
+											</p>
+											<p fxFlex="25" fxLayout="row" fxLayoutAlign="start center">
+												<mat-icon class="muted-text">label</mat-icon>
+												<span>{{element.follows? element.follows.length : 0}}&nbsp;Following Users</span>
+											</p>
+											<p fxFlex="25" fxLayout="row" fxLayoutAlign="start center">
+												<mat-icon class="muted-text">label</mat-icon>
+												<span>{{element.credit? element.credit : 0}}&nbsp;Credits</span>
+											</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</td>
+				</ng-container>
 			<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-			<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+			<tr mat-row *matRowDef="let element; columns: displayedColumns;" class="example-element-row"
+				[class.example-expanded-row]="expandedElement === element"
+				(click)="expandedElement = expandedElement === element ? null : element">
+			</tr>
+			<tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
 		</table>
 		<mat-paginator #paginator [pageSize]="10" [length]="totalAnswers" [pageIndex]="pageIndex"
 			[pageSizeOptions]="[5, 10, 20]" (page)="getAnswers($event)">
