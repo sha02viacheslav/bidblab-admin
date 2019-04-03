@@ -28,7 +28,7 @@ import { CommonService } from '../../../shared/services/common.service';
 })
 export class QuestionListComponent implements OnInit {
 	public displayedColumns: string[] = ['select', 'index', 'title', 'tag', 'credit', 'createdAt',
-										'details', 'update', 'suspend', 'delete'];
+										'suspend', 'menu'];
 	public dataSource:any;
 	public selection = new SelectionModel<any>(true, []);
 	private totalQuestions: number;
