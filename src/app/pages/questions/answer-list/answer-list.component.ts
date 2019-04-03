@@ -11,6 +11,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { animate, state, style, transition, trigger} from '@angular/animations';
 import { AddQuestionComponent } from '../add-question/add-question.component';
+import { environment } from '../../../../environments/environment';
 import { CommonService } from '../../../shared/services/common.service';
   
 @Component({
@@ -40,6 +41,7 @@ export class AnswerListComponent implements OnInit {
     };
     infoForm: FormGroup;
     newQuestionFlag: boolean;
+		serverUrl = environment.apiUrl;
     tagsOfAnswerForm: FormGroup;
 	answerTags: string[];
 	@ViewChild('allAnswerTagsSelected') private allAnswerTagsSelected: MatOption;
