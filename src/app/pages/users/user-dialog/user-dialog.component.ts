@@ -29,7 +29,7 @@ import { FormValidationService } from '../../../shared/services/form-validation.
 			this.user = new User();
 		} 
 		this.form = this.fb.group({
-			username: [ this.user.username, Validators.compose([Validators.required, Validators.minLength(5)]) ],
+			username: [ this.user.username, Validators.compose([Validators.required, Validators.minLength(3)]) ],
 			email: [ this.user.email, Validators.compose([Validators.required, Validators.email]) ],
 			phone: [ this.user.phone],
 			password: [ '********', Validators.compose([Validators.required, Validators.minLength(8)]) ],
