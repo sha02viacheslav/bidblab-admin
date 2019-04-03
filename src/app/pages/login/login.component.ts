@@ -19,6 +19,7 @@ import { Settings } from '../../app.settings.model';
 export class LoginComponent implements OnInit{
   public form:FormGroup;
   public settings: Settings;
+	public passwordHide:boolean = true;
   returnUrl: string = '';
 
   constructor(

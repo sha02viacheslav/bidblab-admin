@@ -1,8 +1,8 @@
 <mat-sidenav-container>
 
-  <div fxLayout="row" fxLayoutAlign="center center" class="h-100">
+    <div fxLayout="row" fxLayoutAlign="center center" class="h-100">
 
-       <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" fxFlex="80" fxFlex.gt-sm="30" fxFlex.sm="60">
+        <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" fxFlex="80" fxFlex.gt-sm="30" fxFlex.sm="60">
 
             <mat-card class="p-0 mat-elevation-z24 box">
                 <div fxLayout="column" fxLayoutAlign="center center" class="bg-primary box-header">
@@ -12,25 +12,31 @@
                     <a mat-button routerLink="/register">Don't have an account? Sign up now!</a>
                 </div>
                 <mat-card-content fxLayout="column" fxLayoutAlign="end center" class="box-content">
-                    <mat-card fxLayout="column" fxLayoutAlign="center center" class="mat-elevation-z12 box-content-inner">
-                        <span class="box-content-header">member login</span>  
+                    <mat-card fxLayout="column" fxLayoutAlign="center center"
+                        class="mat-elevation-z12 box-content-inner">
+                        <span class="box-content-header">member login</span>
                         <mat-form-field class="w-100">
                             <input matInput placeholder="Username" formControlName="username">
                             <mat-error *ngIf="form.controls.username.errors?.required">Email is required</mat-error>
                             <!-- <mat-error *ngIf="form.controls.username.hasError('invalidEmail')">Invalid email address</mat-error> -->
                         </mat-form-field>
                         <mat-form-field class="w-100">
-                            <input matInput placeholder="Password" formControlName="password">
+                            <input matInput placeholder="Password" formControlName="password"
+                                [type]="passwordHide ? 'password' : 'text'">
+                            <mat-icon matSuffix (click)="passwordHide = !passwordHide">
+                                {{passwordHide ? 'visibility' : 'visibility_off'}}</mat-icon>
                             <mat-error *ngIf="form.controls.password.errors?.required">Password is required</mat-error>
-                            <mat-error *ngIf="form.controls.password.hasError('minlength')">Password isn't long enough, minimum of 6 characters</mat-error>
-                        </mat-form-field> 
+                            <mat-error *ngIf="form.controls.password.hasError('minlength')">Password isn't long enough,
+                                minimum of 6 characters</mat-error>
+                        </mat-form-field>
                     </mat-card>
-                    <button mat-raised-button color="primary" class="mat-elevation-z12 box-button" type="submit">SIGN IN</button>
+                    <button mat-raised-button color="primary" class="mat-elevation-z12 box-button" type="submit">SIGN
+                        IN</button>
                 </mat-card-content>
             </mat-card>
-            
-        </form>    
-  
-  </div>
+
+        </form>
+
+    </div>
 
 </mat-sidenav-container>
