@@ -11,6 +11,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { animate, state, style, transition, trigger} from '@angular/animations';
 import { AddQuestionComponent } from '../add-question/add-question.component';
+import { environment } from '../../../../environments/environment';
 import { CommonService } from '../../../shared/services/common.service';
 
 @Component({
@@ -39,6 +40,7 @@ export class QuestionListComponent implements OnInit {
 		direction: 'asc',
 	};
 	infoForm: FormGroup;
+	serverUrl = environment.apiUrl;
 	newQuestionFlag: boolean;
 	tagsOfQuestionForm: FormGroup;
 	questionTags: string[];
