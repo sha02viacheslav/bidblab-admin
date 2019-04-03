@@ -32,8 +32,8 @@ import { FormValidationService } from '../../../shared/services/form-validation.
 			username: [ this.user.username, Validators.compose([Validators.required, Validators.minLength(5)]) ],
 			email: [ this.user.email, Validators.compose([Validators.required, Validators.email]) ],
 			phone: [ this.user.phone],
-			password: [ '', Validators.compose([Validators.required, Validators.minLength(8)]) ],
-			confirmPassword: [ '', 
+			password: [ '********', Validators.compose([Validators.required, Validators.minLength(8)]) ],
+			confirmPassword: [ '********', 
 				[
 					Validators.required, 
 					this.formValidationService.arePasswordsMismatching

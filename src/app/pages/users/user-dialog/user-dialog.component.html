@@ -1,4 +1,9 @@
-<h1 mat-dialog-title><span>{{user._id? 'Edit' : 'Add'}}</span> user</h1>
+<div class="p-1" fxLayoutAlign="space-between center">
+    <h1 mat-dialog-title class="m-0"><span>{{user._id? 'Edit' : 'Add'}}</span> user</h1>
+    <button mat-icon-button mat-dialog-close tabindex="-1">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
 <div mat-dialog-content>
     <form [formGroup]="form" class="user-form" autocomplete="off" novalidate>
         <mat-tab-group class="vertical-tabs">
@@ -38,7 +43,8 @@
                         <mat-placeholder>
                             <mat-icon>vpn_key</mat-icon> Confirm Password
                         </mat-placeholder>
-                        <input matInput formControlName="confirmPassword" required [type]="passwordHide ? 'confirmPassword' : 'text'">
+                        <input matInput formControlName="confirmPassword" required
+                            [type]="passwordHide ? 'confirmPassword' : 'text'">
                         <mat-icon matSuffix (click)="passwordHide = !passwordHide">
                             {{passwordHide ? 'visibility' : 'visibility_off'}}</mat-icon>
                         <mat-error *ngIf="form.controls.confirmPassword.errors?.required">Confirm password</mat-error>
@@ -97,8 +103,7 @@
                         </mat-form-field>
                         <mat-form-field fxFlex="50" class="flex-p">
                             <input matInput type="text" placeholder="Add Custom Tag" formControlName="customTag">
-                            <button mat-button matSuffix mat-icon-button aria-label="Clear"
-                                    (click)="addCustomTag()">
+                            <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="addCustomTag()">
                                 <mat-icon>add_box</mat-icon>
                             </button>
                         </mat-form-field>
