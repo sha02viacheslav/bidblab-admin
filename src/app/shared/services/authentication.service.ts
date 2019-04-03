@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import * as jwtDecode from 'jwt-decode';
 import { Router } from '@angular/router';
-import { User } from '../models/user.model';
+import { User } from '../../pages/users/user.model';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -45,7 +46,9 @@ export class AuthenticationService {
   }
 
   isAdmin() {
+    var temp = jwtDecode(this.token);
     return this.isAuthenticated() && jwtDecode(this.token).admin;
+
   }
 
   logout() {

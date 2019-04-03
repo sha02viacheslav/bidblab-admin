@@ -1,0 +1,131 @@
+<mat-sidenav-container>
+    <mat-sidenav *ngIf="settings.menu == 'vertical'" [opened]="settings.sidenavIsOpened" [mode]="(settings.sidenavIsPinned) ? 'side' : 'over'" #sidenav class="sidenav mat-elevation-z6">
+        <app-sidenav></app-sidenav>
+    </mat-sidenav>
+    <mat-sidenav-content id="main" perfectScrollbar [disabled]="settings.fixedHeader" (psScrollY)="onPsScrollY($event)">
+        <mat-toolbar color="primary" class="flex-p-x">
+            <div fxLayout="row" fxLayoutAlign="space-between center" class="w-100">            
+                <div fxLayout="row" fxLayoutAlign="center center">                    
+                    <button *ngIf="settings.menu == 'vertical'" mat-icon-button (click)="toggleSidenav()">
+                        <mat-icon>menu</mat-icon>
+                    </button> 
+                    <button fxShow="false" fxShow.gt-xs *ngIf="settings.menu == 'vertical'" mat-icon-button (click)="settings.sidenavUserBlock = !settings.sidenavUserBlock">
+                        <mat-icon>person</mat-icon>
+                    </button> 
+                    <a *ngIf="settings.menu == 'horizontal'" mat-raised-button color="accent" routerLink="/" (click)="closeSubMenus()" class="small-logo">G</a>
+                    <a *ngIf="settings.menu == 'horizontal'" class="logo" routerLink="/" (click)="closeSubMenus()">BIDBLAB</a>  
+                </div>            
+                <div fxLayout="row" fxLayoutAlign="end center">
+                    <div fxLayout="row" fxLayoutAlign="start center" fxShow="false" fxShow.gt-xs class="search-bar">
+                        <form method="get">
+                            <input type="text" placeholder="Type to search..." class="mat-elevation-z3"  [class.show]="toggleSearchBar">
+                            <button mat-icon-button (click)="toggleSearchBar = !toggleSearchBar" type="button">
+                                <mat-icon>search</mat-icon>
+                            </button> 
+                        </form>
+                    </div>                
+                    <app-flags-menu fxShow="false" fxShow.gt-sm></app-flags-menu>
+                    <app-fullscreen></app-fullscreen> 
+                    <app-applications fxShow="false" fxShow.gt-sm></app-applications>
+                    <app-messages fxShow="false" fxShow.gt-xs></app-messages>
+                    <app-user-menu></app-user-menu> 
+                </div>
+            </div>
+        </mat-toolbar>
+
+        <mat-toolbar color="primary" *ngIf="settings.menu == 'horizontal'" 
+            class="horizontal-menu flex-p-x transition-2" 
+            [class.sticky]="isStickyMenu" 
+            [class.fixed-top]="!settings.fixedHeader">
+            <div fxLayout="row" fxLayoutAlign="center center" class="w-100">            
+                <app-horizontal-menu [menuParentId]="0"></app-horizontal-menu>
+            </div>            
+        </mat-toolbar>
+
+        <div id="main-content" class="inner-sidenav-content transition-2" perfectScrollbar [disabled]="!settings.fixedHeader" (psScrollY)="onPsScrollY($event)" [class.horizontal-menu-hidden]="isStickyMenu"> 
+            <!-- <app-breadcrumb></app-breadcrumb> -->
+            <router-outlet></router-outlet>    
+        </div>
+
+
+        <div fxLayout="row" fxLayoutAlign="center center" class="options-icon" (click)="options.toggle()">
+            <mat-icon>settings</mat-icon>
+        </div>
+
+        <!--<div *ngIf="showBackToTop" fxLayout="row" fxLayoutAlign="center center" class="back-to-top transition-2" (click)="scrollToTop();">
+            <mat-icon>arrow_upward</mat-icon>
+        </div>-->
+
+        <div #backToTop fxLayout="row" fxLayoutAlign="center center" class="back-to-top" (click)="scrollToTop()">
+            <mat-icon>arrow_upward</mat-icon>
+        </div>
+
+    </mat-sidenav-content>
+    
+    <mat-sidenav #options position="end" class="options">        
+       
+        <div fxLayout="row" fxLayoutAlign="center center" class="control mat-elevation-z1">
+            <h2>Settings</h2>
+        </div>  
+
+        <div perfectScrollbar>
+
+            <div fxLayout="column" class="control">
+                <h4>Layout</h4>        
+                <div fxLayout="row" fxLayoutAlign="space-between center">
+                    <span>Fixed header</span>
+                    <mat-slide-toggle [checked]="settings.fixedHeader" (change)="settings.fixedHeader = !settings.fixedHeader" labelPosition="before"></mat-slide-toggle>
+                </div>                
+                <div fxLayout="row" fxLayoutAlign="space-between center">
+                    <span>RTL</span>
+                    <mat-slide-toggle [checked]="settings.rtl" (change)="settings.rtl = !settings.rtl" labelPosition="before"></mat-slide-toggle>
+                </div>
+            </div>
+
+            <div fxLayout="column" class="control">
+                <h4>Choose menu</h4>
+                <mat-radio-group [(ngModel)]="menuOption" (change)="chooseMenu()">
+                    <mat-radio-button *ngFor="let menu of menus" [value]="menu">{{menu}}</mat-radio-button>
+                </mat-radio-group>
+            </div>
+
+            <div fxLayout="column" class="control">
+                <h4>Choose menu type</h4>
+                <mat-radio-group [(ngModel)]="menuTypeOption" (change)="chooseMenuType()">
+                    <mat-radio-button *ngFor="let menuType of menuTypes" [value]="menuType">{{menuType}}</mat-radio-button>
+                </mat-radio-group>
+            </div>
+
+            <div fxLayout="column" class="control">
+                <h4>Choose theme skin</h4>        
+                <div fxLayout="row" fxLayoutAlign="space-around center"> 
+                    <div class="skin-primary indigo-light" (click)="changeTheme('indigo-light')"><div class="skin-secondary"></div></div>  
+                    <div class="skin-primary teal-light" (click)="changeTheme('teal-light')"><div class="skin-secondary"></div></div>  
+                    <div class="skin-primary red-light" (click)="changeTheme('red-light')"><div class="skin-secondary"></div></div>  
+                    <div class="skin-primary blue-dark" (click)="changeTheme('blue-dark')"><div class="skin-secondary"></div></div>  
+                    <div class="skin-primary green-dark" (click)="changeTheme('green-dark')"><div class="skin-secondary"></div></div>  
+                    <div class="skin-primary pink-dark" (click)="changeTheme('pink-dark')"><div class="skin-secondary"></div></div>  
+                </div>
+            </div>
+
+            <div fxLayout="column" class="control">
+                <h4>Sidenav options</h4>
+                <div fxLayout="row" fxLayoutAlign="space-between center">
+                    <span>Opened sidenav</span>
+                    <mat-slide-toggle [checked]="settings.sidenavIsOpened" (change)="settings.sidenavIsOpened = !settings.sidenavIsOpened" labelPosition="before"></mat-slide-toggle>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="space-between center">
+                    <span>Pinned sidenav</span>
+                    <mat-slide-toggle [checked]="settings.sidenavIsPinned" (change)="settings.sidenavIsPinned = !settings.sidenavIsPinned" labelPosition="before"></mat-slide-toggle>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="space-between center">
+                    <span>Sidenav user info</span>
+                    <mat-slide-toggle [checked]="settings.sidenavUserBlock" (change)="settings.sidenavUserBlock = !settings.sidenavUserBlock" labelPosition="before"></mat-slide-toggle>
+                </div>
+            </div>
+
+        </div>
+
+    </mat-sidenav>
+
+</mat-sidenav-container>

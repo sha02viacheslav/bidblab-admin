@@ -1,0 +1,50 @@
+<form [formGroup]="infoForm" (ngSubmit)="submitForm()" autocomplete="off" novalidate>
+	<mat-card class="custom-card card-no-padding">
+		<mat-card-header class="bg-primary p-1" fxLayoutAlign="space-between center">
+			<mat-card-title class="m-0">
+				<h3>
+					<span *ngIf="!question">Add</span><span *ngIf="question">Edit</span> Question
+				</h3>
+			</mat-card-title>
+			<button mat-icon-button mat-dialog-close tabindex="-1">
+				<mat-icon>close</mat-icon>
+			</button>
+		</mat-card-header>
+		<div class="p-">
+			<label>
+				<!-- <img mat-card-image src="{{questionPictureurl}}" alt="7"> -->
+				<div class="question-image" [class.cloud-image]="!questionPictureurl" [style.background-image]="questionPictureurl?
+					'url(' + questionPictureurl + ')' : 'url(assets/img/extra/upload-to-cloud-96.png)'">
+				</div>
+				<input type="file" accept="image/*" class="file" (change)="onFileChanged($event)" hidden />
+			</label>
+		</div>
+		<mat-form-field *ngIf="standardInterests">
+			<mat-select placeholder="Select Catagory for question" formControlName="tag">
+				<mat-option *ngFor="let interest of standardInterests;" [value]="interest">
+					{{interest}}
+				</mat-option>
+			</mat-select>
+		</mat-form-field>
+		<mat-card-content class="p-">
+			<mat-form-field class="question-wrap" appearance="outline">
+				<mat-label>Question</mat-label>
+				<textarea rows="5" type="text" matInput formControlName="title" required></textarea>
+				<mat-hint align="end">{{infoForm.get('title').value.length}} / 500</mat-hint>
+				<mat-error *ngIf="checkError(infoForm, 'title', ['required', 'blank'])">
+					Required.
+				</mat-error>
+				<mat-error *ngIf="checkError(infoForm, 'title', 'maxlength')">
+					Question has a maximum length of 500 characters.
+				</mat-error>
+			</mat-form-field>
+		</mat-card-content>
+		<mat-divider></mat-divider>
+		<mat-card-actions fxLayoutAlign="end center">
+			<button class="" mat-raised-button color="accent" [disabled]="infoForm.invalid || submitted" type="submit">
+				<span *ngIf="!question">Save</span>
+				<span *ngIf="question">Update</span>
+			</button>
+		</mat-card-actions>
+	</mat-card>
+</form>

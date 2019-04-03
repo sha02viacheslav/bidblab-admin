@@ -1,0 +1,21 @@
+.applications{
+    .mat-toolbar, .mat-toolbar-row{
+        height: 40px !important;
+        min-height: 40px !important;
+    }
+    .header{
+        width: 250px;
+        font-size: 16px;
+    }
+    .mat-card{
+        padding: 0;
+        .mat-button{
+            height: 100%;
+            .mat-button-wrapper{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    }
+}

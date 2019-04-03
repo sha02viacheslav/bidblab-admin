@@ -1,61 +1,68 @@
+.app{
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+}
 
-@import "../assets/scss/theme.scss";
-.app-wrapper {
-    height: 100vh;
+#app-spinner{
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
     display: flex;
     flex-direction: column;
-}
-.sticky-header-wrap {
-    position: fixed;
-    width: 100%;
-    z-index: 100;
-}
-.mat-sidenav-container{
-    padding-top: 64px;
-}
-.sticky-footer-wrap {
-    flex-shrink: 0;
-    padding-top: 1rem;
-}
-
-.app-content-wrap {
-    flex: 1 0 auto;
-}
-
-.page-wrap {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.login-wrap {
-    margin: 0 auto;
-    max-width: 300px;
-}
-
-.mat-sidenav {
+    height: 100%;
+    width: 100%;
     position: fixed;
-    height: fit-content;
-    padding-top: 64px;
-    margin: 1rem 0rem;
-    width: 200px;
+    top: 0;
+    background: #fff;
+    z-index: 999999;
+    visibility: visible;
+    opacity: 1;
+    -webkit-transition: visibility 0.5s, opacity 0.3s linear;
+    -moz-transition: visibility 0.5s, opacity 0.3s linear;
+    transition: visibility 0.5s, opacity 0.3s linear;
+    &.hide{
+        visibility: hidden;
+        opacity: 0; 
+    }
+    h4{
+        margin-top: 10px;
+        letter-spacing: 0.02em;
+        opacity: 0;
+        text-transform: uppercase;
+        -moz-animation: loading-text-opacity 2s linear 0s infinite normal;
+        -o-animation: loading-text-opacity 2s linear 0s infinite normal;
+        -webkit-animation: loading-text-opacity 2s linear 0s infinite normal;
+        animation: loading-text-opacity 2s linear 0s infinite normal;
+    }
 }
 
-.mat-sidenav-container {
-    background-color: white !important;
+@keyframes loading-text-opacity {
+    0%  {opacity: 0}
+    20% {opacity: 0}
+    50% {opacity: 1}
+    100%{opacity: 0}
 }
-
-.mat-nav-list {
-    padding-top: 0;
+@-moz-keyframes loading-text-opacity {
+    0%  {opacity: 0}
+    20% {opacity: 0}
+    50% {opacity: 1}
+    100%{opacity: 0}
 }
-
-.version-info {
-    font-size: 8pt;
-    float: right;
-    padding: 8px;
+@-webkit-keyframes loading-text-opacity {
+    0%  {opacity: 0}
+    20% {opacity: 0}
+    50% {opacity: 1}
+    100%{opacity: 0}
 }
-
-
-
+@-o-keyframes loading-text-opacity {
+    0%  {opacity: 0}
+    20% {opacity: 0}
+    50% {opacity: 1}
+    100%{opacity: 0}
+}

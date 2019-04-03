@@ -21,8 +21,8 @@ export class UserGuard implements CanLoad, CanActivate, CanActivateChild {
   ) {}
 
   canLoad(route: Route): boolean | Observable<boolean> | Promise<boolean> {
-    if (!this.authenticationService.isAdmin()) {
-      this.router.navigateByUrl('/');
+    if (!this.authenticationService.isAuthenticated()) {
+      this.router.navigateByUrl('/login');
       return false;
     }
     return true;
@@ -32,8 +32,12 @@ export class UserGuard implements CanLoad, CanActivate, CanActivateChild {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean | Observable<boolean> | Promise<boolean> {
-    if (!this.authenticationService.isAdmin()) {
-      this.router.navigateByUrl('/');
+    if (!this.authenticationService.isAuthenticated()) {
+      this.router.navigate(['/login'], {
+        queryParams: {
+          returnUrl: state.url
+        }
+      });
       return false;
     }
     return true;
@@ -43,8 +47,8 @@ export class UserGuard implements CanLoad, CanActivate, CanActivateChild {
     childRoute: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean | Observable<boolean> | Promise<boolean> {
-    if (!this.authenticationService.isAdmin()) {
-      this.router.navigateByUrl('/');
+    if (!this.authenticationService.isAuthenticated()) {
+      this.router.navigateByUrl('/login');
       return false;
     }
     return true;

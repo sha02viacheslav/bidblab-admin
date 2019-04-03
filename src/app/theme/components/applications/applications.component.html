@@ -1,0 +1,70 @@
+<button mat-icon-button [matMenuTriggerFor]="appsMenu" #appsMenuTrigger="matMenuTrigger">
+    <mat-icon>apps</mat-icon>
+</button>
+<mat-menu #appsMenu="matMenu" [overlapTrigger]="false" class="toolbar-dropdown-menu applications">
+    <span (mouseleave)="appsMenuTrigger.closeMenu()">
+        <mat-toolbar color="primary">
+            <div fxLayout="row" fxLayoutAlign="space-around center" class="header">
+               Applications 
+            </div>  
+        </mat-toolbar>
+        <mat-card>           
+            <mat-grid-list cols="3" rowHeight="1:1">
+                <mat-grid-tile>
+                  <button mat-button>
+                      <mat-icon class="muted-text">person</mat-icon>
+                      <span>My account</span>
+                  </button>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <button mat-button>
+                      <mat-icon class="muted-text">search</mat-icon>
+                      <span>Search</span>
+                  </button>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <button mat-button>
+                      <mat-icon class="muted-text">play_arrow</mat-icon>
+                      <span>Player</span>
+                  </button>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <button mat-button>
+                      <mat-icon class="muted-text">settings</mat-icon>
+                      <span>Settings</span>
+                  </button>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <button mat-button>
+                      <mat-icon class="muted-text">event</mat-icon>
+                      <span>Calendar</span>
+                  </button>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <button mat-button>
+                      <mat-icon class="muted-text">image</mat-icon>
+                      <span>Gallery</span>
+                  </button>
+                </mat-grid-tile>
+                 <mat-grid-tile>
+                  <button mat-button>
+                      <mat-icon class="muted-text">library_books</mat-icon>
+                      <span>Documents</span>
+                  </button>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <button mat-button>
+                      <mat-icon class="muted-text">mail</mat-icon>
+                      <span>Mail</span>
+                  </button>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <button mat-button>
+                      <mat-icon class="muted-text">place</mat-icon>
+                      <span>Maps</span>
+                  </button>
+                </mat-grid-tile>
+            </mat-grid-list>
+        </mat-card>
+    </span>
+</mat-menu>

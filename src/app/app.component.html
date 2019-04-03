@@ -1,33 +1,12 @@
-<div *ngIf="isAuthenticated(); else login">
-  <block-ui>
-    <div class="app-wrapper">
-      <div class="app-content-wrap">
-        <div class="sticky-header-wrap">
-        <app-header></app-header>
-        </div>
-        <mat-sidenav-container>
-          <mat-sidenav #appDrawer mode="side" opened="true">
-            <mat-nav-list>
-              <app-menu-list-item *ngFor="let item of navItems" [item]="item"></app-menu-list-item>
-            </mat-nav-list>
-          </mat-sidenav>
-          <div [className]="isMediaActive('gt-xs')? 'padding-1rem' : 'padding-05rem'">
-            <router-outlet></router-outlet>
-          </div>
-        </mat-sidenav-container>
-        
-      </div>
-      <div class="sticky-footer-wrap">
-        <app-footer></app-footer>
-      </div>
+<div id="app" class="app" [dir]="(settings.rtl) ? 'rtl' : 'ltr'"
+            [ngClass]="settings.theme" 
+            [class.fixed-header]="settings.fixedHeader"
+            [class.horizontal-menu]="settings.menu == 'horizontal'" 
+            [class.compact]="settings.menuType == 'compact'" 
+            [class.mini]="settings.menuType == 'mini'" >
+    <router-outlet></router-outlet>
+    <div id="app-spinner" [class.hide]="!settings.loadingSpinner"> 
+        <mat-spinner color="primary"></mat-spinner>  
+        <h4>loading...</h4>
     </div>
-    
-  </block-ui>
 </div>
-<ng-template #login>
-  <div class="page-wrap">
-    <div class="login-wrap">
-      <app-login></app-login>
-    </div>
-  </div>
-</ng-template>

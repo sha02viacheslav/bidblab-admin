@@ -1,0 +1,117 @@
+<div fxLayout="column">
+	<div class="flex-p">
+		<div fxLayout="row" fxLayoutAlign="space-between center">
+			<div fxLayout="row">
+				<mat-button-toggle-group #controls="matButtonToggleGroup" appearance="legacy">
+					<mat-button-toggle value="add" (click)="openQuestionDialog()">
+						<mat-icon>note_add</mat-icon>
+					</mat-button-toggle>
+					<mat-button-toggle value="search">
+						<mat-icon>search</mat-icon>
+					</mat-button-toggle>
+				</mat-button-toggle-group>
+			</div>
+			<form class="user-search" [class.show]="controls.value == 'search'" autocomplete="off">
+				<mat-form-field class="user-search-input">
+					<input matInput placeholder="Search user by name..." (keyup)="applySearch($event.target.value)"
+						name="search">
+				</mat-form-field>
+			</form>
+			<form class="user-filter" [class.show]="controls.value == 'search'" [formGroup]="tagsOfAnswerForm" autocomplete="off">
+				<mat-form-field>
+					<mat-select multiple placeholder="Tags" formControlName="tagsOfAnswer"
+						(closed)="changeAnswerTag()" required>
+						<mat-option #allAnswerTagsSelected (click)="toggleAllSelectionOfAnswer()" [value]="0">All
+						</mat-option>
+						<mat-option *ngFor="let tag of answerTags" [value]="tag"
+							(click)="tosslePerOneOfAnswer(allAnswerTagsSelected.viewValue)">{{tag}}</mat-option>
+					</mat-select>
+				</mat-form-field>
+			</form>
+			<div fxLayout="row" fxLayoutAlign="space-between center">
+				<button mat-raised-button color="accent" class="m-1" (click)="suspendQuestions()">Suspend</button>
+				<button mat-raised-button color="warn" class="m-1" (click)="deleteQuestions()">Delete</button>
+			</div>
+		</div>
+		<table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows class="mat-elevation-z8 w-100"
+			(matSortChange)="customSort($event)">
+			<ng-container matColumnDef="select">
+				<th mat-header-cell *matHeaderCellDef>
+					<mat-checkbox (change)="$event ? masterToggle() : null"
+						[checked]="selection.hasValue() && isAllSelected()"
+						[indeterminate]="selection.hasValue() && !isAllSelected()">
+					</mat-checkbox>
+				</th>
+				<td mat-cell *matCellDef="let row">
+					<mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+						[checked]="selection.isSelected(row)">
+					</mat-checkbox>
+				</td>
+			</ng-container>
+			<ng-container matColumnDef="index">
+				<th mat-header-cell *matHeaderCellDef> No </th>
+				<td mat-cell *matCellDef="let element;"> {{element.index + 1}}</td>
+			</ng-container>
+			<ng-container matColumnDef="content">
+				<th mat-header-cell *matHeaderCellDef> Content </th>
+				<td mat-cell *matCellDef="let element">
+					{{element.content| slice:0:50 }}{{element.content.length > 50? '...' : ''}}
+				</td>
+			</ng-container>
+			<ng-container matColumnDef="tag">
+				<th mat-header-cell *matHeaderCellDef> Tag </th>
+				<td mat-cell *matCellDef="let element"> {{element.tag}} </td>
+			</ng-container>
+			<ng-container matColumnDef="credit">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header> Credit </th>
+				<td mat-cell *matCellDef="let element"> {{element.credit}} </td>
+			</ng-container>
+			<ng-container matColumnDef="createdAt">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header> Submited </th>
+				<td mat-cell *matCellDef="let element"> {{element.createdAt | date}}</td>
+			</ng-container>
+			<ng-container matColumnDef="details">
+				<th mat-header-cell *matHeaderCellDef> Details </th>
+				<td mat-cell *matCellDef="let element">
+					<button mat-icon-button color="primary" routerLink="/members/member-detail/{{element._id}}">
+						<mat-icon class="mat-18">reorder</mat-icon>
+					</button>
+				</td>
+			</ng-container>
+			<ng-container matColumnDef="update">
+				<th mat-header-cell *matHeaderCellDef> Update </th>
+				<td mat-cell *matCellDef="let element">
+					<button mat-icon-button color="accent" (click)="openQuestionDialog('', element)">
+						<mat-icon class="mat-18">system_update</mat-icon>
+					</button>
+				</td>
+			</ng-container>
+			<ng-container matColumnDef="suspend">
+				<th mat-header-cell *matHeaderCellDef> Suspend </th>
+				<td mat-cell *matCellDef="let element">
+					<button mat-icon-button (click)="suspendQuestion($event, element._id, 
+									element.role == 'suspend'? 'activate' : 'suspend')">
+						<mat-icon color="primary" *ngIf="element.role != 'suspend'; else suspend" class="mat-18">face
+						</mat-icon>
+						<ng-template #suspend>
+							<mat-icon color="warn" class="mat-18">warning</mat-icon>
+						</ng-template>
+					</button>
+				</td>
+			</ng-container>
+			<ng-container matColumnDef="delete">
+				<th mat-header-cell *matHeaderCellDef> Delete </th>
+				<td mat-cell *matCellDef="let element">
+					<button mat-icon-button color="warn" (click)="deleteQuestion($event, element._id)">
+						<mat-icon class="mat-18">delete</mat-icon>
+					</button>
+				</td>
+			</ng-container>
+			<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+			<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+		</table>
+		<mat-paginator #paginator [pageSize]="10" [length]="totalAnswers" [pageIndex]="pageIndex"
+			[pageSizeOptions]="[5, 10, 20]" (page)="getAnswers($event)">
+		</mat-paginator>
+	</div>
+</div>

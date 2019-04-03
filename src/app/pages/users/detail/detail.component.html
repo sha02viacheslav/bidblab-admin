@@ -1,0 +1,209 @@
+<div *ngIf="user">
+<div *ngIf="user" fxLayout="row wrap">
+  <div fxFlex="100" class="flex-p">
+    <mat-card class="p-0">
+      <div class="bg-primary" fxLayout="row" fxLayoutAlign="space-between center">
+        <h3 class="user-name">{{user.firstName}} {{user.lastName}}</h3>
+        <button mat-icon-button [matMenuTriggerFor]="menu" #menuTrigger="matMenuTrigger">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+      </div>
+      <mat-menu #menu="matMenu" xPosition="before" overlapTrigger="true">
+        <span (mouseleave)="menuTrigger.closeMenu()">
+          <button mat-menu-item (click)="openUserDialog(user);">
+            <mat-icon>mode_edit</mat-icon>
+            <span>Edit</span>
+          </button>
+          <button mat-menu-item (click)="deleteUser(user);">
+            <mat-icon>delete</mat-icon>
+            <span>Delete</span>
+          </button>
+        </span>
+      </mat-menu>
+      <div class="user-content" fxLayout="row" fxLayoutAlign="space-around center">
+        <div fxFlex="20" fxFlex.xs="30" fxLayout="column" fxLayoutAlign="center center">
+          <div class="user-img">
+            <img [src]="user?.profilePicture?.path? serverUrl+'/'+element.profilePicture.path:
+                          'assets/img/users/default-user.jpg'" class="transition-2"
+                          [class.blocked]="user.role == 'suspend'">
+          </div>
+        </div>
+        <div fxFlex="80" fxFlex.xs="70" fxLayout="row" fxLayout.xs="column" class="user-details transition-2">
+          <div fxFlex="30" fxFlex.xs="100" fxLayout="column">
+            <p fxLayout="row" fxLayoutAlign="start center">
+              <mat-icon class="muted-text">mail_outline</mat-icon>
+              <span>{{user.email}}</span>
+            </p>
+            <p fxLayout="row" fxLayoutAlign="start center">
+              <mat-icon class="muted-text">call</mat-icon>
+              <span>{{user.phone}}</span>
+            </p>
+            <p fxLayout="row" fxLayoutAlign="start center">
+              <mat-icon class="muted-text">location_on</mat-icon>
+              <span>{{user.physicalcity}}, {{user.physicalstate}}</span>
+            </p>
+          </div>
+          <div fxFlex="40" fxFlex.xs="100" fxLayout="column">
+            <p fxLayout="row" fxLayoutAlign="start center">
+              <mat-icon class="muted-text">event_available</mat-icon>
+              <span>Registration {{user.createdAt | date:"dd MMMM, yyyy 'at' HH:mm"}}</span>
+            </p>
+            <p fxLayout="row" fxLayoutAlign="start center">
+              <mat-icon class="muted-text">date_range</mat-icon>
+              <span>Joined {{user.updatedAt | date:"dd MMMM, yyyy 'at' HH:mm"}}</span>
+            </p>
+          </div>
+          <div fxFlex="40" fxFlex.xs="100" fxLayout="column">
+            <p fxLayout="row" fxLayoutAlign="start center">
+              <mat-icon class="muted-text">event_available</mat-icon>
+              <span>{{total_questions}}&nbsp;Submitted Questions</span>
+            </p>
+            <p fxLayout="row" fxLayoutAlign="start center">
+              <mat-icon class="muted-text">date_range</mat-icon>
+              <span>{{total_answers}}&nbsp;Answered Questions</span>
+            </p>
+            <p fxLayout="row" fxLayoutAlign="start center">
+              <mat-icon class="muted-text">date_range</mat-icon>
+              <span>{{user.follows.length}}&nbsp;Following Users</span>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="margin-left-1rem">
+        <div class="about-content-wrap margin-left-1rem">{{user.aboutme}}</div>
+        <mat-chip-list *ngIf="user.tags">
+          <mat-chip *ngFor="let tag of user.tags" color="primary" selected>{{tag}}</mat-chip>
+        </mat-chip-list>
+      </div>
+    </mat-card>
+  </div>
+</div>
+
+<div fxLayout="row wrap">
+  <div fxFlex="100" class="flex-p">
+    <mat-card class="custom-card no-content">
+      <mat-card-header class="bg-primary p-1" fxLayoutAlign="space-between center">
+        <mat-card-title class="m-0">
+          <h3>Questions <span class="accent">{{user.username}}</span> has answered</h3>
+        </mat-card-title>
+        <form [formGroup]="tagsOfAnswerForm" autocomplete="off">
+          <mat-form-field>
+            <mat-select multiple placeholder="Interests" formControlName="tagsOfAnswer" (closed)="changeAnswerTag()"
+              required>
+              <mat-option #allAnswerTagsSelected (click)="toggleAllSelectionOfAnswer()" [value]="0">All</mat-option>
+              <mat-option *ngFor="let tag of answerTags" [value]="tag"
+                (click)="tosslePerOneOfAnswer(allAnswerTagsSelected.viewValue)">{{tag}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </form>
+      </mat-card-header>
+    </mat-card>
+  </div>
+</div>
+<div *ngIf="answers; else noAnswers" fxLayout="column" fxLayout.gt-sm="row wrap">
+  <div *ngFor="let answer of answers" fxFlex="50" class="flex-p">
+    <mat-card class="custom-card">
+      <mat-card-header class="bg-primary p-1" fxLayoutAlign="space-between center">
+        <mat-card-title class="m-0">
+          <h3>Category <span class="accent">{{answer.tag}}</span></h3>
+        </mat-card-title>
+        <button mat-icon-button>
+          <mat-icon>more_vert</mat-icon>
+        </button>
+      </mat-card-header>
+      <mat-card-content class="p-">
+        <p>
+          <span class="accent">Q:&nbsp;</span>{{answer.title}}
+        </p>
+        <mat-divider></mat-divider>
+        <p>
+          <span class="accent">A:&nbsp;</span>{{answer.content}}
+        </p>
+      </mat-card-content>
+      <mat-divider></mat-divider>
+      <mat-card-actions fxLayoutAlign="space-between center">
+        <mat-chip-list>
+          <mat-chip color="accent" selected="true">{{answer.credit}}&nbsp;Bid Blab Credits earned</mat-chip>
+        </mat-chip-list>
+        <div>
+          <button mat-icon-button>
+            <mat-icon>favorite</mat-icon>
+          </button>
+          <button mat-icon-button>
+            <mat-icon>share</mat-icon>
+          </button>
+        </div>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
+<ng-template #noAnswers>
+  <h3 class="accent stretch" style="text-align: center">No Answers submitted</h3>
+</ng-template>
+
+<div fxLayout="row wrap">
+  <div fxFlex="100" class="flex-p">
+    <mat-card class="custom-card no-content">
+      <mat-card-header class="bg-primary p-1" fxLayoutAlign="space-between center">
+        <mat-card-title class="m-0">
+          <h3>Questions <span class="accent">{{user.username}}</span> has submitted</h3>
+        </mat-card-title>
+        <form [formGroup]="tagsOfAnswerForm" autocomplete="off">
+          <form [formGroup]="tagsOfQuestionForm" autocomplete="off">
+            <mat-form-field class="no-padding">
+              <mat-select multiple placeholder="Interests" formControlName="tagsOfQuestion"
+                (closed)="changeQuestionTag()">
+                <mat-option #allQuestionTagsSelected (click)="toggleAllSelectionOfQuestion()" [value]="0">All
+                </mat-option>
+                <mat-option *ngFor="let tag of questionTags" [value]="tag"
+                  (click)="tosslePerOneOfQuestion(allQuestionTagsSelected.viewValue)">{{tag}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </form>
+        </form>
+      </mat-card-header>
+      <mat-card-content class="p-">
+
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<div *ngIf="questions; else noQuestions" fxLayout="column" fxLayout.gt-sm="row wrap">
+  <div *ngFor="let question of questions" fxFlex="33.3" class="flex-p">
+    <mat-card class="custom-card">
+      <mat-card-header class="bg-primary p-1" fxLayoutAlign="space-between center">
+        <mat-card-title class="m-0">
+          <h3>Category&nbsp;{{question.tag}}</h3>
+        </mat-card-title>
+        <button mat-icon-button>
+          <mat-icon>more_vert</mat-icon>
+        </button>
+      </mat-card-header>
+      <mat-card-content class="p-">
+        <p>
+          {{question.title}}
+        </p>
+      </mat-card-content>
+      <mat-divider></mat-divider>
+      <mat-card-actions fxLayoutAlign="space-between center">
+        <mat-chip-list>
+          <mat-chip color="accent" selected="true">{{question.numberOfAnswers}}&nbsp;Answers </mat-chip>
+          <mat-chip color="accent" selected="true">{{question.numberOfFollows}}&nbsp;Followers </mat-chip>
+        </mat-chip-list>
+        <div>
+          <button mat-icon-button>
+            <mat-icon>favorite</mat-icon>
+          </button>
+          <button mat-icon-button>
+            <mat-icon>share</mat-icon>
+          </button>
+        </div>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
+<ng-template #noQuestions>
+  <h3 class="accent stretch" style="text-align: center">No questions submitted</h3>
+</ng-template>
+</div>

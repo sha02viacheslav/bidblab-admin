@@ -1,0 +1,62 @@
+@import "../../theme/styles/variables";
+
+.chat{
+    .chat-actions{
+        padding: 12px;
+    }
+    .author-name{
+        font-size: 16px;
+        font-weight: 400;
+    }
+    .talk-item{
+        padding: 6px 0;
+        height: 100%;
+    }
+    .message{
+        white-space: unset;
+        text-overflow: unset;       
+        span{
+            padding: 6px 10px;
+            border-radius: 4px;
+            display: inline-block;
+            font-size: 14px;
+        }
+    }
+    .message-date{
+        opacity: 0.8;
+    }
+    .empty{
+        mat-icon{
+            font-size: 220px;
+            height: 220px;
+            width: 220px;
+            opacity: 0.4;
+        }
+        p{
+            font-size: 18px;
+            opacity: 0.8;
+        }
+    }
+}
+.chat-status-icon{
+    font-size: 14px;
+    height: 14px;
+    width: 14px;
+    line-height: 22px;
+    margin-right: 6px;
+}
+.author-status{
+    font-size: 13px;
+}
+.chat-sidenav{
+    border-right: 1px solid transparent;
+    overflow: hidden;
+    width: 200px;   
+}
+.chat-content{
+    padding: 12px;
+    height: calc(100vh - (#{$toolbar-height} + #{$inner-sidenav-content-padding}*2 + 238px));
+}
+.chat-sidenav-list {
+    height: calc(100vh - (#{$toolbar-height} + #{$inner-sidenav-content-padding}*2 + 134px));
+}

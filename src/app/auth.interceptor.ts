@@ -8,11 +8,12 @@ import {
   HttpRequest
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AuthenticationService } from './shared/services/authentication.service';
+import { AuthenticationService } from './shared/services/authentication.service'; 
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private authenticationService: AuthenticationService) {}
+  constructor(private authenticationService: AuthenticationService) {
+  }
 
   intercept(
     req: HttpRequest<any>,

@@ -1,6 +1,6 @@
 import { User } from './user.model';
 
-export interface Thumb {
+export class Thumb {
   _id: string;
   thumber: User;
   thumbstate: number;

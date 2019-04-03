@@ -199,35 +199,7 @@ export class CommonService {
     return this.httpClient.get(
       `${environment.apiUrl}/api/common/getStandardInterests`
     );
-  }
-
-  getMembers(limit?, offset?, search?, active?, direction?) {
-    return this.httpClient.get(
-      `${environment.apiUrl}/api/admin/getMembers?limit=${limit ||
-        10}&offset=${offset || 0}&search=${search || ''}&active=${active || ''}&direction=${direction || ''}`
-    );
-  }
-
-  sendMessage(body) {
-    return this.httpClient.post(
-      `${environment.apiUrl}/api/admin/sendMessage`,
-      body
-    );
-  }  
-
-  deleteMembers(body) {
-    return this.httpClient.post(
-      `${environment.apiUrl}/api/admin/deleteMembers`,
-      body
-    );
-  }  
-
-  changeMembersRole(body, roleType) {
-    return this.httpClient.post(
-      `${environment.apiUrl}/api/admin/changeMembersRole/${roleType}`,
-      body
-    );
-  }  
+  } 
 
   getQuestions(limit?, offset?, search?, filterTags?, active?, direction?) {
     return this.httpClient.get(
@@ -252,8 +224,73 @@ export class CommonService {
     );
   }  
 
+	createUser(body) {
+		return this.httpClient.post(
+			`${environment.apiUrl}/api/admin/createUser`,
+			body
+		);
+	}
+
+	getUsers(limit?, offset?, search?, active?, direction?) {
+		return this.httpClient.get(
+			`${environment.apiUrl}/api/admin/getMembers?limit=${limit ||
+			10}&offset=${offset || 0}&search=${search || ''}&active=${active || ''}&direction=${direction || ''}`
+		);
+	}
+
+	updateUser(userId, body) {
+		return this.httpClient.patch(
+			`${environment.apiUrl}/api/admin/updateUser/${userId}`,
+			body
+		);
+	}
+
+	deleteUsers(body) {
+		return this.httpClient.post(
+			`${environment.apiUrl}/api/admin/deleteMembers`,
+			body
+		);
+	} 
+
+sendMessage(body) {
+    return this.httpClient.post(
+      `${environment.apiUrl}/api/admin/sendMessage`,
+      body
+    );
+}  
+
+changeUsersRole(body, roleType) {
+    return this.httpClient.post(
+      `${environment.apiUrl}/api/admin/changeMembersRole/${roleType}`,
+      body
+    );
+}  
+
+
+
   goHome() {
     this.router.navigateByUrl('/');
+  }
+
+	getDefaultCredits() {
+		return this.httpClient.get(
+			`${environment.apiUrl}/api/admin/getDefaultCredits`
+		);
+	}
+
+	changeDefaultCredits(body) {
+		return this.httpClient.post(
+			`${environment.apiUrl}/api/admin/changeDefaultCredits`,
+			body
+		);
+  }
+  
+  getAnswers(limit?, offset?, search?, filterTags?, active?, direction?) {
+    return this.httpClient.get(
+      `${environment.apiUrl}/api/admin/getAnswers?limit=${limit ||
+        10}&offset=${offset || 0}&search=${search || ''}&filterTags=${filterTags || ''}
+        &active=${active || ''}&direction=${direction || ''}`
+    );
   }
 
 }

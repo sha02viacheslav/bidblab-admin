@@ -1,0 +1,87 @@
+.landing-header{
+    position: relative;
+    color: #fff;
+    height: 520px;
+    text-align: center;
+    &:before {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 520px;
+        background-color: #242424;
+        background-image: url('../../../assets/img/landing/header.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position-y: center;
+        z-index: -1;
+    }
+    p{
+        margin-bottom: 1rem;
+    }
+    .logo{ 
+        font-size: 48px;        
+    }
+    .intro-text{
+        font-size: 36px;
+    }
+    .desc{
+        font-size: 16px;
+        font-weight: 300;
+        letter-spacing: 0.03rem;
+    }
+    .mat-raised-button{
+        margin: 0 14px;
+    }
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 16px 32px;
+    text-align: center;
+    h2{
+        font-size: 2rem;
+    }
+    .desc{
+        font-size: 1.25rem;
+    }
+    .demo{
+        padding: 16px;
+        .text{
+            font-size: 16px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+        .link{
+            display: block;            
+            img{
+                width: 100%;
+                box-shadow: 0px 1px 5px 1px #999;
+                transition: .2s;
+                &:hover{
+                    box-shadow: 0px 1px 5px 5px #999;
+                }
+            }
+        }
+    }
+}
+
+.landing-footer{
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 16px;
+}
+
+@media (max-width: 767px) { 
+   .landing-header{
+       .logo{
+            font-size: 36px;
+        }
+        .intro-text{
+            font-size: 24px;
+        }
+   }
+}

@@ -1,0 +1,33 @@
+<div fxLayout="column">
+	<div class="flex-p">
+		<form [formGroup]="form" fxLayout="column" fxLayout.gt-sm="row wrap" class="form-field-outer">
+			<mat-card>
+				<mat-card-header fxLayoutAlign="center">
+					<mat-card-subtitle>
+						<h2>Change default credit value</h2>
+					</mat-card-subtitle>
+				</mat-card-header>
+				<mat-card-content>
+					<div fxLayout="column" fxLayout.gt-sm="row wrap" class="form-field-outer">
+						<mat-form-field class="w-33">
+							<input matInput formControlName="defaultQuestionCredit" placeholder="Question Credit">
+						</mat-form-field>
+						<mat-form-field class="w-33">
+							<input matInput formControlName="defaultPublicAnswerCredit"
+								placeholder="Public Answer Credit">
+						</mat-form-field>
+						<mat-form-field class="w-33">
+							<input matInput formControlName="defaultPrivateAnswerCredit"
+								placeholder="Preivate Answer Credit">
+						</mat-form-field>
+					</div>
+				</mat-card-content>
+				<mat-card-actions fxLayoutAlign="center">
+					<button mat-raised-button color="primary" (click)="changeCredits()" [disabled]="!form.valid">
+						<span>Save</span>
+					</button>
+				</mat-card-actions>
+			</mat-card>
+		</form>
+	</div>
+</div>

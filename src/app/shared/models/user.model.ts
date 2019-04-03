@@ -1,10 +1,11 @@
 import { Follow } from './follow.model';
 
-export interface User {
+export class User {
     _id: string;
     firstName: string;
     lastName: string;
     username: string;
+    password: string; 
     email: string;
     aboutme: string;
     phone: string;
@@ -24,5 +25,7 @@ export interface User {
       url: string;
       path: string;
     };
+    createdAt: Date;
+    updatedAt: Date;
   }
   

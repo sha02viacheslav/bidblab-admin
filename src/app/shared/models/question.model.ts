@@ -1,8 +1,8 @@
 import { User } from './user.model';
-import { Answer } from './answer.model';
 import { Follow } from './follow.model';
+import { Thumb } from './thumb.model';
 
-export interface Question {
+export class Question {
   _id: string;
   asker: User;
   title: string;
@@ -16,4 +16,17 @@ export interface Question {
     url: string;
     path: string;
   };
+}
+
+export class Answer {
+  _id: string;
+  answerer: User;
+  content: string;
+  thumbupcnt: number;
+  thumbdowncnt: number;
+  credit: number;
+  answertype: string;
+  thumbs: Thumb[];
+  createdAt: Date;
+  updatedAt: Date;
 }

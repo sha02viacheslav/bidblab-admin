@@ -1,0 +1,37 @@
+<mat-toolbar color="primary" [fxLayoutAlign]="(settings.menuType != 'mini') ? 'space-between center' : 'center center'" class="sidenav-header">
+    <!-- <a mat-raised-button color="accent" routerLink="/" (click)="closeSubMenus()" class="small-logo">
+        <img class="logo-wrap" src="../../assets/icons/logo.png" />
+    </a> -->
+    <a *ngIf="settings.menuType == 'default'" class="logo" style="display: flex;" routerLink="/" (click)="closeSubMenus()">
+        <img class="logo-wrap" src="../../assets/icons/logo.png" />
+    </a> 
+    <svg *ngIf="settings.menuType != 'mini'" class="pin" (click)="settings.sidenavIsPinned = !settings.sidenavIsPinned">
+        <path *ngIf="!settings.sidenavIsPinned" d="M16,12V4H17V2H7V4H8V12L6,14V16H11.2V22H12.8V16H18V14L16,12Z" />
+        <path *ngIf="settings.sidenavIsPinned" d="M2,5.27L3.28,4L20,20.72L18.73,22L12.8,16.07V22H11.2V16H6V14L8,12V11.27L2,5.27M16,12L18,14V16H17.82L8,6.18V4H7V2H17V4H16V12Z" />
+    </svg>  
+</mat-toolbar>
+
+<div fxLayout="column" fxLayoutAlign="center center" class="user-block transition-2" [class.show]="settings.sidenavUserBlock"> 
+    <div [fxLayout]="(settings.menuType != 'default') ? 'column' : 'row'" 
+         [fxLayoutAlign]="(settings.menuType != 'default') ? 'center center' : 'space-around center'" class="user-info-wrapper">
+        <img [src]="user?.profilePicture?.path? serverUrl +'/' + user.profilePicture.path : userImage" alt="user-image">
+        <div class="user-info">
+            <p class="name">{{user.username}}</p>
+            <p *ngIf="settings.menuType == 'default'" class="position">Web developer <br> <small class="muted-text">Member since May. 2016</small></p>
+        </div>
+    </div>
+    <div *ngIf="settings.menuType != 'mini'" fxLayout="row" fxLayoutAlign="space-around center" class="w-100 muted-text">
+        <button mat-icon-button><mat-icon>person_outline</mat-icon></button>
+        <a mat-icon-button routerLink="/mailbox">
+            <mat-icon>mail_outline</mat-icon>
+        </a>
+        <a mat-icon-button (click)="logout()">
+            <mat-icon>power_settings_new</mat-icon>
+        </a>
+    </div>
+</div>
+
+<perfect-scrollbar #sidenavPS class="sidenav-menu-outer" [class.user-block-show]="settings.sidenavUserBlock">   
+    <span *ngIf="!menuItems">loading....</span>
+    <app-vertical-menu [menuItems]="menuItems" [menuParentId]="0" (onClickMenuItem)="updatePS($event)"></app-vertical-menu> 
+</perfect-scrollbar>
