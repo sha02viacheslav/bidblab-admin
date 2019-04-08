@@ -20,61 +20,63 @@
 						</button>
 					</span>
 				</mat-menu>
-				<div class="user-content" fxLayout="row" fxLayoutAlign="space-around center">
-					<div fxFlex="20" fxFlex.xs="30" fxLayout="column" fxLayoutAlign="center center">
-						<div class="user-img">
-							<img [src]="user?.profilePicture?.path? serverUrl+'/'+element.profilePicture.path:
+				<mat-card-content class="p-">
+					<div class="user-content" fxLayout="row" fxLayoutAlign="space-around center">
+						<div fxFlex="20" fxFlex.xs="30" fxLayout="column" fxLayoutAlign="center center">
+							<div class="user-img">
+								<img [src]="user?.profilePicture?.path? serverUrl+'/'+user.profilePicture.path:
 								'assets/img/users/default-user.jpg'" class="transition-2" [class.blocked]="user.role == 'suspend'">
+							</div>
+						</div>
+						<div fxFlex="80" fxFlex.xs="70" fxLayout="row" fxLayout.xs="column"
+							class="user-details transition-2">
+							<div fxFlex="30" fxFlex.xs="100" fxLayout="column">
+								<p fxLayout="row" fxLayoutAlign="start center">
+									<mat-icon class="muted-text">mail_outline</mat-icon>
+									<span>{{user.email}}</span>
+								</p>
+								<p fxLayout="row" fxLayoutAlign="start center">
+									<mat-icon class="muted-text">call</mat-icon>
+									<span>{{user.phone}}</span>
+								</p>
+								<p fxLayout="row" fxLayoutAlign="start center">
+									<mat-icon class="muted-text">location_on</mat-icon>
+									<span>{{user.physicalcity}}, {{user.physicalstate}}</span>
+								</p>
+							</div>
+							<div fxFlex="40" fxFlex.xs="100" fxLayout="column">
+								<p fxLayout="row" fxLayoutAlign="start center">
+									<mat-icon class="muted-text">event_available</mat-icon>
+									<span>Registration {{user.createdAt | date:"dd MMMM, yyyy 'at' HH:mm"}}</span>
+								</p>
+								<p fxLayout="row" fxLayoutAlign="start center">
+									<mat-icon class="muted-text">date_range</mat-icon>
+									<span>Joined {{user.updatedAt | date:"dd MMMM, yyyy 'at' HH:mm"}}</span>
+								</p>
+							</div>
+							<div fxFlex="40" fxFlex.xs="100" fxLayout="column">
+								<p fxLayout="row" fxLayoutAlign="start center">
+									<mat-icon class="muted-text">event_available</mat-icon>
+									<span>{{total_questions}}&nbsp;Submitted Questions</span>
+								</p>
+								<p fxLayout="row" fxLayoutAlign="start center">
+									<mat-icon class="muted-text">date_range</mat-icon>
+									<span>{{total_answers}}&nbsp;Answered Questions</span>
+								</p>
+								<p fxLayout="row" fxLayoutAlign="start center">
+									<mat-icon class="muted-text">date_range</mat-icon>
+									<span>{{user.follows.length}}&nbsp;Following Users</span>
+								</p>
+							</div>
 						</div>
 					</div>
-					<div fxFlex="80" fxFlex.xs="70" fxLayout="row" fxLayout.xs="column"
-						class="user-details transition-2">
-						<div fxFlex="30" fxFlex.xs="100" fxLayout="column">
-							<p fxLayout="row" fxLayoutAlign="start center">
-								<mat-icon class="muted-text">mail_outline</mat-icon>
-								<span>{{user.email}}</span>
-							</p>
-							<p fxLayout="row" fxLayoutAlign="start center">
-								<mat-icon class="muted-text">call</mat-icon>
-								<span>{{user.phone}}</span>
-							</p>
-							<p fxLayout="row" fxLayoutAlign="start center">
-								<mat-icon class="muted-text">location_on</mat-icon>
-								<span>{{user.physicalcity}}, {{user.physicalstate}}</span>
-							</p>
-						</div>
-						<div fxFlex="40" fxFlex.xs="100" fxLayout="column">
-							<p fxLayout="row" fxLayoutAlign="start center">
-								<mat-icon class="muted-text">event_available</mat-icon>
-								<span>Registration {{user.createdAt | date:"dd MMMM, yyyy 'at' HH:mm"}}</span>
-							</p>
-							<p fxLayout="row" fxLayoutAlign="start center">
-								<mat-icon class="muted-text">date_range</mat-icon>
-								<span>Joined {{user.updatedAt | date:"dd MMMM, yyyy 'at' HH:mm"}}</span>
-							</p>
-						</div>
-						<div fxFlex="40" fxFlex.xs="100" fxLayout="column">
-							<p fxLayout="row" fxLayoutAlign="start center">
-								<mat-icon class="muted-text">event_available</mat-icon>
-								<span>{{total_questions}}&nbsp;Submitted Questions</span>
-							</p>
-							<p fxLayout="row" fxLayoutAlign="start center">
-								<mat-icon class="muted-text">date_range</mat-icon>
-								<span>{{total_answers}}&nbsp;Answered Questions</span>
-							</p>
-							<p fxLayout="row" fxLayoutAlign="start center">
-								<mat-icon class="muted-text">date_range</mat-icon>
-								<span>{{user.follows.length}}&nbsp;Following Users</span>
-							</p>
-						</div>
+					<div class="user-content">
+						<div class="">{{user.aboutme}}</div>
+						<mat-chip-list *ngIf="user.tags">
+							<mat-chip *ngFor="let tag of user.tags" color="primary" selected>{{tag}}</mat-chip>
+						</mat-chip-list>
 					</div>
-				</div>
-				<div class="margin-left-1rem">
-					<div class="about-content-wrap margin-left-1rem">{{user.aboutme}}</div>
-					<mat-chip-list *ngIf="user.tags">
-						<mat-chip *ngFor="let tag of user.tags" color="primary" selected>{{tag}}</mat-chip>
-					</mat-chip-list>
-				</div>
+				</mat-card-content>
 			</mat-card>
 		</div>
 	</div>
@@ -166,8 +168,6 @@
 						</form>
 					</form>
 				</mat-card-header>
-				<mat-card-content class="p-">
-				</mat-card-content>
 			</mat-card>
 		</div>
 	</div>
