@@ -15,6 +15,10 @@
     <div [fxLayout]="(settings.menuType != 'default') ? 'column' : 'row'" 
          [fxLayoutAlign]="(settings.menuType != 'default') ? 'center center' : 'space-around center'" class="user-info-wrapper">
         <img [src]="user?.profilePicture?.path? serverUrl +'/' + user.profilePicture.path : userImage" alt="user-image">
+
+        <!-- <img [src]="element?.profilePicture?.path? serverUrl+'/'+element.profilePicture.path:
+        'assets/img/users/default-user.jpg'" class="transition-2"
+        [class.blocked]="element.role == 'suspend'"> -->
         <div class="user-info">
             <p class="name">{{user.username}}</p>
             <p *ngIf="settings.menuType == 'default'" class="position">Web developer <br> <small class="muted-text">Member since May. 2016</small></p>

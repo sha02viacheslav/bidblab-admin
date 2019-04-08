@@ -24,8 +24,7 @@
 					<div fxFlex="20" fxFlex.xs="30" fxLayout="column" fxLayoutAlign="center center">
 						<div class="user-img">
 							<img [src]="user?.profilePicture?.path? serverUrl+'/'+element.profilePicture.path:
-                          'assets/img/users/default-user.jpg'" class="transition-2"
-								[class.blocked]="user.role == 'suspend'">
+								'assets/img/users/default-user.jpg'" class="transition-2" [class.blocked]="user.role == 'suspend'">
 						</div>
 					</div>
 					<div fxFlex="80" fxFlex.xs="70" fxLayout="row" fxLayout.xs="column"
