@@ -14,7 +14,8 @@
 <div fxLayout="column" fxLayoutAlign="center center" class="user-block transition-2" [class.show]="settings.sidenavUserBlock"> 
     <div [fxLayout]="(settings.menuType != 'default') ? 'column' : 'row'" 
          [fxLayoutAlign]="(settings.menuType != 'default') ? 'center center' : 'space-around center'" class="user-info-wrapper">
-        <img [src]="user?.profilePicture?.path? serverUrl +'/' + user.profilePicture.path : userImage" alt="user-image">
+        <!-- <img [src]="user?.profilePicture?.path? serverUrl +'/' + user.profilePicture.path : userImage" alt="user-image"> -->
+        <img src="../../../../assets/img/extra/admin_avata.png" alt="user-image">
 
         <!-- <img [src]="element?.profilePicture?.path? serverUrl+'/'+element.profilePicture.path:
         'assets/img/users/default-user.jpg'" class="transition-2"
