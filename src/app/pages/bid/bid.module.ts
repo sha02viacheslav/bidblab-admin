@@ -8,10 +8,16 @@ import { SharedModule } from '../../shared/shared.module';
 import { PipesModule } from '../../theme/pipes/pipes.module';
 import { NewAuctionComponent } from './new-auction/new-auction.component';
 import { BidComponent } from './bid.component';
+import { PendingAuctionsComponent } from './pending-auctions/pending-auctions.component';
+import { ProgressAuctionsComponent } from './progress-auctions/progress-auctions.component';
+import { ClosedAuctionsComponent } from './closed-auctions/closed-auctions.component';
 
 export const routes = [
   { path: '', component: BidComponent, pathMatch: 'full' },
   { path: 'newauction', component: NewAuctionComponent, data: { breadcrumb: 'New auction' } },
+  { path: 'pendingauctions', component: PendingAuctionsComponent, data: { breadcrumb: 'Pending auction' } },
+  { path: 'progressauctions', component: ProgressAuctionsComponent, data: { breadcrumb: 'Progress auction' } },
+  { path: 'closedauctions', component: ClosedAuctionsComponent, data: { breadcrumb: 'Closed auction' } },
 ];
 
 @NgModule({
@@ -25,6 +31,6 @@ export const routes = [
     SharedModule,
     PipesModule  
   ],
-  declarations: [NewAuctionComponent, BidComponent],
+  declarations: [NewAuctionComponent, BidComponent, PendingAuctionsComponent, ProgressAuctionsComponent, ClosedAuctionsComponent],
 })
 export class BidModule { }
