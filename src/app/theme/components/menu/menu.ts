@@ -1,11 +1,12 @@
 import { Menu } from './menu.model';
 
 export const verticalMenuItems = [ 
-    new Menu (10, 'Blab', null, null, 'view_module', null, true, 0),
-    new Menu (20, 'Questions', '/questions/list', null, 'supervisor_account', null, false, 10),   
-    new Menu (20, 'Answers', '/questions/answerslist', null, 'supervisor_account', null, false, 10),   
+    new Menu (10, 'Blab', null, null, 'question_answer', null, true, 0),
+    new Menu (20, 'Questions', '/questions/list', null, 'live_help', null, false, 10),   
+    new Menu (20, 'Answers', '/questions/answerslist', null, 'receipt', null, false, 10),   
     new Menu (20, 'Members', '/users/list', null, 'supervisor_account', null, false, 0),   
-    new Menu (30, 'Credits', '/credits', null, 'supervisor_account', null, false, 0),   
+    new Menu (30, 'Credits', '/credits', null, 'score', null, false, 0),   
+    new Menu (40, 'Flags', '/flags', null, 'flag', null, false, 0),   
     // new Menu (1, 'Dashboard', '/', null, 'dashboard', null, false, 0),
     // new Menu (2, 'Users', '/users', null, 'supervisor_account', null, false, 0), 
     // new Menu (3, 'UI Features', null, null, 'computer', null, true, 0),   
@@ -67,11 +68,12 @@ export const verticalMenuItems = [
 ]
 
 export const horizontalMenuItems = [ 
-    new Menu (10, 'Blab', null, null, 'view_module', null, true, 0),
-    new Menu (20, 'Questions', '/questions/list', null, 'supervisor_account', null, false, 10),   
-    new Menu (20, 'Answers', '/questions/answerslist', null, 'supervisor_account', null, false, 10),   
+    new Menu (10, 'Blab', null, null, 'question_answer', null, true, 0),
+    new Menu (20, 'Questions', '/questions/list', null, 'live_help', null, false, 10),   
+    new Menu (20, 'Answers', '/questions/answerslist', null, 'receipt', null, false, 10),   
     new Menu (20, 'Members', '/users/list', null, 'supervisor_account', null, false, 0),   
-    new Menu (30, 'Credits', '/credits', null, 'supervisor_account', null, false, 0),   
+    new Menu (30, 'Credits', '/credits', null, 'score', null, false, 0),  
+    new Menu (40, 'Flags', '/flags', null, 'flag', null, false, 0),    
     // new Menu (1, 'Dashboard', '/', null, 'dashboard', null, false, 0),
     // new Menu (2, 'Users', '/users', null, 'supervisor_account', null, false, 0), 
     // new Menu (3, 'UI Features', null, null, 'computer', null, true, 0),   
