@@ -293,4 +293,27 @@ changeUsersRole(body, roleType) {
     );
   }
 
+  getFlags(limit?, offset?, search?, filterTags?, active?, direction?) {
+    return this.httpClient.get(
+      `${environment.apiUrl}/api/admin/getFlags?limit=${limit ||
+        10}&offset=${offset || 0}&search=${search || ''}&filterTags=${filterTags || ''}
+        &active=${active || ''}&direction=${direction || ''}`
+    );
+  }
+
+  changeFlagsRole(body, roleType) {
+    //console.log("common service");
+    return this.httpClient.post(
+      `${environment.apiUrl}/api/admin/changeFlagsRole/${roleType}`,
+      body
+    );
+  }  
+
+  deleteFlags(body) {
+    return this.httpClient.post(
+      `${environment.apiUrl}/api/admin/deleteFlags`,
+      body
+    );
+  }
+
 }
