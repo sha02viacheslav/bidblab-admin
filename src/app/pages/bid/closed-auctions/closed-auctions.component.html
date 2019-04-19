@@ -1,3 +1,194 @@
-<p>
-  closed-auctions works!
-</p>
+<div fxLayout="column">
+  <div class="flex-p">
+    <div fxLayout="row" fxLayoutAlign="space-between center">
+      <div fxLayout="row">
+        <mat-button-toggle-group #controls="matButtonToggleGroup" appearance="legacy">
+          <mat-button-toggle value="add" (click)="openQuestionDialog()">
+            <mat-icon>note_add</mat-icon>
+          </mat-button-toggle>
+          <mat-button-toggle value="search">
+            <mat-icon>search</mat-icon>
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+      <form class="user-search" [class.show]="controls.value == 'search'" autocomplete="off">
+        <mat-form-field class="user-search-input">
+          <input matInput placeholder="Search user by name..." (keyup)="applySearch($event.target.value)" name="search">
+        </mat-form-field>
+      </form>
+      <form class="user-filter" [class.show]="controls.value == 'search'" [formGroup]="tagsOfQuestionForm"
+        autocomplete="off">
+        <mat-form-field>
+          <mat-select multiple placeholder="Tags" formControlName="tagsOfQuestion" (closed)="changeQuestionTag()"
+            required>
+            <mat-option #allQuestionTagsSelected (click)="toggleAllSelectionOfQuestion()" [value]="0">All
+            </mat-option>
+            <mat-option *ngFor="let tag of questionTags" [value]="tag"
+              (click)="tosslePerOneOfQuestion(allQuestionTagsSelected.viewValue)">{{tag}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+        <button mat-raised-button color="accent" class="m-1" (click)="suspendAuctions()">Suspend</button>
+        <button mat-raised-button color="warn" class="m-1" (click)="deleteAuctions()">Delete</button>
+      </div>
+    </div>
+    <table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows class="mat-elevation-z8 w-100"
+      (matSortChange)="customSort($event)">
+      <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+            [indeterminate]="selection.hasValue() && !isAllSelected()">
+          </mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+            [checked]="selection.isSelected(row)">
+          </mat-checkbox>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="index">
+        <th mat-header-cell *matHeaderCellDef> No </th>
+        <td mat-cell *matCellDef="let element;"> {{element.index + 1}}</td>
+      </ng-container>
+      <ng-container matColumnDef="auctionId">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> AuctionId </th>
+        <td mat-cell *matCellDef="let element"> {{element.auctionId}} </td>
+      </ng-container>
+      <ng-container matColumnDef="bidblabPrice">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> BidBlab Price </th>
+        <td mat-cell *matCellDef="let element"> {{element.bidblabPrice}} </td>
+      </ng-container>
+      <ng-container matColumnDef="retailPrice">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Retail Price </th>
+        <td mat-cell *matCellDef="let element"> {{element.retailPrice}} </td>
+      </ng-container>
+      <ng-container matColumnDef="bidFee">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Bid Fee </th>
+        <td mat-cell *matCellDef="let element"> {{element.bidFee}} </td>
+      </ng-container>
+      <ng-container matColumnDef="productName">
+        <th mat-header-cell *matHeaderCellDef> Product Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.productName}} </td>
+      </ng-container>
+      <ng-container matColumnDef="starts">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Starts </th>
+        <td mat-cell *matCellDef="let element"> {{element.starts | date}}</td>
+      </ng-container>
+      <ng-container matColumnDef="closes">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Closes </th>
+        <td mat-cell *matCellDef="let element"> {{element.closes | date}}</td>
+      </ng-container>
+      <ng-container matColumnDef="createdAt">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Created </th>
+        <td mat-cell *matCellDef="let element"> {{element.createdAt | date}}</td>
+      </ng-container>
+      <ng-container matColumnDef="suspend">
+        <th mat-header-cell *matHeaderCellDef>
+          <div fxLayout="row" fxLayoutAlign="center center"> Suspend </div>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <div fxLayout="row" fxLayoutAlign="center center">
+            <mat-icon color="{{element.role == 'suspend'? 'warn' : 'primary'}}">
+              {{element.role == 'suspend'? 'block' : 'face'}}
+            </mat-icon>
+          </div>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="menu">
+        <th mat-header-cell *matHeaderCellDef> </th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button [matMenuTriggerFor]="menu" #menuTrigger="matMenuTrigger"
+            (click)="$event.stopPropagation()">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu" xPosition="before" overlapTrigger="true">
+            <span (mouseleave)="menuTrigger.closeMenu()">
+              <!-- <button mat-menu-item (click)="openQuestionDialog('', element);">
+                <mat-icon>edit</mat-icon>
+                <span>Edit</span>
+              </button> -->
+              <!-- <button mat-menu-item routerLink="/questions/questiondetail/{{element._id}}">
+									<mat-icon>reorder</mat-icon>
+									<span>Detail</span>
+								</button> -->
+              <button mat-menu-item (click)="cloneAuction($event, element)">
+                <mat-icon>library_add</mat-icon>
+                <span>Clone</span>
+              </button>
+              <button mat-menu-item (click)="suspendAuction($event, element._id, 
+                  element.role == 'suspend'? 'activate' : 'suspend')">
+                <mat-icon>{{element.role == 'suspend'? 'warning' : 'face'}}</mat-icon>
+                <span>{{element.role == 'suspend'? 'Activate' : 'Suspend'}}</span>
+              </button>
+              <button mat-menu-item color="warn" (click)="deleteAuction($event, element._id)">
+                <mat-icon>delete</mat-icon>
+                <span>Delete</span>
+              </button>
+            </span>
+          </mat-menu>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+          <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+            <div>
+              <div class="user-content" fxLayout="row" fxLayoutAlign="space-around start">
+                <div fxFlex="20" fxFlex.xs="30" fxLayout="column" fxLayoutAlign="center center">
+                  <div class="user-img">
+                    <img [src]="element?.auctionPicture? 
+											serverUrl+'/'+element.auctionPicture : 'assets/img/users/default-user.jpg'" class="transition-2"
+                      [class.blocked]="element?.asker?.role? (element.asker.role == 'suspend') : false">
+                    <mat-icon *ngIf="element?.asker?.role? (element.asker.role == 'suspend') : false"
+                      class="warn-color">block
+                    </mat-icon>
+                  </div>
+                </div>
+                <div fxFlex="80" fxFlex.xs="70" fxLayout="column" fxLayoutAlign="none none"
+                  class="user-details transition-2">
+                  <div fxFlex="100" fxFlex.xs="100" fxLayout="column">
+                    <p fxLayout="row" fxLayoutAlign="start start">
+                      <mat-icon class="muted-text">description</mat-icon>
+                      <span style="text-align: justify;">{{element.manufactureDescription}}</span>
+                    </p>
+                  </div>
+                  <div fxFlex="100" fxFlex.xs="100" fxLayout="column">
+                    <p fxLayout="row" fxLayoutAlign="start start">
+                      <mat-icon class="muted-text">description</mat-icon>
+                      <span style="text-align: justify;">{{element.productDescription}}</span>
+                    </p>
+                  </div>
+                  <div fxFlex="100" fxFlex.xs="100" fxLayout="column">
+                    <p fxLayout="row" fxLayoutAlign="start start">
+                      <mat-icon class="muted-text">description</mat-icon>
+                      <span style="text-align: justify;">{{element.productDescription}}</span>
+                    </p>
+                  </div>
+                  <div fxFlex="100" fxFlex.xs="100" fxLayout="row" fxLayoutAlign="space-between center">
+                    <p fxFlex="50" fxLayout="row" fxLayoutAlign="start center">
+                      <mat-icon class="muted-text">label</mat-icon>
+                      <span>{{element.bids? element.bids.length : 0}}&nbsp;Submitted Bids</span>
+                    </p>
+                    <p fxFlex="50" fxLayout="row" fxLayoutAlign="start center">
+                      <mat-icon class="muted-text">label</mat-icon>
+                      <span>Highest Unique Bid:&nbsp;{{element.maxUniqueBid? element.maxUniqueBid.bidPrice : 'not found'}}</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let element; columns: displayedColumns;" class="example-element-row"
+        [class.example-expanded-row]="expandedElement === element"
+        (click)="expandedElement = expandedElement === element ? null : element">
+      </tr>
+      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+    </table>
+    <mat-paginator #paginator [pageSize]="10" [length]="totalAuctions" [pageIndex]="pageIndex"
+      [pageSizeOptions]="[5, 10, 20]" (page)="getClosedAuctions($event)">
+    </mat-paginator>
+  </div>
+</div>

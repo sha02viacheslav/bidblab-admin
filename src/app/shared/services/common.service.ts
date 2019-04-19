@@ -316,4 +316,43 @@ changeUsersRole(body, roleType) {
     );
   }
 
+  getPendingAuctions(limit?, offset?, search?, filterTags?, active?, direction?) {
+    return this.httpClient.get(
+      `${environment.apiUrl}/api/admin/getPendingAuctions?limit=${limit ||
+        10}&offset=${offset || 0}&search=${search || ''}&filterTags=${filterTags || ''}
+        &active=${active || ''}&direction=${direction || ''}`
+    );
+  }
+
+  getProcessAuctions(limit?, offset?, search?, filterTags?, active?, direction?) {
+    return this.httpClient.get(
+      `${environment.apiUrl}/api/admin/getProcessAuctions?limit=${limit ||
+        10}&offset=${offset || 0}&search=${search || ''}&filterTags=${filterTags || ''}
+        &active=${active || ''}&direction=${direction || ''}`
+    );
+  }
+
+  getClosedAuctions(limit?, offset?, search?, filterTags?, active?, direction?) {
+    return this.httpClient.get(
+      `${environment.apiUrl}/api/admin/getClosedAuctions?limit=${limit ||
+        10}&offset=${offset || 0}&search=${search || ''}&filterTags=${filterTags || ''}
+        &active=${active || ''}&direction=${direction || ''}`
+    );
+  }
+
+  changeAuctionsRole(body, roleType) {
+    //console.log("common service");
+    return this.httpClient.post(
+      `${environment.apiUrl}/api/admin/changeAuctionsRole/${roleType}`,
+      body
+    );
+  }
+
+  deleteAuctions(body) {
+    return this.httpClient.post(
+      `${environment.apiUrl}/api/admin/deleteAuctions`,
+      body
+    );
+  }
+
 }
