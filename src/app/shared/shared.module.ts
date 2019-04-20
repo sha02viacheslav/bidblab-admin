@@ -32,6 +32,7 @@ import { MatAutocompleteModule,
          MatToolbarModule,
          MatTooltipModule,
          MatStepperModule } from '@angular/material';
+import { NumericDirective } from './directives/number.directive';
 
 @NgModule({
   imports: [
@@ -67,7 +68,7 @@ import { MatAutocompleteModule,
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,
-    MatStepperModule
+    MatStepperModule,
   ],
   exports: [
     FlexLayoutModule,
@@ -101,8 +102,11 @@ import { MatAutocompleteModule,
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,
-    MatStepperModule
+    MatStepperModule,
+    NumericDirective,
   ],
-  declarations: []
+  declarations: [
+    NumericDirective,
+  ]
 })
 export class SharedModule { }

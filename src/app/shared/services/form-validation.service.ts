@@ -33,6 +33,26 @@ export class FormValidationService {
         };
   }
 
+  areAuctionTimeMismatching(control: FormControl) {
+    return control.value &&
+      control.parent &&
+      control.value >= control.parent.get('starts').value
+      ? null
+      : {
+          auctionTimeMismatch: true
+        };
+  }
+
+  areAuctionPriceMismatching(control: FormControl){
+    return control.value &&
+      control.parent &&
+      control.value >= control.parent.get('bidblabPrice').value
+      ? null
+      : {
+        auctionPriceMismatch: true
+        };
+  }
+
   checkError(form, field, error) {
     if (Array.isArray(error)) {
       return error.some(

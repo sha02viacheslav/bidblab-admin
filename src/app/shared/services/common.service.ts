@@ -355,4 +355,14 @@ changeUsersRole(body, roleType) {
     );
   }
 
+  addAuction(body) {
+    return this.httpClient.post(
+      `${environment.apiUrl}/api/admin/addAuction`,
+      body,
+      {
+        reportProgress: true,
+      }
+    );
+  }
+
 }

@@ -1,3 +1,96 @@
-<p>
-  new-auction works!
-</p>
+<div fxLayout="column">
+  <div class="flex-p">
+    <form [formGroup]="infoForm" (ngSubmit)="addAuction()" fxLayout="column" fxLayout.gt-sm="row wrap" autocomplete="off"
+      class="form-field-outer">
+      <mat-card>
+        <mat-card-header fxLayoutAlign="center">
+          <mat-card-subtitle>
+            <h2>Create New Auction</h2>
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div fxLayout="column" fxLayout.gt-sm="row wrap" fxLayoutAlign=" center" class="form-field-outer">
+            <mat-form-field class="w-100">
+              <input matInput formControlName="auctionTitle" placeholder="Auction Title" required>
+              <mat-error *ngIf="checkError(infoForm, 'auctionTitle', ['required', 'blank'])">
+                Required.
+              </mat-error>
+              <mat-error *ngIf="checkError(infoForm, 'auctionTitle', 'maxlength')">
+                Question has a maximum length of 100 characters.
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-100">
+              <input matInput numeric numericType="decimal" formControlName="bidblabPrice" placeholder="BidBlab Price"
+                required>
+              <mat-error *ngIf="checkError(infoForm, 'bidblabPrice', ['required', 'blank'])">
+                Required.
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-100">
+              <input matInput numeric numericType="decimal" formControlName="retailPrice" placeholder="Retail Price"
+                required>
+              <mat-error *ngIf="checkError(infoForm, 'retailPrice', ['required', 'blank'])">
+                Required.
+              </mat-error>
+              <mat-error *ngIf="checkError(infoForm, 'retailPrice', 'auctionPriceMismatch') && 
+                                !checkError(infoForm, 'retailPrice', ['required'])">
+                Retail price must be greater than or equal to bidblab price.
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-100">
+              <input matInput value="{{infoForm.value.bidblabPrice}}" readonly placeholder="Max Bid" required>
+            </mat-form-field>
+            <mat-form-field class="w-100">
+              <input matInput numeric numericType="number" formControlName="bidFee" placeholder="Bid Fee" required>
+              <mat-error *ngIf="checkError(infoForm, 'bidFee', ['required', 'blank'])">
+                Required.
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-100">
+              <input matInput [matDatepicker]="starts" formControlName="starts" placeholder="Auction Start" required>
+              <mat-datepicker-toggle matSuffix [for]="starts"></mat-datepicker-toggle>
+              <mat-datepicker #starts></mat-datepicker>
+              <mat-error *ngIf="checkError(infoForm, 'starts', ['required'])">
+                Required.
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-100">
+              <input matInput [matDatepicker]="closes" formControlName="closes" placeholder="Auction Close" required>
+              <mat-datepicker-toggle matSuffix [for]="closes"></mat-datepicker-toggle>
+              <mat-datepicker #closes></mat-datepicker>
+              <mat-error *ngIf="checkError(infoForm, 'closes', ['required'])">
+                Required.
+              </mat-error>
+              <mat-error *ngIf="checkError(infoForm, 'closes', 'auctionTimeMismatch') && 
+                                !checkError(infoForm, 'closes', ['required'])">
+                Close time must be later than start time.
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-100">
+              <input matInput formControlName="auctionId" placeholder="Auction ID" required>
+              <mat-error *ngIf="checkError(infoForm, 'auctionId', ['required', 'blank'])">
+                Required.
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div xLayout="column" fxLayout.gt-sm="row wrap" class="form-field-outer">
+            <div class="w-25">
+              <label>
+                <div class="question-image" [class.cloud-image]="!questionPictureurl"
+                  [style.background-image]="'url(assets/img/extra/upload-to-cloud-96.png)'">
+                </div>
+                <input type="file" accept="image/*" class="file" (change)="onFileChanged($event)" hidden />
+              </label>
+            </div>
+          </div>
+        </mat-card-content>
+        <mat-card-actions fxLayoutAlign="center">
+          <button class="" mat-raised-button color="accent" [disabled]="infoForm.invalid || submitted" type="submit">
+            <span>Save</span>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </form>
+  </div>
+
+</div>
