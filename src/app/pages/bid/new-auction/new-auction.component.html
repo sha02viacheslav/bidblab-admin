@@ -1,7 +1,7 @@
 <div fxLayout="column">
   <div class="flex-p">
-    <form [formGroup]="infoForm" (ngSubmit)="addAuction()" fxLayout="column" fxLayout.gt-sm="row wrap" autocomplete="off"
-      class="form-field-outer">
+    <form [formGroup]="infoForm" (ngSubmit)="addAuction()" fxLayout="column" fxLayout.gt-sm="row wrap"
+      autocomplete="off" class="form-field-outer">
       <mat-card>
         <mat-card-header fxLayoutAlign="center">
           <mat-card-subtitle>
@@ -47,17 +47,20 @@
               </mat-error>
             </mat-form-field>
             <mat-form-field class="w-100">
-              <input matInput [matDatepicker]="starts" formControlName="starts" placeholder="Auction Start" required>
-              <mat-datepicker-toggle matSuffix [for]="starts"></mat-datepicker-toggle>
-              <mat-datepicker #starts></mat-datepicker>
+              <input matInput [owlDateTime]="starts" formControlName="starts" placeholder="Date Time" required>
+              <mat-icon matSuffix [owlDateTimeTrigger]="starts" class="date-picker-icon">date_range</mat-icon>
+              <owl-date-time [showSecondsTimer]="true" #starts></owl-date-time>
               <mat-error *ngIf="checkError(infoForm, 'starts', ['required'])">
                 Required.
               </mat-error>
             </mat-form-field>
             <mat-form-field class="w-100">
-              <input matInput [matDatepicker]="closes" formControlName="closes" placeholder="Auction Close" required>
+              <input matInput [owlDateTime]="closes" formControlName="closes" placeholder="Date Time" required>
+              <mat-icon matSuffix [owlDateTimeTrigger]="closes" class="date-picker-icon">date_range</mat-icon>
+              <owl-date-time [showSecondsTimer]="true" #closes></owl-date-time>
+              <!-- <input matInput [matDatepicker]="closes" formControlName="closes" placeholder="Auction Close" required>
               <mat-datepicker-toggle matSuffix [for]="closes"></mat-datepicker-toggle>
-              <mat-datepicker #closes></mat-datepicker>
+              <mat-datepicker #closes></mat-datepicker> -->
               <mat-error *ngIf="checkError(infoForm, 'closes', ['required'])">
                 Required.
               </mat-error>

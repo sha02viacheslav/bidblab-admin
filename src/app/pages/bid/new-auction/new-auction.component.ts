@@ -1,5 +1,5 @@
 import { Component, OnInit, Optional, Inject } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
 import { CommonService } from '../../../shared/services/common.service';
 import { FormValidationService } from '../../../shared/services/form-validation.service';
 import { MatSnackBar } from '@angular/material';
@@ -93,6 +93,7 @@ export class NewAuctionComponent implements OnInit {
 
   onFileChanged(event, input) {
     event.preventDefault()
+    console.log(this.infoForm.value.starts);
     if (event.target.files && event.target.files[0]) {
       if(event.target.files[0].size > 1024*1024){
         this.snackBar.open("Image size is limited to 1MBytes.", 'Dismiss', {

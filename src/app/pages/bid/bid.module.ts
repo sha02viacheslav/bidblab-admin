@@ -11,6 +11,7 @@ import { BidComponent } from './bid.component';
 import { PendingAuctionsComponent } from './pending-auctions/pending-auctions.component';
 import { ProgressAuctionsComponent } from './progress-auctions/progress-auctions.component';
 import { ClosedAuctionsComponent } from './closed-auctions/closed-auctions.component';
+// import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
 export const routes = [
   { path: '', component: BidComponent, pathMatch: 'full' },
@@ -29,8 +30,15 @@ export const routes = [
     ReactiveFormsModule,
     NgxPaginationModule,
     SharedModule,
-    PipesModule  
+    PipesModule,
+    
+    // OwlDateTimeModule,
+    // OwlNativeDateTimeModule,  
   ],
   declarations: [NewAuctionComponent, BidComponent, PendingAuctionsComponent, ProgressAuctionsComponent, ClosedAuctionsComponent],
+  providers: [
+    // OwlDateTimeModule,
+    // OwlNativeDateTimeModule, 
+  ]
 })
 export class BidModule { }

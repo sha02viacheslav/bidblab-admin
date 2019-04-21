@@ -33,6 +33,7 @@ import { MatAutocompleteModule,
          MatTooltipModule,
          MatStepperModule } from '@angular/material';
 import { NumericDirective } from './directives/number.directive';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
 @NgModule({
   imports: [
@@ -45,6 +46,7 @@ import { NumericDirective } from './directives/number.directive';
     MatCheckboxModule,
     MatChipsModule,
     MatDatepickerModule,
+  
     MatDialogModule,
     MatExpansionModule,
     MatGridListModule,
@@ -69,6 +71,8 @@ import { NumericDirective } from './directives/number.directive';
     MatToolbarModule,
     MatTooltipModule,
     MatStepperModule,
+    OwlDateTimeModule, 
+    OwlNativeDateTimeModule,
   ],
   exports: [
     FlexLayoutModule,
@@ -104,6 +108,8 @@ import { NumericDirective } from './directives/number.directive';
     MatTooltipModule,
     MatStepperModule,
     NumericDirective,
+    OwlDateTimeModule, 
+    OwlNativeDateTimeModule,
   ],
   declarations: [
     NumericDirective,
