@@ -2,16 +2,16 @@ import { Component, OnInit, Optional, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
 import { CommonService } from '../../../shared/services/common.service';
 import { FormValidationService } from '../../../shared/services/form-validation.service';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatDialogRef, MAT_DIALOG_DATA, MatChipInputEvent} from '@angular/material';
 import { HttpErrorResponse } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 
 @Component({
-  selector: 'app-new-auction',
-  templateUrl: './new-auction.component.html',
-  styleUrls: ['./new-auction.component.scss']
+  selector: 'app-auction-dialog',
+  templateUrl: './auction-dialog.component.html',
+  styleUrls: ['./auction-dialog.component.scss']
 })
-export class NewAuctionComponent implements OnInit {
+export class AuctionDialogComponent implements OnInit {
   submitted: boolean;
   infoForm: FormGroup;
   catagories: string[];
@@ -27,6 +27,9 @@ export class NewAuctionComponent implements OnInit {
 		private snackBar: MatSnackBar,
     public fb: FormBuilder,
     private formValidationService: FormValidationService,
+    private dialogRef: MatDialogRef<AuctionDialogComponent>,
+    @Optional()
+    @Inject(MAT_DIALOG_DATA) public data: any,
 	) { }
 
 	ngOnInit() {
@@ -152,7 +155,7 @@ export class NewAuctionComponent implements OnInit {
           })
           .afterOpened()
           .subscribe(() => {
-            this.ngOnInit();
+            this.dialogRef.close(res.data);
           });
         },
         (err: HttpErrorResponse) => {
@@ -206,4 +209,5 @@ export class NewAuctionComponent implements OnInit {
   // }
 
 }
+
 

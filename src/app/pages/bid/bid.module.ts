@@ -11,7 +11,7 @@ import { BidComponent } from './bid.component';
 import { PendingAuctionsComponent } from './pending-auctions/pending-auctions.component';
 import { ProgressAuctionsComponent } from './progress-auctions/progress-auctions.component';
 import { ClosedAuctionsComponent } from './closed-auctions/closed-auctions.component';
-// import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { AuctionDialogComponent } from './auction-dialog/auction-dialog.component';
 
 export const routes = [
   { path: '', component: BidComponent, pathMatch: 'full' },
@@ -31,14 +31,9 @@ export const routes = [
     NgxPaginationModule,
     SharedModule,
     PipesModule,
-    
-    // OwlDateTimeModule,
-    // OwlNativeDateTimeModule,  
   ],
-  declarations: [NewAuctionComponent, BidComponent, PendingAuctionsComponent, ProgressAuctionsComponent, ClosedAuctionsComponent],
+  declarations: [NewAuctionComponent, BidComponent, PendingAuctionsComponent, ProgressAuctionsComponent, ClosedAuctionsComponent, AuctionDialogComponent],
   providers: [
-    // OwlDateTimeModule,
-    // OwlNativeDateTimeModule, 
   ]
 })
 export class BidModule { }

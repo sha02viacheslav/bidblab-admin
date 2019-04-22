@@ -1,0 +1,16 @@
+.question-image {
+	width: 100px;
+	height: 100px;
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+.cloud-image {
+	background-size: auto !important;
+	border: 1px solid rgb(240, 240, 240);
+}
+
+.date-picker-icon:hover{
+	cursor: pointer;
+}
