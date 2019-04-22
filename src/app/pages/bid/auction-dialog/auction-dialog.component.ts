@@ -5,6 +5,7 @@ import { FormValidationService } from '../../../shared/services/form-validation.
 import { MatSnackBar, MatDialogRef, MAT_DIALOG_DATA, MatChipInputEvent} from '@angular/material';
 import { HttpErrorResponse } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
+import { element } from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-auction-dialog',
@@ -16,8 +17,9 @@ export class AuctionDialogComponent implements OnInit {
   infoForm: FormGroup;
   catagories: string[];
   public form: FormGroup;
-  uploadFiles: any[] = [];
-  questionPictureurls: any[] = [];
+  questionPictures: any[] = [];
+  initPictureurls: any[] = [];
+  deletedPictureurls: any[] = [];
   standardInterests: string[];
   formArray: FormArray;
   serverUrl: string = environment.apiUrl;
@@ -34,10 +36,10 @@ export class AuctionDialogComponent implements OnInit {
 
 	ngOnInit() {
     this.submitted = false;
-    this.questionPictureurls = [];
+    this.questionPictures = [];
     this.infoForm = this.fb.group({
       auctionTitle: [
-        '',
+        this.data.auction ? this.data.auction.auctionTitle : '',
         [
           Validators.required,
           Validators.maxLength(100),
@@ -45,7 +47,7 @@ export class AuctionDialogComponent implements OnInit {
         ]
       ],
       bidblabPrice: [
-        '',
+        this.data.auction? String(this.data.auction.bidblabPrice) : '',
         [
           Validators.required,
           Validators.min(0),
@@ -53,7 +55,7 @@ export class AuctionDialogComponent implements OnInit {
         ]
       ],
       retailPrice: [
-        '',
+        this.data.auction ? String(this.data.auction.retailPrice) : '',
         [
           Validators.required,
           this.formValidationService.areAuctionPriceMismatching,
@@ -61,7 +63,7 @@ export class AuctionDialogComponent implements OnInit {
         ]
       ],
       bidFee: [
-        '',
+        this.data.auction ? String(this.data.auction.bidFee) : '',
         [
           Validators.required,
           Validators.min(0),
@@ -69,26 +71,33 @@ export class AuctionDialogComponent implements OnInit {
         ]
       ],
       starts: [
-        '',
+        this.data.auction ? new Date(this.data.auction.starts) : '',
         [
           Validators.required,
         ]
       ],
       closes: [
-        '',
+        this.data.auction ? new Date(this.data.auction.closes) : '',
         [
           Validators.required,
           this.formValidationService.areAuctionTimeMismatching,
         ]
       ],
-      auctionId: [
-        '',
+      auctionSerial: [
+        this.data.auction ? String(this.data.auction.auctionSerial) : '',
         [
           Validators.required,
           this.formValidationService.isBlank,
         ]
       ],
     });
+
+    if(this.data.auction.auctionPicture.length){
+      this.data.auction.auctionPicture.forEach(element => {
+        this.questionPictures.push({url: this.serverUrl + '/' + element, file:''});
+        this.initPictureurls.push(this.serverUrl + '/' + element);
+      });
+    }
   }
   
   checkError(form, field, error) {
@@ -105,14 +114,26 @@ export class AuctionDialogComponent implements OnInit {
         })
       }
       else{
-        this.uploadFiles.push(event.target.files[0]);
+        let fileTemp = event.target.files[0];
         var reader = new FileReader();
         reader.onload = (event) => {
-          this.questionPictureurls.push(reader.result); 
+          this.questionPictures.push({ url: reader.result, file: fileTemp }); 
         }
         reader.readAsDataURL(event.target.files[0]);
       }
     }  
+  }
+
+  deletePicture(index){
+    this.addDeleteList(this.questionPictures[index].url); 
+    this.questionPictures.splice(index, 1);
+  }
+
+  addDeleteList(url){
+    if(this.initPictureurls.some(element => element == url)){
+      let temp = url.replace(new RegExp(this.serverUrl+'/', "i"), "");
+      this.deletedPictureurls.push(temp);
+    }
   }
 
   onPictureChanged(event, index) {
@@ -125,10 +146,11 @@ export class AuctionDialogComponent implements OnInit {
         })
       }
       else{
-        this.uploadFiles[index] = event.target.files[0];
+        this.addDeleteList(this.questionPictures[index].url);
+        let fileTemp = event.target.files[0];
         var reader = new FileReader();
         reader.onload = (event) => {
-          this.questionPictureurls[index] = reader.result; 
+          this.questionPictures[index] = { url: reader.result, file: fileTemp }; 
         }
         reader.readAsDataURL(event.target.files[0]);
       }
@@ -138,8 +160,11 @@ export class AuctionDialogComponent implements OnInit {
   addAuction(){
     if (this.infoForm.valid) {
       let uploadData = new FormData();
-      this.uploadFiles.forEach(element => {
-        uploadData.append('files[]', element, element.name);
+      debugger;
+      this.questionPictures.forEach(element => {
+        if(!this.initPictureurls.some(item => item == element.url)){
+          uploadData.append('files[]', element.file, element.file.name);
+        }
       });
       uploadData.append('auctionTitle', this.infoForm.value.auctionTitle);
       uploadData.append('bidblabPrice', this.infoForm.value.bidblabPrice);
@@ -147,23 +172,48 @@ export class AuctionDialogComponent implements OnInit {
       uploadData.append('bidFee', this.infoForm.value.bidFee);
       uploadData.append('starts', this.infoForm.value.starts);
       uploadData.append('closes', this.infoForm.value.closes);
-      uploadData.append('auctionId', this.infoForm.value.auctionId);
-      this.commonService.addAuction(uploadData).subscribe(
-        (res: any) => {
-          this.snackBar.open(res.msg, 'Dismiss', {
-            duration: 3000
-          })
-          .afterOpened()
-          .subscribe(() => {
-            this.dialogRef.close(res.data);
-          });
-        },
-        (err: HttpErrorResponse) => {
-          this.snackBar.open(err.error.msg, 'Dismiss', {
-            duration: 1500
-          });
-        }
-      );
+      uploadData.append('auctionSerial', this.infoForm.value.auctionSerial);
+      this.deletedPictureurls.forEach(element => {
+        uploadData.append('deletedPictureurls[]', element);
+      });
+      console.log(this.deletedPictureurls);
+      if(this.data.auctionId){
+        uploadData.append('auctionId', this.data.auctionId);
+        this.commonService.updateAuction(uploadData).subscribe(
+          (res: any) => {
+            this.snackBar.open(res.msg, 'Dismiss', {
+              duration: 3000
+            })
+            .afterOpened()
+            .subscribe(() => {
+              this.dialogRef.close(res.data);
+            });
+          },
+          (err: HttpErrorResponse) => {
+            this.snackBar.open(err.error.msg, 'Dismiss', {
+              duration: 1500
+            });
+          }
+        );
+      }
+      else{
+        this.commonService.addAuction(uploadData).subscribe(
+          (res: any) => {
+            this.snackBar.open(res.msg, 'Dismiss', {
+              duration: 3000
+            })
+            .afterOpened()
+            .subscribe(() => {
+              this.dialogRef.close(res.data);
+            });
+          },
+          (err: HttpErrorResponse) => {
+            this.snackBar.open(err.error.msg, 'Dismiss', {
+              duration: 1500
+            });
+          }
+        );
+      }
     }
   }
 

@@ -1,4 +1,4 @@
-<div fxLayout="column">
+<div class="dialog-wrap" fxLayout="column">
     <div class="flex-p">
       <form [formGroup]="infoForm" (ngSubmit)="addAuction()" fxLayout="column" fxLayout.gt-sm="row wrap"
         autocomplete="off" class="form-field-outer">
@@ -58,9 +58,6 @@
                 <input matInput [owlDateTime]="closes" formControlName="closes" placeholder="Date Time" required>
                 <mat-icon matSuffix [owlDateTimeTrigger]="closes" class="date-picker-icon">date_range</mat-icon>
                 <owl-date-time [showSecondsTimer]="true" #closes></owl-date-time>
-                <!-- <input matInput [matDatepicker]="closes" formControlName="closes" placeholder="Auction Close" required>
-                <mat-datepicker-toggle matSuffix [for]="closes"></mat-datepicker-toggle>
-                <mat-datepicker #closes></mat-datepicker> -->
                 <mat-error *ngIf="checkError(infoForm, 'closes', ['required'])">
                   Required.
                 </mat-error>
@@ -70,20 +67,23 @@
                 </mat-error>
               </mat-form-field>
               <mat-form-field class="w-100">
-                <input matInput formControlName="auctionId" placeholder="Auction ID" required>
-                <mat-error *ngIf="checkError(infoForm, 'auctionId', ['required', 'blank'])">
+                <input matInput formControlName="auctionSerial" placeholder="Auction ID" required>
+                <mat-error *ngIf="checkError(infoForm, 'auctionSerial', ['required', 'blank'])">
                   Required.
                 </mat-error>
               </mat-form-field>
             </div>
             <div xLayout="column" fxLayout.gt-sm="row wrap" class="form-field-outer">
-              <div class="w-25" *ngFor="let questionPictureurl of questionPictureurls; let index = index">
+              <div class="w-25 picture-wrap" *ngFor="let questionPicture of questionPictures; let index = index">
                 <label>
-                  <div class="question-image" [class.cloud-image]="!questionPictureurl" [style.background-image]="questionPictureurl?
-                      'url(' + questionPictureurl + ')' : 'url(assets/img/extra/upload-to-cloud-96.png)'">
+                  <div class="question-image" [class.cloud-image]="!questionPicture" [style.background-image]="questionPicture?
+                      'url(' + questionPicture.url + ')' : 'url(assets/img/extra/upload-to-cloud-96.png)'">
                   </div>
                   <input type="file" accept="image/*" class="file" (change)="onPictureChanged($event, index)" hidden />
                 </label>
+                <mat-icon color="warn" class="picture-delete" (click)="deletePicture(index); $event.stopPropagation()">
+                  delete
+                </mat-icon>
               </div>
               <div class="w-25">
                 <label>

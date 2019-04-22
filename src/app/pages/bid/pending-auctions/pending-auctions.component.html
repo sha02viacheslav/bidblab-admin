@@ -104,7 +104,7 @@
           </button>
           <mat-menu #menu="matMenu" xPosition="before" overlapTrigger="true">
             <span (mouseleave)="menuTrigger.closeMenu()">
-              <button mat-menu-item (click)="openQuestionDialog('', element);">
+              <button mat-menu-item (click)="openQuestionDialog(element, element._id);">
                 <mat-icon>edit</mat-icon>
                 <span>Edit</span>
               </button>
@@ -136,8 +136,8 @@
               <div class="user-content" fxLayout="row" fxLayoutAlign="space-around start">
                 <div fxFlex="20" fxFlex.xs="30" fxLayout="column" fxLayoutAlign="center center">
                   <div class="user-img">
-                    <img [src]="element?.auctionPicture? 
-											serverUrl+'/'+element.auctionPicture : 'assets/img/users/default-user.jpg'" class="transition-2"
+                    <img [src]="element?.auctionPicture.length? 
+											serverUrl+'/'+element.auctionPicture[0] : 'assets/img/extra/empty-image.png'" class="transition-2"
                       [class.blocked]="element?.asker?.role? (element.asker.role == 'suspend') : false">
                     <mat-icon *ngIf="element?.asker?.role? (element.asker.role == 'suspend') : false"
                       class="warn-color">block

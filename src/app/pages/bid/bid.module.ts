@@ -32,8 +32,15 @@ export const routes = [
     SharedModule,
     PipesModule,
   ],
-  declarations: [NewAuctionComponent, BidComponent, PendingAuctionsComponent, ProgressAuctionsComponent, ClosedAuctionsComponent, AuctionDialogComponent],
-  providers: [
+  declarations: [
+    NewAuctionComponent, 
+    BidComponent, PendingAuctionsComponent, 
+    ProgressAuctionsComponent, 
+    ClosedAuctionsComponent, 
+    AuctionDialogComponent
+  ],
+  entryComponents: [
+    AuctionDialogComponent
   ]
 })
 export class BidModule { }

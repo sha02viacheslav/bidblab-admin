@@ -10,7 +10,7 @@ import { FormBuilder, FormGroup, EmailValidator, FormControl } from '@angular/fo
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { animate, state, style, transition, trigger} from '@angular/animations';
-import { NewAuctionComponent } from '../new-auction/new-auction.component';
+import { AuctionDialogComponent } from '../auction-dialog/auction-dialog.component';
 import { environment } from '../../../../environments/environment';
 import { CommonService } from '../../../shared/services/common.service';
 
@@ -62,12 +62,13 @@ export class PendingAuctionsComponent implements OnInit {
 		this.getPendingAuctions();
 	}
 
-	public openQuestionDialog(auction?: any) {
+	public openQuestionDialog(auction?: any, auctionId?: any) {
 		this.dialog.open(
-			NewAuctionComponent, 
+			AuctionDialogComponent, 
 			{
 				data: {
-          auction
+					auction,
+					auctionId
 				},
 				width: '800px'	
 			}

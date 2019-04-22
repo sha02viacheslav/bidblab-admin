@@ -375,4 +375,14 @@ changeUsersRole(body, roleType) {
     );
   }
 
+  updateAuction(body) {
+    return this.httpClient.patch(
+      `${environment.apiUrl}/api/admin/updateAuction`,
+      body,
+      {
+        reportProgress: true,
+      }
+    );
+  }
+
 }
