@@ -259,12 +259,5 @@ export class PendingAuctionsComponent implements OnInit {
 			alert("Select the auctions");
 		}
   }
-  
-  cloneAuction(event, auction){
-		event.stopPropagation();
-    console.log(auction);
-    this.openQuestionDialog(auction);
-    this.getPendingAuctions();
-  }
 
 }

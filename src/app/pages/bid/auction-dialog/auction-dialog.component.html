@@ -1,13 +1,18 @@
-<div class="dialog-wrap" fxLayout="column">
-    <div class="flex-p">
+<!-- <div class="dialog-wrap" fxLayout="column">
+    <div class="flex-p"> -->
       <form [formGroup]="infoForm" (ngSubmit)="addAuction()" fxLayout="column" fxLayout.gt-sm="row wrap"
         autocomplete="off" class="form-field-outer">
-        <mat-card>
-          <mat-card-header fxLayoutAlign="center">
-            <mat-card-subtitle>
-              <h2>Create New Auction</h2>
-            </mat-card-subtitle>
-          </mat-card-header>
+        <mat-card class="custom-card card-no-padding">
+          <mat-card-header class="bg-primary p-1" fxLayoutAlign="space-between center">
+              <mat-card-title class="m-0">
+                <h3>
+                  <span *ngIf="!data.auctionId">Add</span><span *ngIf="data.auctionId">Edit</span> Auction
+                </h3>
+              </mat-card-title>
+              <button mat-icon-button mat-dialog-close tabindex="-1">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-card-header>
           <mat-card-content>
             <div fxLayout="column" fxLayout.gt-sm="row wrap" fxLayoutAlign=" center" class="form-field-outer">
               <mat-form-field class="w-100">
@@ -95,12 +100,13 @@
               </div>
             </div>
           </mat-card-content>
-          <mat-card-actions fxLayoutAlign="center">
-            <button class="" mat-raised-button color="accent" [disabled]="infoForm.invalid || submitted" type="submit">
-              <span>Save</span>
-            </button>
-          </mat-card-actions>
+          <mat-card-actions fxLayoutAlign="end center">
+              <button class="" mat-raised-button color="accent" [disabled]="infoForm.invalid || submitted" type="submit">
+                <span *ngIf="!data.auctionId">Save</span>
+                <span *ngIf="data.auctionId">Update</span>
+              </button>
+            </mat-card-actions>
         </mat-card>
       </form>
-    </div>
-  </div>
+    <!-- </div>
+  </div> -->

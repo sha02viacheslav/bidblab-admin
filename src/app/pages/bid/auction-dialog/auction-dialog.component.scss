@@ -1,5 +1,13 @@
-.dialog-wrap {
-  //margin: -32px;
+.custom-card {
+  margin: -24px -24px -24px -24px;
+
+  mat-card-content {
+    padding: 2rem 1rem 1rem 1rem;
+  }
+
+  mat-card-actions {
+    padding: 1rem 1rem 1rem 1rem;
+  }
 }
 
 .question-image {
@@ -40,6 +48,7 @@
     opacity: 1;
     display: block;
   }
+
   .picture-delete:hover {
     cursor: pointer;
   }
