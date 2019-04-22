@@ -3,7 +3,7 @@
     <div fxLayout="row" fxLayoutAlign="space-between center">
       <div fxLayout="row">
         <mat-button-toggle-group #controls="matButtonToggleGroup" appearance="legacy">
-          <mat-button-toggle value="add" (click)="openQuestionDialog()">
+          <mat-button-toggle value="add" (click)="openAuctionDialog()">
             <mat-icon>note_add</mat-icon>
           </mat-button-toggle>
           <mat-button-toggle value="search">
@@ -51,9 +51,13 @@
         <th mat-header-cell *matHeaderCellDef> No </th>
         <td mat-cell *matCellDef="let element;"> {{element.index + 1}}</td>
       </ng-container>
-      <ng-container matColumnDef="auctionId">
+      <ng-container matColumnDef="auctionSerial">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> AuctionId </th>
-        <td mat-cell *matCellDef="let element"> {{element.auctionId}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.auctionSerial}} </td>
+      </ng-container>
+      <ng-container matColumnDef="auctionTitle">
+        <th mat-header-cell *matHeaderCellDef> Title </th>
+        <td mat-cell *matCellDef="let element"> {{element.auctionTitle}} </td>
       </ng-container>
       <ng-container matColumnDef="bidblabPrice">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> BidBlab Price </th>
@@ -66,10 +70,6 @@
       <ng-container matColumnDef="bidFee">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Bid Fee </th>
         <td mat-cell *matCellDef="let element"> {{element.bidFee}} </td>
-      </ng-container>
-      <ng-container matColumnDef="productName">
-        <th mat-header-cell *matHeaderCellDef> Product Name </th>
-        <td mat-cell *matCellDef="let element"> {{element.productName}} </td>
       </ng-container>
       <ng-container matColumnDef="starts">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Starts </th>
@@ -104,15 +104,11 @@
           </button>
           <mat-menu #menu="matMenu" xPosition="before" overlapTrigger="true">
             <span (mouseleave)="menuTrigger.closeMenu()">
-              <button mat-menu-item (click)="openQuestionDialog(element, element._id);">
+              <button mat-menu-item (click)="openAuctionDialog(element, element._id);">
                 <mat-icon>edit</mat-icon>
                 <span>Edit</span>
               </button>
-              <!-- <button mat-menu-item routerLink="/questions/questiondetail/{{element._id}}">
-									<mat-icon>reorder</mat-icon>
-									<span>Detail</span>
-								</button> -->
-              <button mat-menu-item (click)="openQuestionDialog(element);">
+              <button mat-menu-item (click)="openAuctionDialog(element);">
                 <mat-icon>library_add</mat-icon>
                 <span>Clone</span>
               </button>
@@ -137,11 +133,7 @@
                 <div fxFlex="20" fxFlex.xs="30" fxLayout="column" fxLayoutAlign="center center">
                   <div class="user-img">
                     <img [src]="element?.auctionPicture.length? 
-											serverUrl+'/'+element.auctionPicture[0] : 'assets/img/extra/empty-image.png'" class="transition-2"
-                      [class.blocked]="element?.asker?.role? (element.asker.role == 'suspend') : false">
-                    <mat-icon *ngIf="element?.asker?.role? (element.asker.role == 'suspend') : false"
-                      class="warn-color">block
-                    </mat-icon>
+											serverUrl+'/'+element.auctionPicture[0] : 'assets/img/extra/empty-image.png'" class="transition-2">
                   </div>
                 </div>
                 <div fxFlex="80" fxFlex.xs="70" fxLayout="column" fxLayoutAlign="none none"

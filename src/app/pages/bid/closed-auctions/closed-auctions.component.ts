@@ -10,7 +10,7 @@ import { FormBuilder, FormGroup, EmailValidator, FormControl } from '@angular/fo
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { animate, state, style, transition, trigger} from '@angular/animations';
-import { NewAuctionComponent } from '../new-auction/new-auction.component';
+import { AuctionDialogComponent } from '../auction-dialog/auction-dialog.component';
 import { environment } from '../../../../environments/environment';
 import { CommonService } from '../../../shared/services/common.service';
 
@@ -28,8 +28,8 @@ import { CommonService } from '../../../shared/services/common.service';
 })
 
 export class ClosedAuctionsComponent implements OnInit {
-  public displayedColumns: string[] = ['select', 'index', 'auctionId', 'bidblabPrice', 'retailPrice', 'bidFee',
-                                      'productName', 'starts', 'closes', 'createdAt',
+  public displayedColumns: string[] = ['select', 'index', 'auctionSerial', 'auctionTitle', 'bidblabPrice', 'retailPrice', 'bidFee',
+                                       'starts', 'closes', 'createdAt',
 										                  'suspend', 'menu'];
 	public dataSource:any;
 	public selection = new SelectionModel<any>(true, []);
@@ -62,12 +62,13 @@ export class ClosedAuctionsComponent implements OnInit {
 		this.getClosedAuctions();
 	}
 
-	public openQuestionDialog(auction?: any) {
+	public openAuctionDialog(auction?: any, auctionId?: any) {
 		this.dialog.open(
-			NewAuctionComponent, 
+			AuctionDialogComponent, 
 			{
 				data: {
-          auction
+					auction,
+					auctionId
 				},
 				width: '800px'	
 			}
@@ -82,7 +83,7 @@ export class ClosedAuctionsComponent implements OnInit {
 	searchBoxAction(){
 		if(this.newQuestionFlag){
 			this.newQuestionFlag = false;
-			this.openQuestionDialog(this.infoForm.value.search);
+			this.openAuctionDialog(this.infoForm.value.search);
 		}
 		else{
 			this.getClosedAuctions();
@@ -262,7 +263,7 @@ export class ClosedAuctionsComponent implements OnInit {
   cloneAuction(event, auction){
 		event.stopPropagation();
     console.log(auction);
-    this.openQuestionDialog(auction);
+    this.openAuctionDialog(auction);
     this.getClosedAuctions();
   }
 

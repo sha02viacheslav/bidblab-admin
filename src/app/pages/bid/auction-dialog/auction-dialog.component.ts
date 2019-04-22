@@ -160,7 +160,6 @@ export class AuctionDialogComponent implements OnInit {
   addAuction(){
     if (this.infoForm.valid) {
       let uploadData = new FormData();
-      debugger;
       this.questionPictures.forEach(element => {
         if(!this.initPictureurls.some(item => item == element.url)){
           uploadData.append('files[]', element.file, element.file.name);

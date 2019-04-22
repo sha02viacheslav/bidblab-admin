@@ -28,8 +28,8 @@ import { CommonService } from '../../../shared/services/common.service';
 })
 
 export class PendingAuctionsComponent implements OnInit {
-  public displayedColumns: string[] = ['select', 'index', 'auctionId', 'bidblabPrice', 'retailPrice', 'bidFee',
-                                      'productName', 'starts', 'closes', 'createdAt',
+  public displayedColumns: string[] = ['select', 'index', 'auctionSerial', 'auctionTitle', 'bidblabPrice', 'retailPrice', 'bidFee',
+                                      'starts', 'closes', 'createdAt',
 										                  'suspend', 'menu'];
 	public dataSource:any;
 	public selection = new SelectionModel<any>(true, []);
@@ -62,7 +62,7 @@ export class PendingAuctionsComponent implements OnInit {
 		this.getPendingAuctions();
 	}
 
-	public openQuestionDialog(auction?: any, auctionId?: any) {
+	public openAuctionDialog(auction?: any, auctionId?: any) {
 		this.dialog.open(
 			AuctionDialogComponent, 
 			{
@@ -83,7 +83,7 @@ export class PendingAuctionsComponent implements OnInit {
 	searchBoxAction(){
 		if(this.newQuestionFlag){
 			this.newQuestionFlag = false;
-			this.openQuestionDialog(this.infoForm.value.search);
+			this.openAuctionDialog(this.infoForm.value.search);
 		}
 		else{
 			this.getPendingAuctions();
