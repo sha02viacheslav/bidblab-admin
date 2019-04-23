@@ -13,6 +13,7 @@ import { animate, state, style, transition, trigger} from '@angular/animations';
 import { AddQuestionComponent } from '../add-question/add-question.component';
 import { environment } from '../../../../environments/environment';
 import { CommonService } from '../../../shared/services/common.service';
+import { QuestionsService } from '../questions.service';
   
 @Component({
 	selector: 'app-answer-list',
@@ -50,6 +51,7 @@ export class AnswerListComponent implements OnInit {
 		private fb: FormBuilder,
 		public dialog: MatDialog,
 		private commonService: CommonService,
+    private questionsService: QuestionsService,
 		private authenticationService: AuthenticationService,
     ) { }
   
@@ -115,7 +117,7 @@ export class AnswerListComponent implements OnInit {
 			this.pageSize = event.pageSize;
 			this.pageIndex = event.pageIndex;
 		}
-		this.commonService.getAnswers(
+		this.questionsService.getAnswers(
 			this.pageSize,
 			this.pageIndex,
 			this.search,
@@ -211,7 +213,7 @@ export class AnswerListComponent implements OnInit {
 		if(questionIds.length){
 			if(confirm("Are you sure to delete "+name)){
 			// this.blockUIService.setBlockStatus(true);
-			this.commonService.deleteQuestions(questionIds)
+			this.questionsService.deleteQuestions(questionIds)
 			.subscribe(
 				(res: any) => {
 				// this.snackBar.open(res.data.totalDeleteQuestions+" of "+questionIds.length+" questions are deleted.", 
@@ -252,7 +254,7 @@ export class AnswerListComponent implements OnInit {
 		if(questionIds.length){
 			if(confirm("Are you sure to " + roleType + "?")){
 			// this.blockUIService.setBlockStatus(true);
-			this.commonService.changeQuestionsRole(questionIds, roleType)
+			this.questionsService.changeQuestionsRole(questionIds, roleType)
 			.subscribe(
 				(res: any) => {
 				// this.snackBar.open(res.data.totalSuspendQuestions+" of "+questionIds.length+" questions are suspended.", 

@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatOption } from '@angular/material';
 import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 import { User } from '../../../shared/models/user.model';
 import { CommonService } from '../../../shared/services/common.service';
+import { UsersService } from '../users.service';
 import { FormValidationService } from '../../../shared/services/form-validation.service';
 
 @Component({
@@ -20,7 +21,8 @@ import { FormValidationService } from '../../../shared/services/form-validation.
 	constructor(public dialogRef: MatDialogRef<UserDialogComponent>,
 				@Inject(MAT_DIALOG_DATA) public user: User,
 				public fb: FormBuilder,
-				private commonService: CommonService,
+				private commonService: CommonService,  
+				private usersService: UsersService,  
 				private formValidationService: FormValidationService,
 	) { }
 

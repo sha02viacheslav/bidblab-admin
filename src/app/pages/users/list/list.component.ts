@@ -13,6 +13,7 @@ import { CommonDataService } from '../../../shared/services/common-data.service'
 import { animate, state, style, transition, trigger} from '@angular/animations';
 import { environment } from '../../../../environments/environment';
 import { CommonService } from '../../../shared/services/common.service';
+import { UsersService } from '../users.service';
 
 @Component({
 	selector: 'app-list',
@@ -48,6 +49,7 @@ export class ListComponent implements OnInit {
 		public router:Router,
 		private commonDataService:CommonDataService, 
 		private commonService: CommonService,
+		private usersService: UsersService,  
 		private snackBar: MatSnackBar,
 		public dialog: MatDialog
 	) {}
@@ -62,7 +64,7 @@ export class ListComponent implements OnInit {
 		this.pageIndex = event.pageIndex;
 		}
 
-		this.commonService.getUsers(
+		this.usersService.getUsers(
 			this.pageSize,
 			this.pageIndex,
 			this.search,
@@ -188,7 +190,7 @@ export class ListComponent implements OnInit {
 		if(memberIds.length){
 			if(confirm("Are you sure to delete "+name)){
 				// this.blockUIService.setBlockStatus(true);
-				this.commonService.deleteUsers(memberIds)
+				this.usersService.deleteUsers(memberIds)
 				.subscribe(
 				(res: any) => {
 					// this.snackBar.open(res.data.totalDeleteMembers+" of "+memberIds.length+" members are deleted.", 
@@ -234,7 +236,7 @@ export class ListComponent implements OnInit {
 		if(memberIds.length){
 		if(confirm("Are you sure to " + roleType + "?")){
 			//this.blockUIService.setBlockStatus(true);
-			this.commonService.changeUsersRole(memberIds, roleType)
+			this.usersService.changeUsersRole(memberIds, roleType)
 			.subscribe(
 			(res: any) => {
 				// this.snackBar.open(res.data.totalSuspendMembers+" of "+memberIds.length+" members are suspended.", 
@@ -262,7 +264,7 @@ export class ListComponent implements OnInit {
 		}).afterClosed().subscribe(updatedUser => {
 			if(updatedUser){
 				if(user){
-					this.commonService.updateUser(user._id, updatedUser)
+					this.usersService.updateUser(user._id, updatedUser)
 						.subscribe(
 							(res: any) => {
 							this.snackBar.open(res.msg, 'Dismiss', {duration: 1500});
@@ -274,7 +276,7 @@ export class ListComponent implements OnInit {
 						);
 				} 
 				else {
-					this.commonService.createUser(updatedUser)
+					this.usersService.createUser(updatedUser)
 						.subscribe(
 							(res: any) => {
 							this.snackBar.open(res.msg, 'Dismiss', {duration: 1500});

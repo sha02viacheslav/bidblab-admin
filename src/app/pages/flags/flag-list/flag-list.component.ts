@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { animate, state, style, transition, trigger} from '@angular/animations';
 import { environment } from '../../../../environments/environment';
 import { CommonService } from '../../../shared/services/common.service';
+import { FlagsService } from '../flags.service';
 
 @Component({
 	selector: 'app-flag-list',
@@ -49,6 +50,7 @@ export class FlagListComponent implements OnInit {
 		private fb: FormBuilder,
 		public dialog: MatDialog,
 		private commonService: CommonService,
+		private flagsService: FlagsService,
 		private authenticationService: AuthenticationService,
 	) { }
 
@@ -68,7 +70,7 @@ export class FlagListComponent implements OnInit {
 				this.pageSize = event.pageSize;
 				this.pageIndex = event.pageIndex;
 			}
-			this.commonService.getFlags(
+			this.flagsService.getFlags(
 				this.pageSize,
 				this.pageIndex,
 				this.search,
@@ -159,7 +161,7 @@ export class FlagListComponent implements OnInit {
 		if(flagIds.length){
 			if(confirm("Are you sure to delete "+name)){
 				// this.blockUIService.setBlockStatus(true);
-				this.commonService.deleteFlags(flagIds)
+				this.flagsService.deleteFlags(flagIds)
 					.subscribe(
 					(res: any) => {
 						// this.snackBar.open(res.data.totalDeleteQuestions+" of "+flagIds.length+" questions are deleted.", 
@@ -205,7 +207,7 @@ export class FlagListComponent implements OnInit {
 		if(flagIds.length){
 			if(confirm("Are you sure to " + roleType + "?")){
 				// this.blockUIService.setBlockStatus(true);
-				this.commonService.changeFlagsRole(flagIds, roleType)
+				this.flagsService.changeFlagsRole(flagIds, roleType)
 					.subscribe(
 					(res: any) => {
 						// this.snackBar.open(res.data.totalSuspendQuestions+" of "+flagIds.length+" questions are suspended.", 

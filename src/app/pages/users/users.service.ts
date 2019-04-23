@@ -7,65 +7,69 @@ import { AuthenticationService } from '../../shared/services/authentication.serv
 
 @Injectable()
 export class UsersService {
-    public url = "api/users";
-    private headers: any; 
-    
+  
     constructor(
         public httpClient:HttpClient,
         private authenticationService: AuthenticationService
-    ) { 
-        this.headers = new HttpHeaders({
-            'Authorization': this.authenticationService.getToken() || ''
-        });
+    ) { }
+
+    createUser(body) {
+      return this.httpClient.post(
+        `${environment.apiUrl}/api/admin/createUser`,
+        body
+      );
     }
-
-    getUsers(limit?, offset?, search?, active?, direction?): Observable<any>  {
-        return this.httpClient.get<any>(
-          `${environment.apiUrl}/api/admin/getMembers?limit=${limit ||
-            10}&offset=${offset || 0}&search=${search || ''}&active=${active || ''}&direction=${direction || ''}`,
-            { headers: this.headers }
-        );
-    }
-
-    updateUser(userId, body) {
-        return this.httpClient.patch(
-          `${environment.apiUrl}/api/admin/updateUser/${userId}`,
-          body,
-          { headers: this.headers }
-        );
-      }
-
-    addUser(user:User){	    
-        return this.httpClient.post(this.url, user);
-    }
-
   
-    deleteUser(id: number) {
-        return this.httpClient.delete(this.url + "/" + id);
+    getUsers(limit?, offset?, search?, active?, direction?) {
+      return this.httpClient.get(
+        `${environment.apiUrl}/api/admin/getMembers?limit=${limit ||
+        10}&offset=${offset || 0}&search=${search || ''}&active=${active || ''}&direction=${direction || ''}`
+      );
+    }
+  
+    updateUser(userId, body) {
+      return this.httpClient.patch(
+        `${environment.apiUrl}/api/admin/updateUser/${userId}`,
+        body
+      );
+    }
+  
+    deleteUsers(body) {
+      return this.httpClient.post(
+        `${environment.apiUrl}/api/admin/deleteMembers`,
+        body
+      );
     } 
 
-    sendMessage(body) {
-        return this.httpClient.post(
-          `${environment.apiUrl}/api/admin/sendMessage`,
-          body,
-          { headers: this.headers }
-        );
-    }  
-    
     changeUsersRole(body, roleType) {
-        return this.httpClient.post(
-          `${environment.apiUrl}/api/admin/changeMembersRole/${roleType}`,
-          body,
-          { headers: this.headers }
-        );
-    }  
+      return this.httpClient.post(
+        `${environment.apiUrl}/api/admin/changeMembersRole/${roleType}`,
+        body
+      );
+    }
 
-    deleteUsers(body: any) {
-        return this.httpClient.post(
-          `${environment.apiUrl}/api/admin/deleteMembers`,
-          body,
-          { headers: this.headers }
-        );
-    } 
+    getUserDataByuserId(userId) {
+      return this.httpClient.get(
+        `${environment.apiUrl}/api/common/getUserDataByuserId/${userId}`
+      );
+    }
+
+    getUserAnswerByuserId(userId, interestFilter?) {
+      return this.httpClient.get(
+        `${environment.apiUrl}/api/common/getUserAnswerByuserId?userId=${userId || ''}&interestFilter=${interestFilter || ''}`
+      );
+    }
+  
+    getUserQuestionByuserId(userId, interestFilter?) {
+      return this.httpClient.get(
+        `${environment.apiUrl}/api/common/getUserQuestionByuserId?userId=${userId || ''}&interestFilter=${interestFilter || ''}`
+      );
+    }
+
+    getQuestionsFollowing() {
+      return this.httpClient.get(
+        `${environment.apiUrl}/api/common/getQuestionsFollowing/`
+      );
+    }
 } 
 

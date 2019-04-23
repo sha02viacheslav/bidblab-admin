@@ -48,6 +48,7 @@ export class DetailComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private commonService: CommonService,
+    private usersService: UsersService,  
     private fb: FormBuilder,
     private formValidationService: FormValidationService,
     private authenticationService: AuthenticationService,
@@ -88,7 +89,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   }
 
   getUserDataByuserId(userId){
-    this.commonService.getUserDataByuserId(userId).subscribe(
+    this.usersService.getUserDataByuserId(userId).subscribe(
       (res: any) => {
         this.user = res.data.user;
         this.followed = !this.canFollow();
@@ -100,7 +101,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   }
 
   getUserAnswerByuserId(userId, interestFilter){
-    this.commonService.getUserAnswerByuserId(userId, interestFilter).subscribe(
+    this.usersService.getUserAnswerByuserId(userId, interestFilter).subscribe(
       (res: any) => {
         this.answers = res.data.answers;
         this.total_answers = res.data.total_answers;
@@ -120,7 +121,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   }
 
   getUserQuestionByuserId(userId, interestFilter){
-    this.commonService.getUserQuestionByuserId(userId, interestFilter).subscribe(
+    this.usersService.getUserQuestionByuserId(userId, interestFilter).subscribe(
       (res: any) => {
         this.total_questions = res.data.total_questions;
         this.questions = res.data.questions;
@@ -190,46 +191,4 @@ export class DetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  canFollow() {
-    return (
-      !(this.authenticationService.getUser()._id === this.user._id) &&
-      !this.user.follows.some(
-          follow =>
-            follow.follower &&
-            follow.follower === this.authenticationService.getUser()._id
-        )
-    );
-  }
-
-  addFollow(followType) {
-    if (this.user._id && this.authenticationService.getUser()._id) {
-      this.commonService
-        .addFollow(
-          followType,
-          this.user._id
-        )
-        .subscribe(
-          (res: any) => {
-            this.snackBar
-              .open(res.msg, 'Dismiss', {
-                duration: 1500
-              })
-              .afterOpened()
-              .subscribe(() => {
-                this.user = res.data;
-                this.followed = true;
-              });
-          },
-          (err: HttpErrorResponse) => {
-            this.submitted = false;
-            this.snackBar
-              .open(err.error.msg, 'Dismiss', {
-                duration: 4000
-              })
-              .afterDismissed()
-              .subscribe(() => {});
-          }
-        );
-    } 
-  }
 }

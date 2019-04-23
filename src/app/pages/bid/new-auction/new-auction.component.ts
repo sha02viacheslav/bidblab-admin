@@ -5,6 +5,7 @@ import { FormValidationService } from '../../../shared/services/form-validation.
 import { MatSnackBar } from '@angular/material';
 import { HttpErrorResponse } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
+import { AuctionService } from '../auction.service';
 
 @Component({
   selector: 'app-new-auction',
@@ -24,6 +25,7 @@ export class NewAuctionComponent implements OnInit {
 
 	constructor(
 		private commonService: CommonService,
+		private auctionService: AuctionService,
 		private snackBar: MatSnackBar,
     public fb: FormBuilder,
     private formValidationService: FormValidationService,
@@ -145,7 +147,7 @@ export class NewAuctionComponent implements OnInit {
       uploadData.append('starts', this.infoForm.value.starts);
       uploadData.append('closes', this.infoForm.value.closes);
       uploadData.append('auctionId', this.infoForm.value.auctionId);
-      this.commonService.addAuction(uploadData).subscribe(
+      this.auctionService.addAuction(uploadData).subscribe(
         (res: any) => {
           this.snackBar.open(res.msg, 'Dismiss', {
             duration: 3000
@@ -163,47 +165,6 @@ export class NewAuctionComponent implements OnInit {
       );
     }
   }
-
-  // addAuction() {
-  //   if (this.infoForm.valid) {
-  //     this.commonService.addAuction(this.infoForm.value).subscribe(
-  //       (res: any) => {
-  //         ////////////////////////////////////////
-  //         console.log(res);
-  //         if(res.data){
-  //           this.uploadpicture();
-  //           // this.socketsService.notify('createdData', {
-  //           //   type: 'question',
-  //           //   data: res.data
-  //           // });
-
-  //           this.snackBar.open(res.msg, 'Dismiss', {
-  //             duration: 1500
-  //           })
-  //           .afterOpened()
-  //           .subscribe(() => {
-  //             this.submitted = true;
-  //           });
-  //         }
-  //         else{
-  //           this.snackBar.open(res.msg, 'Dismiss', {
-  //             duration: 1500
-  //           })
-  //         }
-  //       },
-  //       (err: HttpErrorResponse) => {
-  //         this.submitted = false;
-  //         this.snackBar
-  //           .open(err.error.msg, 'Dismiss', {
-  //             duration: 4000
-  //           })
-  //           .afterDismissed()
-  //           .subscribe(() => {
-  //           });
-  //       }
-  //     );
-  //   }
-  // }
 
 }
 

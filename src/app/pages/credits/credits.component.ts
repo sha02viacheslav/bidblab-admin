@@ -4,6 +4,7 @@ import { CommonService } from '../../shared/services/common.service';
 import { FormValidationService } from '../../shared/services/form-validation.service';
 import { MatSnackBar } from '@angular/material';
 import { HttpErrorResponse } from '@angular/common/http';
+import { CreditsService } from './credits.service'
 
 @Component({
   selector: 'app-credits',
@@ -15,6 +16,7 @@ export class CreditsComponent implements OnInit {
 
 	constructor(
 		private commonService: CommonService,
+		private creditsService: CreditsService,
 		private snackBar: MatSnackBar,
 		public fb: FormBuilder,
 	) { }
@@ -26,7 +28,7 @@ export class CreditsComponent implements OnInit {
 			defaultPublicAnswerCredit: [ null, Validators.compose([Validators.required]) ],
 			defaultPrivateAnswerCredit: [ null, Validators.compose([Validators.required]) ],
 		});
-		this.commonService.getDefaultCredits().subscribe(
+		this.creditsService.getDefaultCredits().subscribe(
 			(res: any) => {
 				this.form.controls._id.setValue(res.data._id);
 				this.form.controls.defaultQuestionCredit.setValue(res.data.defaultQuestionCredit);
@@ -41,7 +43,7 @@ export class CreditsComponent implements OnInit {
 	}
 
 	changeCredits(){
-		this.commonService.changeDefaultCredits(this.form.value).subscribe(
+		this.creditsService.changeDefaultCredits(this.form.value).subscribe(
 			(res: any) => {
 				this.snackBar.open(res.msg, 'Dismiss', {duration: 1500});
 			},

@@ -13,6 +13,7 @@ import { animate, state, style, transition, trigger} from '@angular/animations';
 import { AuctionDialogComponent } from '../auction-dialog/auction-dialog.component';
 import { environment } from '../../../../environments/environment';
 import { CommonService } from '../../../shared/services/common.service';
+import { AuctionService } from '../auction.service';
 
 @Component({
   selector: 'app-pending-auctions',
@@ -52,6 +53,7 @@ export class PendingAuctionsComponent implements OnInit {
 		private fb: FormBuilder,
 		public dialog: MatDialog,
 		private commonService: CommonService,
+		private auctionService: AuctionService,
 		private authenticationService: AuthenticationService,
 	) { }
 
@@ -96,7 +98,7 @@ export class PendingAuctionsComponent implements OnInit {
 				this.pageSize = event.pageSize;
 				this.pageIndex = event.pageIndex;
 			}
-			this.commonService.getPendingAuctions(
+			this.auctionService.getPendingAuctions(
 				this.pageSize,
 				this.pageIndex,
 				this.search,
@@ -194,7 +196,7 @@ export class PendingAuctionsComponent implements OnInit {
 		if(auctionIds.length){
 			if(confirm("Are you sure to delete "+name)){
 				// this.blockUIService.setBlockStatus(true);
-				this.commonService.deleteAuctions(auctionIds)
+				this.auctionService.deleteAuctions(auctionIds)
 					.subscribe(
 					(res: any) => {
 						// this.snackBar.open(res.data.totalDeleteQuestions+" of "+auctionIds.length+" questions are deleted.", 
@@ -238,7 +240,7 @@ export class PendingAuctionsComponent implements OnInit {
 		if(auctionIds.length){
 			if(confirm("Are you sure to " + roleType + "?")){
 				// this.blockUIService.setBlockStatus(true);
-				this.commonService.changeAuctionsRole(auctionIds, roleType)
+				this.auctionService.changeAuctionsRole(auctionIds, roleType)
 					.subscribe(
 					(res: any) => {
 						// this.snackBar.open(res.data.totalSuspendQuestions+" of "+auctionIds.length+" questions are suspended.", 

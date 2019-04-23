@@ -22,13 +22,6 @@ export class MailboxService {
             'Authorization': this.authenticationService.getToken() || ''
         });
     }
-    sendMessage(body) {
-        return this.httpClient.post(
-          `${environment.apiUrl}/api/admin/sendMessage`,
-          body,
-          { headers: this.headers }
-        );
-    }
     
     public getAllMails() {
         return Mails.filter(mail => mail.sent == false && mail.draft == false && mail.trash == false);

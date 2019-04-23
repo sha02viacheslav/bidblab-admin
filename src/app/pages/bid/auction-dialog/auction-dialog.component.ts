@@ -6,6 +6,7 @@ import { MatSnackBar, MatDialogRef, MAT_DIALOG_DATA, MatChipInputEvent} from '@a
 import { HttpErrorResponse } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { element } from '@angular/core/src/render3';
+import { AuctionService } from '../auction.service';
 
 @Component({
   selector: 'app-auction-dialog',
@@ -26,6 +27,7 @@ export class AuctionDialogComponent implements OnInit {
 
 	constructor(
 		private commonService: CommonService,
+		private auctionService: AuctionService,
 		private snackBar: MatSnackBar,
     public fb: FormBuilder,
     private formValidationService: FormValidationService,
@@ -178,7 +180,7 @@ export class AuctionDialogComponent implements OnInit {
       console.log(this.deletedPictureurls);
       if(this.data.auctionId){
         uploadData.append('auctionId', this.data.auctionId);
-        this.commonService.updateAuction(uploadData).subscribe(
+        this.auctionService.updateAuction(uploadData).subscribe(
           (res: any) => {
             this.snackBar.open(res.msg, 'Dismiss', {
               duration: 3000
@@ -196,7 +198,7 @@ export class AuctionDialogComponent implements OnInit {
         );
       }
       else{
-        this.commonService.addAuction(uploadData).subscribe(
+        this.auctionService.addAuction(uploadData).subscribe(
           (res: any) => {
             this.snackBar.open(res.msg, 'Dismiss', {
               duration: 3000
@@ -215,47 +217,6 @@ export class AuctionDialogComponent implements OnInit {
       }
     }
   }
-
-  // addAuction() {
-  //   if (this.infoForm.valid) {
-  //     this.commonService.addAuction(this.infoForm.value).subscribe(
-  //       (res: any) => {
-  //         ////////////////////////////////////////
-  //         console.log(res);
-  //         if(res.data){
-  //           this.uploadpicture();
-  //           // this.socketsService.notify('createdData', {
-  //           //   type: 'question',
-  //           //   data: res.data
-  //           // });
-
-  //           this.snackBar.open(res.msg, 'Dismiss', {
-  //             duration: 1500
-  //           })
-  //           .afterOpened()
-  //           .subscribe(() => {
-  //             this.submitted = true;
-  //           });
-  //         }
-  //         else{
-  //           this.snackBar.open(res.msg, 'Dismiss', {
-  //             duration: 1500
-  //           })
-  //         }
-  //       },
-  //       (err: HttpErrorResponse) => {
-  //         this.submitted = false;
-  //         this.snackBar
-  //           .open(err.error.msg, 'Dismiss', {
-  //             duration: 4000
-  //           })
-  //           .afterDismissed()
-  //           .subscribe(() => {
-  //           });
-  //       }
-  //     );
-  //   }
-  // }
 
 }
 

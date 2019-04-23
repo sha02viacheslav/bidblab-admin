@@ -11,7 +11,10 @@ export const verticalMenuItems = [
     new Menu (51, 'Bid', '/bid/newauction', null, 'note_add', null, false, 50),    
     new Menu (52, 'Pending Auctions', '/bid/pendingauctions', null, 'open_in_browser', null, false, 50),   
     new Menu (53, 'Auctions in Progress', '/bid/progressauctions', null, 'lock_open', null, false, 50),   
-    new Menu (54, 'Closed Auctions', '/bid/closedauctions', null, 'lock', null, false, 50),  
+    new Menu (54, 'Closed Auctions', '/bid/closedauctions', null, 'lock', null, false, 50), 
+    new Menu (60, 'Mailbox', '/mailbox', null, 'email', null, false, 0),
+
+
     // new Menu (1, 'Dashboard', '/', null, 'dashboard', null, false, 0),
     // new Menu (2, 'Users', '/users', null, 'supervisor_account', null, false, 0), 
     // new Menu (3, 'UI Features', null, null, 'computer', null, true, 0),   
@@ -84,6 +87,7 @@ export const horizontalMenuItems = [
     new Menu (52, 'Pending Auctions', '/bid/pendingauctions', null, 'open_in_browser', null, false, 50),   
     new Menu (53, 'Auctions in Progress', '/bid/progressauctions', null, 'lock_open', null, false, 50),   
     new Menu (54, 'Closed Auctions', '/bid/closedauctions', null, 'lock', null, false, 50),  
+    new Menu (60, 'Mailbox', '/mailbox', null, 'email', null, false, 0),
     // new Menu (1, 'Dashboard', '/', null, 'dashboard', null, false, 0),
     // new Menu (2, 'Users', '/users', null, 'supervisor_account', null, false, 0), 
     // new Menu (3, 'UI Features', null, null, 'computer', null, true, 0),   

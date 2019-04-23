@@ -40,7 +40,7 @@ export const routes = [
     AuctionDialogComponent
   ],
   entryComponents: [
-    AuctionDialogComponent
+    AuctionDialogComponent,
   ]
 })
 export class BidModule { }

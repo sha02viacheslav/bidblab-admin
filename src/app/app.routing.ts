@@ -18,6 +18,8 @@ export const routes: Routes = [
             { path: 'credits', loadChildren: './pages/credits/credits.module#CreditsModule', canActivate: [UserGuard], data: { breadcrumb: 'Credits' } },
             { path: 'flags', loadChildren: './pages/flags/flags.module#FlagsModule', canActivate: [UserGuard], data: { breadcrumb: 'Flags' } },
             { path: 'bid', loadChildren: './pages/bid/bid.module#BidModule', canActivate: [UserGuard], data: { breadcrumb: 'Bid' } },
+            { path: 'mailbox', loadChildren: './pages/mailbox/mailbox.module#MailboxModule', data: { breadcrumb: 'Mailbox' } },
+
             // { path: 'ui', loadChildren: './pages/ui/ui.module#UiModule', data: { breadcrumb: 'UI' } },
             // { path: 'form-controls', loadChildren: './pages/form-controls/form-controls.module#FormControlsModule', data: { breadcrumb: 'Form Controls' } },
             // { path: 'tables', loadChildren: './pages/tables/tables.module#TablesModule', data: { breadcrumb: 'Tables' } },

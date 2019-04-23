@@ -10,7 +10,7 @@ import {
   MatChipInputEvent,
 } from '@angular/material';
 import { CommonService } from '../../../shared/services/common.service';
-import { Question } from '../../../shared/models/question.model';
+import { QuestionsService } from '../questions.service';
 import { AuthenticationService } from '../../../shared/services/authentication.service';
 import { User } from '../../../shared/models/user.model';
 import { environment } from '../../../../environments/environment';
@@ -37,6 +37,7 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private formValidationService: FormValidationService,
     private commonService: CommonService,
+    private questionsService: QuestionsService,
     private authenticationService: AuthenticationService,
     private snackBar: MatSnackBar,
     private dialogRef: MatDialogRef<AddQuestionComponent>,
@@ -121,7 +122,7 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
   }
 
   uploadpicture(){
-    this.commonService.changeQuestionPicture(this.uploadData).subscribe(
+    this.questionsService.changeQuestionPicture(this.uploadData).subscribe(
       (res: any) => {
         // this.socketsService.notify('createdData', {
         //   type: 'question',
@@ -147,7 +148,7 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
   submitForm() {
     if (this.infoForm.valid) {
       if (this.data.question) {
-        this.commonService
+        this.questionsService
           .updateQuestion(this.data.question._id, this.infoForm.value)
           .subscribe(
             (res: any) => {
@@ -181,7 +182,7 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
             }
           );
       } else {
-        this.commonService.addQuestion(this.infoForm.value).subscribe(
+        this.questionsService.addQuestion(this.infoForm.value).subscribe(
           (res: any) => {
             ////////////////////////////////////////
             if(this.uploadData){

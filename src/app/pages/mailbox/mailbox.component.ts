@@ -126,7 +126,7 @@ export class MailboxComponent implements OnInit {
   public onSubmit(mail){
     console.log(mail)
     if (this.form.valid) {
-      this.mailboxService.sendMessage(mail).subscribe(
+      this.commonService.sendMessage(mail).subscribe(
         (res: any) => {
           this.snackBar.open('Mail sent to ' + mail.to + ' successfully!', null, {
             duration: 2000,
