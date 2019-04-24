@@ -25,26 +25,13 @@ export class MailboxService {
         );
     } 
     
-    public getAllMails() {
-        return Mails.filter(mail => mail.sent == false && mail.draft == false && mail.trash == false);
+    getMails(limit?, offset?, search?, filterTags?, active?, direction?): Observable<any>  {
+        return this.httpClient.get<any>(
+          `${environment.apiUrl}/api/admin/getMails?limit=${limit ||
+            10}&offset=${offset || 0}&search=${search || ''}&filterTags=${filterTags || ''}
+            &active=${active || ''}&direction=${direction || ''}`
+        );
     }
-    
-    public getStarredMails() {
-        return Mails.filter(mail => mail.starred == true);
-    }
-
-    public getSentMails() {
-        return Mails.filter(mail => mail.sent == true);
-    }
-
-    public getDraftMails() {
-        return Mails.filter(mail => mail.draft == true);
-    }
-
-    public getTrashMails() {
-        return Mails.filter(mail => mail.trash == true);
-    }
-
     public getMail(id: number | string) {
         return Mails.find(mail => mail.id === +id);
     }

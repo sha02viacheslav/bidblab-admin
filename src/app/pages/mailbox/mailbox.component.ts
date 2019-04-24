@@ -9,6 +9,8 @@ import { CommonDataService } from '../../shared/services/common-data.service';
 import { CommonService } from '../../shared/services/common.service';
 import { MailboxService } from './mailbox.service';
 import { element } from '@angular/core/src/render3';
+import { SelectionModel } from '@angular/cdk/collections';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-mailbox',
@@ -23,10 +25,20 @@ export class MailboxComponent implements OnInit {
   public mail: Mail;
   public newMail: boolean;
   public type:string = 'all';
+  private totalMails: number;
+	private pageSize: number;
+	private pageIndex: number;
+	private search: string = '';
+	private sortParam = {
+		active: 'name',
+		direction: 'asc',
+	};
   public searchText: string;
   public form:FormGroup;
   public toUsername: any[] = [];
   public toUserId: any[] = [];
+	public selection = new SelectionModel<any>(true, []);
+	serverUrl = environment.apiUrl;
 
   constructor(public appSettings:AppSettings, 
               public formBuilder: FormBuilder, 
@@ -61,33 +73,51 @@ export class MailboxComponent implements OnInit {
     (window.innerWidth <= 992) ? this.sidenavOpen = false : this.sidenavOpen = true;
   }
 
-  public getMails(){
-    switch (this.type) {
-      case 'all': 
-        this.mails = this.mailboxService.getAllMails();
-        break;
-      case 'starred':
-        this.mails =  this.mailboxService.getStarredMails();
-        break;
-      case 'sent':
-        this.mails =  this.mailboxService.getSentMails();
-        break;
-      case 'drafts':
-        this.mails =  this.mailboxService.getDraftMails();
-        break;
-      case 'trash':
-        this.mails =  this.mailboxService.getTrashMails();
-        break;
-      default:
-        this.mails =  this.mailboxService.getDraftMails();
-    }  
+  getMails(event?) {
+    if (event) {
+      this.pageSize = event.pageSize;
+      this.pageIndex = event.pageIndex;
+    }
+    this.mailboxService.getMails(
+      this.pageSize,
+      this.pageIndex,
+      this.search,
+      this.type,
+      this.sortParam.active,
+      this.sortParam.direction,
+    ).subscribe(
+      (res: any) => {
+        this.totalMails = res.data.totalMails;
+        this.mails = res.data.mails;
+        this.mails.forEach(row => row.selected = false);
+        console.log(this.mails);
+        this.selection.clear();
+        if(this.totalMails <= this.pageSize * this.pageIndex){
+        this.pageIndex = 0;
+        }
+      },
+      (err: HttpErrorResponse) => {
+      }
+    );
   }
+  
+  isAllSelected() {
+		const numSelected = this.selection.selected.length;
+		const numRows = this.mails.length;
+		return numSelected === numRows;
+	}
+
+	masterToggle() {
+		this.isAllSelected() ?
+			this.selection.clear() :
+			this.mails.forEach(row => this.selection.select(row));
+	}
 
   public viewDetail(mail){
-    this.mail = this.mailboxService.getMail(mail.id);    
+    this.mail = mail;    
     this.mails.forEach(m => m.selected = false);
     this.mail.selected = true;
-    this.mail.unread = false;
+    // this.mail.unread = false;
     this.newMail = false;
     if(window.innerWidth <= 992){
       this.sidenav.close(); 
@@ -127,6 +157,11 @@ export class MailboxComponent implements OnInit {
     this.getMails();
     this.mail = null; 
   }
+
+  applySearch(searchValue: string) {
+		this.search = searchValue.trim().toLowerCase();
+		this.getMails();
+	}
 
   public onSubmit(mail){
     console.log(mail)
