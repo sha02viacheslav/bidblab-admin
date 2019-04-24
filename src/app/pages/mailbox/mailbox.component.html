@@ -68,6 +68,9 @@
                             </mat-list-item>
                             <mat-divider></mat-divider>
                         </div>
+                        <mat-paginator #paginator [pageSize]="10" [length]="totalMails" [pageIndex]="pageIndex"
+                            [pageSizeOptions]="[5, 10, 20]" (page)="getMails($event)">
+                        </mat-paginator>
                     </mat-nav-list>
                 </mat-sidenav>
                 <div>
@@ -99,7 +102,7 @@
                                 <mat-icon>delete</mat-icon>
                             </button>
                             <button *ngIf="mail && mail.isDeleted" mat-icon-button matTooltip="Restore"
-                            (click)="applyRoleOfMail(mail._id, 3, false)" matTooltipPosition="above">
+                                (click)="applyRoleOfMail(mail._id, 3, false)" matTooltipPosition="above">
                                 <mat-icon>reply</mat-icon>
                             </button>
                             <button mat-icon-button [matMenuTriggerFor]="moreMenu" #moreMenuTrigger="matMenuTrigger"

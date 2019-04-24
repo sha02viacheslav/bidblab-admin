@@ -158,43 +158,34 @@ export class MailboxComponent implements OnInit {
   }
 
   public applyRoleOfMails(roleType, apply){
-		var questionIds = [];
+		var mailIds = [];
 		this.mails.forEach( (row) => {
 			if(this.selection.selected.some( selected => selected.index == row.index )){
 				///console.log("i", index);
-				questionIds.push(row._id);
+				mailIds.push(row._id);
 			}
 		});
-		//console.log(questionIds);
-		this.finalApplyRoleOfMails(questionIds, roleType, apply);
+		//console.log(mailIds);
+		this.finalApplyRoleOfMails(mailIds, roleType, apply);
 	}
 
-	public applyRoleOfMail(questionId, roleType, apply){
-		var questionIds = [];
-		questionIds.push(questionId);
-		//console.log(questionIds);
-		this.finalApplyRoleOfMails(questionIds, roleType, apply);
+	public applyRoleOfMail(mailId, roleType, apply){
+		var mailIds = [];
+		mailIds.push(mailId);
+		//console.log(mailIds);
+		this.finalApplyRoleOfMails(mailIds, roleType, apply);
 	}
 
-	public finalApplyRoleOfMails(questionIds, roleType, apply) {
-		//console.log(questionIds);
-		if(questionIds.length){
-			if(confirm("Are you sure to " + roleType + "?")){
-				// this.blockUIService.setBlockStatus(true);
-				this.mailboxService.applyRoleOfMails(questionIds, roleType, apply)
+	public finalApplyRoleOfMails(mailIds, roleType, apply) {
+		if(mailIds.length){
+			if(confirm("Are you sure to " + (apply == 'true'? 'delete' : 'restore') + "?")){
+				this.mailboxService.applyRoleOfMails(mailIds, roleType, apply)
 					.subscribe(
 					(res: any) => {
-						// this.snackBar.open(res.data.totalSuspendQuestions+" of "+questionIds.length+" questions are suspended.", 
-						//   'Dismiss', 
-						//   {duration: 1500});
-						// console.log(res.data);
             this.getMails();
             this.mail = null;
-						// this.blockUIService.setBlockStatus(false);
 					},
 					(err: HttpErrorResponse) => {
-						// this.snackBar.open(err.error.msg, 'Dismiss');
-						// this.blockUIService.setBlockStatus(false);
 					}
 					);
 			}
