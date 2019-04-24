@@ -62,7 +62,6 @@ export class MailboxComponent implements OnInit {
     this.form = this.formBuilder.group({
       'to': [this.toUsername, Validators.required],
       'recievers': [this.toUserId, Validators.required],
-      // 'cc': null,
       'subject': null,    
       'message': null
     });  
@@ -78,11 +77,20 @@ export class MailboxComponent implements OnInit {
       this.pageSize = event.pageSize;
       this.pageIndex = event.pageIndex;
     }
+
+    let role;                        
+    switch(this.type){
+      case 'all': { role = ''; break; }
+      case 'starred': { role = 1 << 0; break; }
+      case 'sent': { role = 1 << 1; break; }
+      case 'drafts': { role = 1 << 2; break; }
+      case 'trash': { role = 1 << 3; break; }
+    }
     this.mailboxService.getMails(
       this.pageSize,
       this.pageIndex,
       this.search,
-      this.type,
+      role,
       this.sortParam.active,
       this.sortParam.direction,
     ).subscribe(

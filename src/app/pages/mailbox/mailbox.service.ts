@@ -25,11 +25,17 @@ export class MailboxService {
         );
     } 
     
-    getMails(limit?, offset?, search?, filterTags?, active?, direction?): Observable<any>  {
+    getMails(limit?, offset?, search?, type?, active?, direction?): Observable<any>  {
         return this.httpClient.get<any>(
           `${environment.apiUrl}/api/admin/getMails?limit=${limit ||
-            10}&offset=${offset || 0}&search=${search || ''}&filterTags=${filterTags || ''}
-            &active=${active || ''}&direction=${direction || ''}`
+            10}&offset=${offset || 0}&search=${search || ''}&type=${type ||
+            ''}&active=${active || ''}&direction=${direction || ''}`
+        );
+    }
+    trashMail(body){
+        return this.httpClient.post(
+            `${environment.apiUrl}/api/admin/trashMail`,
+            body
         );
     }
     public getMail(id: number | string) {
