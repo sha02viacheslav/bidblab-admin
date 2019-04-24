@@ -21,8 +21,8 @@ export class MailboxComponent implements OnInit {
   @ViewChild('sidenav') sidenav: any;
   public settings: Settings;
   public sidenavOpen:boolean = true;
-  public mails: Array<Mail>;
-  public mail: Mail;
+  public mails: any[];
+  public mail: any;
   public newMail: boolean;
   public type:string = 'all';
   private totalMails: number;
@@ -97,7 +97,10 @@ export class MailboxComponent implements OnInit {
       (res: any) => {
         this.totalMails = res.data.totalMails;
         this.mails = res.data.mails;
-        this.mails.forEach(row => row.selected = false);
+        this.mails.forEach(row => {
+          row.selected = false;
+          row.isDeleted = (row.role & (1 << 3))? true : false;
+        });
         console.log(this.mails);
         this.selection.clear();
         if(this.totalMails <= this.pageSize * this.pageIndex){
@@ -153,6 +156,54 @@ export class MailboxComponent implements OnInit {
     this.getMails();
     this.mail = null;
   }
+
+  public applyRoleOfMails(roleType, apply){
+		var questionIds = [];
+		this.mails.forEach( (row) => {
+			if(this.selection.selected.some( selected => selected.index == row.index )){
+				///console.log("i", index);
+				questionIds.push(row._id);
+			}
+		});
+		//console.log(questionIds);
+		this.finalApplyRoleOfMails(questionIds, roleType, apply);
+	}
+
+	public applyRoleOfMail(questionId, roleType, apply){
+		var questionIds = [];
+		questionIds.push(questionId);
+		//console.log(questionIds);
+		this.finalApplyRoleOfMails(questionIds, roleType, apply);
+	}
+
+	public finalApplyRoleOfMails(questionIds, roleType, apply) {
+		//console.log(questionIds);
+		if(questionIds.length){
+			if(confirm("Are you sure to " + roleType + "?")){
+				// this.blockUIService.setBlockStatus(true);
+				this.mailboxService.applyRoleOfMails(questionIds, roleType, apply)
+					.subscribe(
+					(res: any) => {
+						// this.snackBar.open(res.data.totalSuspendQuestions+" of "+questionIds.length+" questions are suspended.", 
+						//   'Dismiss', 
+						//   {duration: 1500});
+						// console.log(res.data);
+            this.getMails();
+            this.mail = null;
+						// this.blockUIService.setBlockStatus(false);
+					},
+					(err: HttpErrorResponse) => {
+						// this.snackBar.open(err.error.msg, 'Dismiss');
+						// this.blockUIService.setBlockStatus(false);
+					}
+					);
+			}
+		}
+		else{
+			alert("Select the questions");
+		}
+  }
+  
 
   public changeStarStatus() {       
     this.mail.starred = !this.mail.starred;

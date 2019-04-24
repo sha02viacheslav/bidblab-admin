@@ -32,12 +32,13 @@ export class MailboxService {
             ''}&active=${active || ''}&direction=${direction || ''}`
         );
     }
-    trashMail(body){
+    applyRoleOfMails(body, roleType, apply){
         return this.httpClient.post(
-            `${environment.apiUrl}/api/admin/trashMail`,
+            `${environment.apiUrl}/api/admin/applyRoleOfMails/${roleType}/${apply}`,
             body
         );
     }
+
     public getMail(id: number | string) {
         return Mails.find(mail => mail.id === +id);
     }

@@ -11,30 +11,30 @@
                         <div class="fill-remaining-space"></div>
                         <input *ngIf="!selection.selected.length" [(ngModel)]="searchText" type="text"
                             placeholder="Search mail..." class="search mat-elevation-z3">
-                        <button *ngIf="selection.selected.length" mat-icon-button matTooltip="Reply"
-                            matTooltipPosition="above">
-                            <mat-icon>reply</mat-icon>
-                        </button>
-                        <button *ngIf="selection.selected.length" mat-icon-button (click)="newMail = false;"
+                        <!-- <button *ngIf="selection.selected.length" mat-icon-button (click)="newMail = false;"
                             matTooltip="Back" matTooltipPosition="above">
                             <mat-icon>arrow_back</mat-icon>
-                        </button>
+                        </button> -->
                         <!-- <button *ngIf="selection.selected.length" mat-icon-button (click)="changeStarStatus()"
                             matTooltip="Mark as inportant" matTooltipPosition="above" fxShow="false" fxShow.gt-xs>
                             <mat-icon *ngIf="mail.starred">star</mat-icon>
                             <mat-icon *ngIf="!mail.starred">star_border</mat-icon>
                         </button> -->
-                        <button *ngIf="selection.selected.length" mat-icon-button (click)="restore()"
+                        <!-- <button *ngIf="selection.selected.length" mat-icon-button (click)="replyRoleOfMails(3)"
                             matTooltip="Restore" matTooltipPosition="above">
                             <mat-icon>undo</mat-icon>
-                        </button>
-                        <button *ngIf="selection.selected.length" mat-icon-button matTooltip="Report spam"
+                        </button> -->
+                        <!-- <button *ngIf="selection.selected.length" mat-icon-button matTooltip="Report spam"
                             matTooltipPosition="above" fxShow="false" fxShow.gt-xs>
                             <mat-icon>error</mat-icon>
-                        </button>
-                        <button *ngIf="selection.selected.length" mat-icon-button (click)="delete()"
+                        </button> -->
+                        <button *ngIf="selection.selected.length" mat-icon-button (click)="applyRoleOfMails(3, true)"
                             matTooltip="Move to trash" matTooltipPosition="above">
                             <mat-icon>delete</mat-icon>
+                        </button>
+                        <button *ngIf="selection.selected.length" mat-icon-button matTooltip="Restore"
+                            (click)="applyRoleOfMails(3, false)" matTooltipPosition="above">
+                            <mat-icon>reply</mat-icon>
                         </button>
                         <mat-checkbox class="select-all-mail" (change)="$event ? masterToggle() : null"
                             [checked]="selection.hasValue() && isAllSelected()"
@@ -76,30 +76,31 @@
                             <button mat-icon-button (click)="sidenav.toggle()">
                                 <mat-icon>list</mat-icon>
                             </button>
-                            <button *ngIf="mail && type !='trash'" mat-icon-button matTooltip="Reply"
-                                matTooltipPosition="above">
-                                <mat-icon>reply</mat-icon>
-                            </button>
                             <button *ngIf="newMail" mat-icon-button (click)="newMail = false;" matTooltip="Back"
                                 matTooltipPosition="above">
                                 <mat-icon>arrow_back</mat-icon>
                             </button>
-                            <button *ngIf="mail && type !='trash'" mat-icon-button (click)="changeStarStatus()"
+                            <!-- <button *ngIf="mail && ( mail.role && 8 )" mat-icon-button (click)="changeStarStatus()"
                                 matTooltip="Mark as inportant" matTooltipPosition="above" fxShow="false" fxShow.gt-xs>
                                 <mat-icon *ngIf="mail.starred">star</mat-icon>
                                 <mat-icon *ngIf="!mail.starred">star_border</mat-icon>
-                            </button>
-                            <button *ngIf="mail && type=='trash'" mat-icon-button (click)="restore()"
+                            </button> -->
+                            <!-- <button *ngIf="mail && type=='trash'" mat-icon-button (click)="restore()"
                                 matTooltip="Restore" matTooltipPosition="above">
                                 <mat-icon>undo</mat-icon>
                             </button>
                             <button *ngIf="mail" mat-icon-button matTooltip="Report spam" matTooltipPosition="above"
                                 fxShow="false" fxShow.gt-xs>
                                 <mat-icon>error</mat-icon>
-                            </button>
-                            <button *ngIf="mail && type !='trash'" mat-icon-button (click)="delete()"
-                                matTooltip="Move to trash" matTooltipPosition="above">
+                            </button> -->
+                            <button *ngIf="mail && !mail.isDeleted" mat-icon-button
+                                (click)="applyRoleOfMail(mail._id, 3, true)" matTooltip="Move to trash"
+                                matTooltipPosition="above">
                                 <mat-icon>delete</mat-icon>
+                            </button>
+                            <button *ngIf="mail && mail.isDeleted" mat-icon-button matTooltip="Restore"
+                            (click)="applyRoleOfMail(mail._id, 3, false)" matTooltipPosition="above">
+                                <mat-icon>reply</mat-icon>
                             </button>
                             <button mat-icon-button [matMenuTriggerFor]="moreMenu" #moreMenuTrigger="matMenuTrigger"
                                 [style.display]="(mail) ? 'block' : 'none'">
