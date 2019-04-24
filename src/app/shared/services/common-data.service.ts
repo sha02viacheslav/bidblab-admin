@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class CommonDataService {
-  public toEmail: any = '';
+  public recievers: any[] = [];
   public requestSendEmail: boolean = false;
   constructor() { }
 }

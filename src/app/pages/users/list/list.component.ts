@@ -107,35 +107,35 @@ export class ListComponent implements OnInit {
 		this.getUsers();
 	}
 
-	public openSendMessageBox(event){
+	// public openSendMessageBox(event){
+	// 	event.stopPropagation();
+	// 	const email = event.target.innerText;
+	// 	this.commonDataService.toEmail = email;
+	// 	this.router.navigateByUrl(`/mailbox`);
+	// 	// this.dialogService
+	// 	// .open(MessageBoxComponent, {
+	// 	//   data: {
+	// 	//     email,
+	// 	//   },
+	// 	//   width: '600px'
+	// 	// }) 
+	// }
+	public sendMessage(event, reciever){
 		event.stopPropagation();
-		const email = event.target.innerText;
-		this.commonDataService.toEmail = email;
-		this.router.navigateByUrl(`/mailbox`);
-		// this.dialogService
-		// .open(MessageBoxComponent, {
-		//   data: {
-		//     email,
-		//   },
-		//   width: '600px'
-		// }) 
-	}
-	public sendMessage(event, toEmail){
-		event.stopPropagation();
-		var toEmails = [];
-		toEmails.push(toEmail);
+		var recievers = [];
+		recievers.push(reciever);
 		//console.log(memberIds);
-		this.finalSendMessages(toEmails);
+		this.finalSendMessages(recievers);
 	}
 	public sendMessages(){
-		var toEmails = [];
+		var recievers = [];
 		this.dataSource.data.forEach( (row, index) => {
 		if(this.selection.selected.some( selected => selected.index == row.index )){
 			///console.log("i", index);
-			toEmails.push(row.email);
+			recievers.push(row);
 		}
 		});
-		this.finalSendMessages(toEmails);
+		this.finalSendMessages(recievers);
 		//console.log(email);
 		// if(email.length){
 		//   this.dialogService
@@ -151,12 +151,12 @@ export class ListComponent implements OnInit {
 		// }
 	}
 
-	public finalSendMessages(toEmails) {
-		// console.log(toEmails);
-		if(toEmails.length){
+	public finalSendMessages(recievers) {
+		// console.log(recievers);
+		if(recievers.length){
 		if(confirm("Are you sure to send message?")){
 			// this.blockUIService.setBlockStatus(true);
-			this.commonDataService.toEmail = toEmails;
+			this.commonDataService.recievers = recievers;
 			this.commonDataService.requestSendEmail = true;
 			this.router.navigateByUrl(`/mailbox`);
 		}

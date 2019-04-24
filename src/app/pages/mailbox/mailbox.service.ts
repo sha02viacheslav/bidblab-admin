@@ -12,16 +12,18 @@ let Mails = [
     providedIn: 'root'
 })
 export class MailboxService {
-    private headers: any; 
 
     constructor(
       public httpClient:HttpClient,
       private authenticationService: AuthenticationService
-    ) { 
-        this.headers = new HttpHeaders({
-            'Authorization': this.authenticationService.getToken() || ''
-        });
-    }
+    ) { }
+
+    sendMessage(body) {
+        return this.httpClient.post(
+          `${environment.apiUrl}/api/admin/sendMessage`,
+          body
+        );
+    } 
     
     public getAllMails() {
         return Mails.filter(mail => mail.sent == false && mail.draft == false && mail.trash == false);

@@ -6,6 +6,7 @@ import * as jwtDecode from 'jwt-decode';
 import { AuthenticationService } from '../../shared/services/authentication.service';
 import { MatSnackBar, MatDialogRef } from '@angular/material';
 import { CommonService } from '../../shared/services/common.service';
+import { LoginService } from './login.service';
 
 import { emailValidator } from '../../theme/utils/app-validators';
 import { AppSettings } from '../../app.settings';
@@ -28,6 +29,7 @@ export class LoginComponent implements OnInit{
     public router:Router,
     private authenticationService: AuthenticationService,
     private commonService: CommonService,
+    private loginService: LoginService,
     private route: ActivatedRoute
   ){
     this.settings = this.appSettings.settings; 
@@ -54,7 +56,7 @@ export class LoginComponent implements OnInit{
 
 
   private adminLogin() {
-    this.commonService.adminLogin(this.form.value).subscribe(
+    this.loginService.adminLogin(this.form.value).subscribe(
       (res: any) => {
         this.authenticationService.setToken(res.data);
         this.authenticationService.setUser(jwtDecode(res.data).user);

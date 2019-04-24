@@ -5,15 +5,15 @@ import { MatSnackBar } from '@angular/material';
 import { AppSettings } from '../../app.settings';
 import { Settings } from '../../app.settings.model';
 import { Mail } from './mail.model';
-import { MailboxService } from './mailbox.service';
 import { CommonDataService } from '../../shared/services/common-data.service';
 import { CommonService } from '../../shared/services/common.service';
+import { MailboxService } from './mailbox.service';
+import { element } from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-mailbox',
   templateUrl: './mailbox.component.html',
   styleUrls: ['./mailbox.component.scss'],
-  providers: [ MailboxService ]
 })
 export class MailboxComponent implements OnInit {
   @ViewChild('sidenav') sidenav: any;
@@ -25,7 +25,8 @@ export class MailboxComponent implements OnInit {
   public type:string = 'all';
   public searchText: string;
   public form:FormGroup;
-  public toEmail: any;
+  public toUsername: any[] = [];
+  public toUserId: any[] = [];
 
   constructor(public appSettings:AppSettings, 
               public formBuilder: FormBuilder, 
@@ -34,7 +35,10 @@ export class MailboxComponent implements OnInit {
               private commonService: CommonService,
               private commonDataService:CommonDataService) { 
     this.settings = this.appSettings.settings; 
-    this.toEmail = this.commonDataService.toEmail;
+    this.commonDataService.recievers.forEach( element => {
+      this.toUsername.push(element.username);
+      this.toUserId.push(element._id);
+    })
     this.newMail = this.commonDataService.requestSendEmail;
   }
 
@@ -44,8 +48,9 @@ export class MailboxComponent implements OnInit {
       this.sidenavOpen = false;
     }
     this.form = this.formBuilder.group({
-      'to': [this.toEmail, Validators.required],
-      'cc': null,
+      'to': [this.toUsername, Validators.required],
+      'recievers': [this.toUserId, Validators.required],
+      // 'cc': null,
       'subject': null,    
       'message': null
     });  
@@ -126,7 +131,7 @@ export class MailboxComponent implements OnInit {
   public onSubmit(mail){
     console.log(mail)
     if (this.form.valid) {
-      this.commonService.sendMessage(mail).subscribe(
+      this.mailboxService.sendMessage(mail).subscribe(
         (res: any) => {
           this.snackBar.open('Mail sent to ' + mail.to + ' successfully!', null, {
             duration: 2000,

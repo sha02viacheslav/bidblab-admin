@@ -5,7 +5,10 @@ import { User } from '../../shared/models/user.model';
 import { environment } from '../../../environments/environment';
 import { AuthenticationService } from '../../shared/services/authentication.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
+
 export class UsersService {
   
     constructor(
