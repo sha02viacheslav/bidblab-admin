@@ -30,6 +30,8 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
   standardInterests: string[];
   formArray: FormArray;
   serverUrl: string = environment.apiUrl;
+  originalImage: string = '';
+  showImageFlag: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -60,6 +62,24 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
       ],
       tag: this.data.question ? this.data.question.tag : '',
     });
+
+    
+
+    if(this.data.question && this.data.question.questionPicture){
+      this.questionsService.getImage(this.serverUrl + '/' + this.data.question.questionPicture.path).subscribe(
+        (res: any) => {
+          this.originalImage = res;
+          console.log(this.originalImage);
+          this.showImageFlag = true;
+        },
+        (err: HttpErrorResponse) => {
+          this.showImageFlag = true;
+        }
+      );  
+    }
+    else{
+      this.showImageFlag = true;
+    }
 
     const observable = this.commonService.getStandardInterests();
     observable.subscribe(

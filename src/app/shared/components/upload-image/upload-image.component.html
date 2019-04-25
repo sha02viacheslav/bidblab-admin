@@ -4,13 +4,19 @@
     <label for="fileToUpload">
       <p *ngIf="!croppedImage">Choose upload file for extra credit.</p>
     </label>
-    <img class="cropped-img" [ngClass]="{'opecity': viewMenuFlag}" [src]="croppedImage" (click)="viewMenu();" />
+    <img class="cropped-img" [ngClass]="{'opecity': viewMenuFlag}" 
+    [src]="croppedImage" 
+    (click)="viewMenu();" />
     <div class="picture-menu-wrap">
-      <mat-icon color="accent" class="picture-delete" *ngIf="viewMenuFlag && !imageChangedEvent"
+      <mat-icon color="accent" class="picture-delete" *ngIf="viewMenuFlag"
+        (click)="deletePicture(); viewMenu(); $event.stopPropagation();">
+        delete
+      </mat-icon>
+      <mat-icon color="accent" class="picture-delete" *ngIf="viewMenuFlag && !imageSource"
         (click)="startCrop(); viewMenu(); $event.stopPropagation();">
         crop
       </mat-icon>
-      <mat-icon color="accent" class="picture-delete" *ngIf="imageChangedEvent"
+      <mat-icon color="accent" class="picture-delete" *ngIf="imageSource"
         (click)="saveCrop(); $event.preventDefault();">
         save
       </mat-icon>
@@ -24,7 +30,10 @@
 </div>
 
 
-<image-cropper [ngClass]="{'display-none': !imageChangedEvent}" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="4 / 3"
+<image-cropper 
+  [ngClass]="{'display-none': !imageSource}" 
+  [maintainAspectRatio]="true" [aspectRatio]="4 / 3" 
+  [imageFileChanged]="imageSource"
   [resizeToWidth]="300" format="png" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()"
   (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()">
 </image-cropper>

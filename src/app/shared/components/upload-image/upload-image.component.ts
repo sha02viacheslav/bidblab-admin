@@ -1,4 +1,4 @@
-import {Component, ViewChild, EventEmitter, Type, Input, Output} from '@angular/core';
+import {Component, ViewChild, EventEmitter, Type, Input, Output, OnInit} from '@angular/core';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 @Component({
   selector: 'app-upload-image',
@@ -6,32 +6,46 @@ import { ImageCroppedEvent } from 'ngx-image-cropper';
   styleUrls: ['./upload-image.component.scss'],
 })
 
-export class UploadImageComponent {
+export class UploadImageComponent implements OnInit {
 
   @Output() sendData : EventEmitter <any> = new EventEmitter<any>();
-  imageChangedEvent: any = '';
-  originalImageChangeEvent: any = '';
+  @Input() originalImage;
   croppedImage: any = '';
+  imageSource: any = '';
   viewMenuFlag: boolean = false;
+
+  ngOnInit(){
+    var reader = new FileReader();
+    reader.onload = (event) => {
+      this.croppedImage = reader.result; 
+    }
+    reader.readAsDataURL(this.originalImage);
+  }
 
   fileChangeEvent(event: any): void {
     if(event.target.files && event.target.files[0]){
-      this.originalImageChangeEvent = event;
+      this.originalImage = event.target.files[0]; 
       this.startCrop();
     }
   }
   startCrop(){
-    this.imageChangedEvent = this.originalImageChangeEvent;
-    console.log(this.originalImageChangeEvent);
+    this.imageSource = this.originalImage;
+    console.log(this.originalImage);
   }
   saveCrop(){
-    this.imageChangedEvent = '';
+    this.imageSource = '';
+  }
+  deletePicture(){
+    this.imageSource = '';
+    this.croppedImage = '';
+    this.sendData.emit('');
   }
   viewMenu(){
     this.viewMenuFlag = !this.viewMenuFlag;
   }
   imageCropped(event: ImageCroppedEvent) {
     this.croppedImage = event.base64;
+    console.log(event.base64);
     var imageFile:Blob=this.dataURItoBlob(event.base64);
     this.sendData.emit(imageFile);
   }
@@ -43,7 +57,7 @@ export class UploadImageComponent {
       array.push(binary.charCodeAt(i));
     }
     return new Blob([new Uint8Array(array)], {
-      type: 'image/jpg'
+      type: 'image/jpeg'
     });
   }
   imageLoaded() {

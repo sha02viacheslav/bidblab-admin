@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
@@ -95,5 +95,13 @@ export class QuestionsService {
       body
     );
   }
+
+  getImage(imageUrl: string){
+    return this.httpClient
+        .get(imageUrl, { responseType: 'blob' });
+
+        // .get(imageUrl, { responseType: ResponseContentType.Blob })
+        // .map((res: Response) => res.blob());
+}
 
 }

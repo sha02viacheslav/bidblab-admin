@@ -30,7 +30,9 @@
 				</mat-error>
 			</mat-form-field>
 			<div class="p-">
-				<app-upload-image (sendData)="receiveData($event)"></app-upload-image>
+				<app-upload-image *ngIf="showImageFlag" (sendData)="receiveData($event)" 
+					[originalImage]="originalImage">
+				</app-upload-image>
 			</div>
 		</mat-card-content>
 		<mat-divider></mat-divider>
