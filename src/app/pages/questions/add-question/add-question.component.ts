@@ -27,6 +27,7 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
   catagories: string[];
   private userUpdatesSubscription: Subscription;
   uploadData: any;
+  uploadFiles: any;
   questionPicture: any;
   questionPictureurl: any;
   standardInterests: string[];
@@ -146,6 +147,7 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
   }
 
   submitForm() {
+    console.log(this.uploadFiles);
     if (this.infoForm.valid) {
       if (this.data.question) {
         this.questionsService
@@ -219,5 +221,11 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
       }
     }
   }
+
+  receiveData(data){
+    this.uploadFiles = data;
+    console.log(this.uploadFiles);
+  }
+
 }
 

@@ -30,18 +30,7 @@
 				</mat-error>
 			</mat-form-field>
 			<div class="p-">
-				<app-upload-image></app-upload-image>
-				<!-- <mat-grid-list cols="1" rowHeight="1:1">
-						<mat-grid-tile>
-							<label>
-								<img mat-card-image src="{{questionPictureurl}}" alt="7">
-								<div class="question-image" [class.cloud-image]="!questionPictureurl" [style.background-image]="questionPictureurl?
-							'url(' + questionPictureurl + ')' : 'url(assets/img/extra/upload-to-cloud-96.png)'">
-								</div>
-								<input type="file" accept="image/*" class="file" (change)="onFileChanged($event)" hidden />
-							</label>
-						</mat-grid-tile>
-					</mat-grid-list> -->
+				<app-upload-image (sendData)="receiveData($event)"></app-upload-image>
 			</div>
 		</mat-card-content>
 		<mat-divider></mat-divider>
