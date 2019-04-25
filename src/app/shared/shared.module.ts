@@ -35,6 +35,7 @@ import { MatAutocompleteModule,
 import { NumericDirective } from './directives/number.directive';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { UploadImageComponent } from './components/upload-image/upload-image.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 @NgModule({
   imports: [
@@ -74,6 +75,7 @@ import { UploadImageComponent } from './components/upload-image/upload-image.com
     MatStepperModule,
     OwlDateTimeModule, 
     OwlNativeDateTimeModule,
+    ImageCropperModule,
   ],
   exports: [
     FlexLayoutModule,
@@ -111,10 +113,12 @@ import { UploadImageComponent } from './components/upload-image/upload-image.com
     NumericDirective,
     OwlDateTimeModule, 
     OwlNativeDateTimeModule,
+    UploadImageComponent
   ],
   declarations: [
     NumericDirective,
     UploadImageComponent,
-  ]
+  ],
+
 })
 export class SharedModule { }

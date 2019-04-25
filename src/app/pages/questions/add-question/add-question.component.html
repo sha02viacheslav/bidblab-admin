@@ -10,19 +10,6 @@
 				<mat-icon>close</mat-icon>
 			</button>
 		</mat-card-header>
-		<div class="p-">
-			<mat-grid-list cols="1" rowHeight="1:1">
-				<mat-grid-tile>
-					<label>
-						<!-- <img mat-card-image src="{{questionPictureurl}}" alt="7"> -->
-						<div class="question-image" [class.cloud-image]="!questionPictureurl" [style.background-image]="questionPictureurl?
-					'url(' + questionPictureurl + ')' : 'url(assets/img/extra/upload-to-cloud-96.png)'">
-						</div>
-						<input type="file" accept="image/*" class="file" (change)="onFileChanged($event)" hidden />
-					</label>
-				</mat-grid-tile>
-			</mat-grid-list>
-		</div>
 		<mat-form-field *ngIf="standardInterests">
 			<mat-select placeholder="Select Catagory for question" formControlName="tag">
 				<mat-option *ngFor="let interest of standardInterests;" [value]="interest">
@@ -42,6 +29,20 @@
 					Question has a maximum length of 500 characters.
 				</mat-error>
 			</mat-form-field>
+			<div class="p-">
+				<app-upload-image></app-upload-image>
+				<!-- <mat-grid-list cols="1" rowHeight="1:1">
+						<mat-grid-tile>
+							<label>
+								<img mat-card-image src="{{questionPictureurl}}" alt="7">
+								<div class="question-image" [class.cloud-image]="!questionPictureurl" [style.background-image]="questionPictureurl?
+							'url(' + questionPictureurl + ')' : 'url(assets/img/extra/upload-to-cloud-96.png)'">
+								</div>
+								<input type="file" accept="image/*" class="file" (change)="onFileChanged($event)" hidden />
+							</label>
+						</mat-grid-tile>
+					</mat-grid-list> -->
+			</div>
 		</mat-card-content>
 		<mat-divider></mat-divider>
 		<mat-card-actions fxLayoutAlign="end center">

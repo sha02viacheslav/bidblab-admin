@@ -1,0 +1,30 @@
+.picture-wrap {
+  position: relative;
+
+  p:hover {
+    cursor: pointer;
+  }
+
+  .picture-menu-wrap {
+    z-index: 10;
+    position: absolute;
+    top: 5px;
+    right: 0px;
+
+    mat-icon {
+      margin-right: 5px;
+    }
+
+    mat-icon:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.opecity {
+  opacity: 0.3;
+}
+
+.display-none{
+  display: none;
+}
