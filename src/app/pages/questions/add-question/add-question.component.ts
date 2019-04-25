@@ -26,10 +26,10 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
   infoForm: FormGroup;
   catagories: string[];
   private userUpdatesSubscription: Subscription;
-  uploadFiles: any;
   standardInterests: string[];
   formArray: FormArray;
   serverUrl: string = environment.apiUrl;
+  uploadFiles: any;
   originalImage: string = '';
   showImageFlag: boolean = false;
 
