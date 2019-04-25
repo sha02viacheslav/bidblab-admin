@@ -75,29 +75,6 @@ export class QuestionListComponent implements OnInit {
 		).afterClosed()
 		.subscribe(newQuestion => {
 			if (newQuestion) {
-				if (question) {
-					const index = this.dataSource.data.findIndex(
-						currentQuestion => currentQuestion._id === question._id
-					);
-					if (index !== -1) {
-						this.dataSource.data[index] = newQuestion;
-					}
-				} else {
-					this.dataSource.data.push(newQuestion);
-					// this.dialogService.
-					//   open(AlertDialogComponent, {
-					//     data: {
-					//       title: "Question submitted",
-					//       comment: " ",
-					//       dialog_type: "ask" 
-					//     },
-					//     width: '320px',
-					//   }).afterClosed().subscribe(result => {
-					//     if(result == 'more'){
-					//       this.openQuestionDialog();
-					//     }
-					//   });
-				}
 				this.getQuestions();
 			}
 		});

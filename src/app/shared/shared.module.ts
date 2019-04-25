@@ -34,6 +34,7 @@ import { MatAutocompleteModule,
          MatStepperModule } from '@angular/material';
 import { NumericDirective } from './directives/number.directive';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { UploadImageComponent } from './components/upload-image/upload-image.component';
 
 @NgModule({
   imports: [
@@ -113,6 +114,7 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
   ],
   declarations: [
     NumericDirective,
+    UploadImageComponent,
   ]
 })
 export class SharedModule { }

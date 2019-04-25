@@ -92,7 +92,6 @@ export class DetailComponent implements OnInit, OnDestroy {
     this.usersService.getUserDataByuserId(userId).subscribe(
       (res: any) => {
         this.user = res.data.user;
-        this.followed = !this.canFollow();
       },
       (err: HttpErrorResponse) => {
         this.snackBar.open(err.error.msg, 'Dismiss');
