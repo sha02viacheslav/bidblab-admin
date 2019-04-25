@@ -32,8 +32,19 @@ export class UploadImageComponent {
   }
   imageCropped(event: ImageCroppedEvent) {
     this.croppedImage = event.base64;
-    const imageFile = new File([event.base64], this.imageChangedEvent.target.files[0].name, { type: 'image/jpeg' });
+    var imageFile:Blob=this.dataURItoBlob(event.base64);
     this.sendData.emit(imageFile);
+  }
+
+  dataURItoBlob(dataURI) {
+    var binary = atob(dataURI.split(',')[1]);
+    var array = [];
+    for (var i = 0; i < binary.length; i++) {
+      array.push(binary.charCodeAt(i));
+    }
+    return new Blob([new Uint8Array(array)], {
+      type: 'image/jpg'
+    });
   }
   imageLoaded() {
     // show cropper

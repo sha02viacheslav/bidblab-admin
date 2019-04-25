@@ -17,11 +17,11 @@ export class QuestionsService {
   ) { }
 
   addQuestion(body) {
-    return this.httpClient.post(
+    return this.httpClient.patch(
       `${environment.apiUrl}/api/common/addQuestion`,
       body,
       {
-        reportProgress: true,
+        reportProgress: true
       }
     );
   }
@@ -40,10 +40,13 @@ export class QuestionsService {
     );
   }
 
-  updateQuestion(questionId, body) {
+  updateQuestion(body) {
     return this.httpClient.patch(
-      `${environment.apiUrl}/api/admin/updateQuestion/${questionId}`,
-      body
+      `${environment.apiUrl}/api/common/updateQuestion`,
+      body,
+      {
+        reportProgress: true
+      }
     );
   }
 
