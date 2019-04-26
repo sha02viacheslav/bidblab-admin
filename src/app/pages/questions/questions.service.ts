@@ -98,10 +98,7 @@ export class QuestionsService {
 
   getImage(imageUrl: string){
     return this.httpClient
-        .get(imageUrl, { responseType: 'blob' });
-
-        // .get(imageUrl, { responseType: ResponseContentType.Blob })
-        // .map((res: Response) => res.blob());
-}
+      .get(imageUrl, { responseType: 'blob' });
+  }
 
 }

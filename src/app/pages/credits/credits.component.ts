@@ -27,13 +27,16 @@ export class CreditsComponent implements OnInit {
 			defaultQuestionCredit: [ null, Validators.compose([Validators.required]) ],
 			defaultPublicAnswerCredit: [ null, Validators.compose([Validators.required]) ],
 			defaultPrivateAnswerCredit: [ null, Validators.compose([Validators.required]) ],
+			defaultOptionalImageCredit: [ null, Validators.compose([Validators.required]) ],
 		});
 		this.creditsService.getDefaultCredits().subscribe(
 			(res: any) => {
 				this.form.controls._id.setValue(res.data._id);
+				console.log(res);
 				this.form.controls.defaultQuestionCredit.setValue(res.data.defaultQuestionCredit);
 				this.form.controls.defaultPublicAnswerCredit.setValue(res.data.defaultPublicAnswerCredit);
 				this.form.controls.defaultPrivateAnswerCredit.setValue(res.data.defaultPrivateAnswerCredit);
+				this.form.controls.defaultOptionalImageCredit.setValue(res.data.defaultOptionalImageCredit);
 				this.snackBar.open(res.msg, 'Dismiss', {duration: 1500});
 			},
 			(err: HttpErrorResponse) => {
