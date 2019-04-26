@@ -136,7 +136,7 @@
               <div class="user-content" fxLayout="row" fxLayoutAlign="space-around start">
                 <div fxFlex="20" fxFlex.xs="30" fxLayout="column" fxLayoutAlign="center center">
                   <div class="user-img">
-                    <img [src]="element?.auctionPicture? 
+                    <img [src]="element?.auctionPicture.length? 
 											serverUrl+'/'+element.auctionPicture[0] : 'assets/img/extra/empty-image.png'" class="transition-2">
                   </div>
                 </div>
@@ -168,8 +168,8 @@
                     <p fxFlex="50" fxLayout="row" fxLayoutAlign="start center">
                       <mat-icon class="muted-text">label</mat-icon>
                       <span>
-                        Highest Unique Bid:&nbsp;{{element.maxUniqueBid? element.maxUniqueBid.bidPrice : 'not found'}}
-                        &nbsp;{{element.maxUniqueBid.bidder.username}}
+                        Highest Unique Bid:&nbsp;{{element.maxUniqueBid?.bidPrice? element.maxUniqueBid.bidPrice : 'not found'}}
+                        &nbsp;{{element.maxUniqueBid?.bidder?.username}}
                       </span>
                     </p>
                   </div>
