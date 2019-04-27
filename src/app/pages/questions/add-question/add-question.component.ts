@@ -29,7 +29,7 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
   standardInterests: string[];
   formArray: FormArray;
   serverUrl: string = environment.apiUrl;
-  uploadFiles: any;
+  uploadFiles: any = '';
   originalImage: string = '';
   showImageFlag: boolean = false;
 
@@ -69,7 +69,7 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
       this.questionsService.getImage(this.serverUrl + '/' + this.data.question.questionPicture.path).subscribe(
         (res: any) => {
           this.originalImage = res;
-          console.log(this.originalImage);
+          this.uploadFiles = this.originalImage;
           this.showImageFlag = true;
         },
         (err: HttpErrorResponse) => {
