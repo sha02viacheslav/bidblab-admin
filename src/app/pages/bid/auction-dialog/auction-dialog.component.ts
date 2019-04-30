@@ -92,6 +92,9 @@ export class AuctionDialogComponent implements OnInit {
           this.formValidationService.isBlank,
         ]
       ],
+      auctionDetail: [
+        this.data.auction ? this.data.auction.auctionDetail : '',
+      ],
     });
 
     if(!this.data.auctionId){
@@ -187,6 +190,7 @@ export class AuctionDialogComponent implements OnInit {
       uploadData.append('starts', this.infoForm.value.starts);
       uploadData.append('closes', this.infoForm.value.closes);
       uploadData.append('auctionSerial', this.infoForm.value.auctionSerial);
+      uploadData.append('auctionDetail', this.infoForm.value.auctionDetail);
       this.deletedPictureurls.forEach(element => {
         uploadData.append('deletedPictureurls[]', element);
       });
