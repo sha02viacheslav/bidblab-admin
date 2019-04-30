@@ -72,7 +72,7 @@
                 </mat-error>
               </mat-form-field>
               <mat-form-field class="w-100">
-                <input matInput formControlName="auctionSerial" placeholder="Auction ID" required>
+                <input matInput formControlName="auctionSerial" placeholder="Auction ID" required readonly>
                 <mat-error *ngIf="checkError(infoForm, 'auctionSerial', ['required', 'blank'])">
                   Required.
                 </mat-error>

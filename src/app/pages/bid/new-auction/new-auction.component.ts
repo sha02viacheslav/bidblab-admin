@@ -80,7 +80,7 @@ export class NewAuctionComponent implements OnInit {
           this.formValidationService.areAuctionTimeMismatching,
         ]
       ],
-      auctionId: [
+      auctionSerial: [
         '',
         [
           Validators.required,
@@ -88,6 +88,17 @@ export class NewAuctionComponent implements OnInit {
         ]
       ],
     });
+    
+    this.auctionService.getDataForAddAuction().subscribe(
+      (res: any) => {
+        this.infoForm.controls.auctionSerial.setValue(("0000000" + (res.data.finalAuctionSerial + 1)).slice(-7));
+      },
+      (err: HttpErrorResponse) => {
+        this.snackBar.open(err.error.msg, 'Dismiss', {
+          duration: 1500
+        });
+      }
+    );
   }
   
   checkError(form, field, error) {
@@ -146,7 +157,7 @@ export class NewAuctionComponent implements OnInit {
       uploadData.append('bidFee', this.infoForm.value.bidFee);
       uploadData.append('starts', this.infoForm.value.starts);
       uploadData.append('closes', this.infoForm.value.closes);
-      uploadData.append('auctionId', this.infoForm.value.auctionId);
+      uploadData.append('auctionSerial', this.infoForm.value.auctionSerial);
       this.auctionService.addAuction(uploadData).subscribe(
         (res: any) => {
           this.snackBar.open(res.msg, 'Dismiss', {

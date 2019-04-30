@@ -75,4 +75,10 @@ export class AuctionService {
       }
     );
   }
+  
+  getDataForAddAuction() {
+    return this.httpClient.get(
+      `${environment.apiUrl}/api/admin/getDataForAddAuction`
+    );
+  }
 }

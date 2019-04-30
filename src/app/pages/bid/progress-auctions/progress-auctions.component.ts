@@ -29,7 +29,8 @@ import { AuctionService } from '../auction.service';
 })
 
 export class ProgressAuctionsComponent implements OnInit {
-  public displayedColumns: string[] = ['select', 'index', 'auctionId', 'auctionTitle', 'bidblabPrice', 'retailPrice', 'bidFee',
+	public displayedColumns: string[] = ['select', 'index', 'auctionSerial', 'auctionTitle', 'bidblabPrice', 
+																			'retailPrice', 'bidFee', 'maxBid',
                                       'starts', 'closes', 'createdAt',
 										                  'suspend', 'menu'];
 	public dataSource:any;

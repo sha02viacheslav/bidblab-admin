@@ -86,7 +86,7 @@ export class AuctionDialogComponent implements OnInit {
         ]
       ],
       auctionSerial: [
-        this.data.auction ? String(this.data.auction.auctionSerial) : '',
+        this.data.auction ? String("0000000" + (this.data.auction.auctionSerial)).slice(-7) : '0000000',
         [
           Validators.required,
           this.formValidationService.isBlank,
@@ -94,7 +94,20 @@ export class AuctionDialogComponent implements OnInit {
       ],
     });
 
-    if(this.data.auction.auctionPicture.length){
+    if(!this.data.auctionId){
+      this.auctionService.getDataForAddAuction().subscribe(
+        (res: any) => {
+          this.infoForm.controls.auctionSerial.setValue(("0000000" + (res.data.finalAuctionSerial + 1)).slice(-7));
+        },
+        (err: HttpErrorResponse) => {
+          this.snackBar.open(err.error.msg, 'Dismiss', {
+            duration: 1500
+          });
+        }
+      );
+    }
+
+    if(this.data.auction && this.data.auction.auctionPicture.length){
       this.data.auction.auctionPicture.forEach(element => {
         this.questionPictures.push({url: this.serverUrl + '/' + element, file:''});
         this.initPictureurls.push(this.serverUrl + '/' + element);

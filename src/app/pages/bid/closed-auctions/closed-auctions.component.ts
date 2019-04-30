@@ -29,8 +29,9 @@ import { AuctionService } from '../auction.service';
 })
 
 export class ClosedAuctionsComponent implements OnInit {
-  public displayedColumns: string[] = ['select', 'index', 'auctionSerial', 'auctionTitle', 'bidblabPrice', 'retailPrice', 'bidFee',
-                                       'starts', 'closes', 'createdAt',
+	public displayedColumns: string[] = ['select', 'index', 'auctionSerial', 'auctionTitle', 'bidblabPrice', 
+																			'retailPrice', 'bidFee', 'maxBid',
+																			'starts', 'closes', 'createdAt',
 										                  'suspend', 'menu'];
 	public dataSource:any;
 	public selection = new SelectionModel<any>(true, []);
