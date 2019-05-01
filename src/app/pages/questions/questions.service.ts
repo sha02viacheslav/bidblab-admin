@@ -96,9 +96,5 @@ export class QuestionsService {
     );
   }
 
-  getImage(imageUrl: string){
-    return this.httpClient
-      .get(imageUrl, { responseType: 'blob' });
-  }
-
 }
+

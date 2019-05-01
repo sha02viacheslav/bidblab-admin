@@ -30,8 +30,9 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
   formArray: FormArray;
   serverUrl: string = environment.apiUrl;
   uploadFiles: any = '';
-  originalImage: string = '';
+  // originalImage: string = '';
   showImageFlag: boolean = false;
+  title: string = "OK";
 
   constructor(
     private fb: FormBuilder,
@@ -66,10 +67,11 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
     
 
     if(this.data.question && this.data.question.questionPicture){
-      this.questionsService.getImage(this.serverUrl + '/' + this.data.question.questionPicture.path).subscribe(
+      this.commonService.getImage(this.serverUrl + '/' + this.data.question.questionPicture.path).subscribe(
         (res: any) => {
-          this.originalImage = res;
-          this.uploadFiles = this.originalImage;
+          // this.originalImage = res;
+          // this.uploadFiles = this.originalImage;
+          this.uploadFiles = res;
           this.showImageFlag = true;
         },
         (err: HttpErrorResponse) => {
@@ -117,6 +119,7 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
   }
 
   submitForm(){
+    console.log(this.title);
     if (this.infoForm.valid) {
       let uploadData = new FormData();
       uploadData.append('file', this.uploadFiles, this.uploadFiles.name);
@@ -172,7 +175,6 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
               })
               .afterDismissed()
               .subscribe(() => {
-                this.dialogRef.close(); 
               });
           }
         );
@@ -180,10 +182,10 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
     }
   }
 
-  receiveData(data){
-    this.uploadFiles = data;
-    console.log(this.uploadFiles);
-  }
+  // receiveData(data){
+  //   this.uploadFiles = data;
+  //   console.log(this.uploadFiles);
+  // }
 
 }
 

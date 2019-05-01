@@ -119,6 +119,8 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     NumericDirective,
     UploadImageComponent,
   ],
+  providers: [
+  ]
 
 })
 export class SharedModule { }

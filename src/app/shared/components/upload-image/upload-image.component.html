@@ -11,15 +11,16 @@
           [src]="croppedImage" (click)="viewMenu();" />
         <div class="picture-menu-wrap">
           <mat-icon color="accent" class="picture-delete" *ngIf="viewMenuFlag"
-            (click)="deletePicture(); viewMenu(); $event.stopPropagation();">
+            (click)="deletePicture(); viewMenuFlag = false; $event.stopPropagation();">
             delete
           </mat-icon>
           <mat-icon color="accent" class="picture-delete" *ngIf="viewMenuFlag && !imageSource"
-            (click)="startCrop(); viewMenu(); $event.stopPropagation();">
+            (click)="startCrop(); viewMenuFlag = false; $event.stopPropagation();">
             crop
           </mat-icon>
           <label for="fileToUpload">
-            <mat-icon color="accent" class="picture-delete" *ngIf="viewMenuFlag" (click)="viewMenu();">
+            <mat-icon color="accent" class="picture-delete" *ngIf="viewMenuFlag" 
+              (click)="viewMenuFlag = false; $event.stopPropagation();">
               cloud_upload
             </mat-icon>
           </label>

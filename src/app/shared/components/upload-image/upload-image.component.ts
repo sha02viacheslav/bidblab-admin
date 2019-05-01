@@ -12,13 +12,13 @@ export class UploadImageComponent implements OnInit {
   @Input() originalImage;
   croppedImage: any = '';
   imageSource: any = '';
-  viewMenuFlag: boolean = false;
+  viewMenuFlag: boolean = true;
 
   ngOnInit(){
     if(this.originalImage){
       var reader = new FileReader();
       reader.onload = (event) => {
-        this.croppedImage = reader.result; 
+        this.croppedImage = reader.result;
       }
       reader.readAsDataURL(this.originalImage);
     }
@@ -34,6 +34,8 @@ export class UploadImageComponent implements OnInit {
     this.imageSource = this.originalImage;
   }
   saveCrop(){
+    var imageFile:Blob=this.dataURItoBlob(this.croppedImage);
+    this.sendData.emit({originalFile: this.originalImage, croppedFile: imageFile, croppedImage: this.croppedImage});
     this.imageSource = '';
   }
   deletePicture(){
@@ -43,11 +45,12 @@ export class UploadImageComponent implements OnInit {
   }
   viewMenu(){
     this.viewMenuFlag = !this.viewMenuFlag;
+    if(this.viewMenuFlag == false){
+      this.saveCrop();
+    }
   }
   imageCropped(event: ImageCroppedEvent) {
     this.croppedImage = event.base64;
-    var imageFile:Blob=this.dataURItoBlob(event.base64);
-    this.sendData.emit(imageFile);
   }
 
   dataURItoBlob(dataURI) {

@@ -18,12 +18,14 @@ export class AuctionDialogComponent implements OnInit {
   infoForm: FormGroup;
   catagories: string[];
   public form: FormGroup;
-  questionPictures: any[] = [];
-  initPictureurls: any[] = [];
-  deletedPictureurls: any[] = [];
+  uploadFiles: any[] = [];
+  uploadFile: any;
+  uploadPicture: any;
   standardInterests: string[];
   formArray: FormArray;
   serverUrl: string = environment.apiUrl;
+  showImageFlag: boolean = false;
+  selecteFileIndex: number = -1;
 
 	constructor(
 		private commonService: CommonService,
@@ -38,7 +40,6 @@ export class AuctionDialogComponent implements OnInit {
 
 	ngOnInit() {
     this.submitted = false;
-    this.questionPictures = [];
     this.infoForm = this.fb.group({
       auctionTitle: [
         this.data.auction ? this.data.auction.auctionTitle : '',
@@ -111,77 +112,87 @@ export class AuctionDialogComponent implements OnInit {
     }
 
     if(this.data.auction && this.data.auction.auctionPicture.length){
-      this.data.auction.auctionPicture.forEach(element => {
-        this.questionPictures.push({url: this.serverUrl + '/' + element, file:''});
-        this.initPictureurls.push(this.serverUrl + '/' + element);
+      this.data.auction.auctionPicture.forEach((element, index) => {
+        this.commonService.getImage(this.serverUrl + '/' + element).subscribe(
+          (res: any) => {
+            this.uploadFile = res;
+            this.uploadFiles.push({
+              originalFile: this.uploadFile, 
+              croppedFile: this.uploadFile,  
+              croppedImage: ''});
+            if(this.data.auction.auctionPicture.length == index + 1 ){
+              for(var index = 0; this.uploadFiles[index]; ){
+                var reader = new FileReader();
+                reader.readAsDataURL(this.uploadFile);
+                reader.onload = (event) => {
+                  this.uploadFiles[index].croppedImage = reader.result;
+                  index++;
+                }
+                console.log(index);
+              }
+            }
+          },
+          (err: HttpErrorResponse) => {
+            this.showImageFlag = true;
+          }
+        );  
+
       });
     }
+    
+      // this.data.auction.uploadFiles.forEach(element => {
+      //   var reader = new FileReader();
+      //   reader.readAsDataURL(this.uploadFile);
+      //   reader.onload = (event) => {
+      //     element.croppedImage = reader.result;
+      //   }
+      //   console.log(this.uploadFiles);
+      // });
   }
   
   checkError(form, field, error) {
     return this.formValidationService.checkError(form, field, error);
   }
 
-  addPicture(event, input) {
-    event.preventDefault()
-    console.log(this.infoForm.value.starts);
-    if (event.target.files && event.target.files[0]) {
-      if(event.target.files[0].size > 1024*1024){
-        this.snackBar.open("Image size is limited to 1MBytes.", 'Dismiss', {
-          duration: 3000
-        })
-      }
-      else{
-        let fileTemp = event.target.files[0];
-        var reader = new FileReader();
-        reader.onload = (event) => {
-          this.questionPictures.push({ url: reader.result, file: fileTemp }); 
-        }
-        reader.readAsDataURL(event.target.files[0]);
-      }
-    }  
-  }
+  addPicture(data) {
 
-  deletePicture(index){
-    this.addDeleteList(this.questionPictures[index].url); 
-    this.questionPictures.splice(index, 1);
-  }
-
-  addDeleteList(url){
-    if(this.initPictureurls.some(element => element == url)){
-      let temp = url.replace(new RegExp(this.serverUrl+'/', "i"), "");
-      this.deletedPictureurls.push(temp);
+    console.log(data);
+    console.log(this.uploadFiles);
+    if (data) {
+      this.uploadFiles[this.selecteFileIndex] = {
+        originalFile: data.originalFile,
+        croppedFile: data.croppedFile,
+        croppedImage: data.croppedImage
+      };
     }
+    else{
+      this.uploadFiles.splice(this.selecteFileIndex, 1);
+    }
+    this.selecteFileIndex = -1;
+    console.log(this.uploadFiles);
   }
 
-  onPictureChanged(event, index) {
-    event.preventDefault()
-    console.log(this.infoForm.value.starts);
+  addFile(event: any): void {
     if (event.target.files && event.target.files[0]) {
-      if(event.target.files[0].size > 1024*1024){
-        this.snackBar.open("Image size is limited to 1MBytes.", 'Dismiss', {
-          duration: 3000
-        })
-      }
-      else{
-        this.addDeleteList(this.questionPictures[index].url);
-        let fileTemp = event.target.files[0];
-        var reader = new FileReader();
-        reader.onload = (event) => {
-          this.questionPictures[index] = { url: reader.result, file: fileTemp }; 
-        }
-        reader.readAsDataURL(event.target.files[0]);
-      }
-    }  
+      // var reader = new FileReader();
+      // reader.onload = () => {
+        // this.uploadPicture = reader.result;
+        this.uploadFiles.push({
+          originalFile: event.target.files[0],
+          croppedFile: event.target.files[0],
+          croppedImage: ''
+        });
+        this.selecteFileIndex = this.uploadFiles.length - 1;
+      // }
+      // reader.readAsDataURL(event.target.files[0]);
+    }
   }
 
   addAuction(){
     if (this.infoForm.valid) {
       let uploadData = new FormData();
-      this.questionPictures.forEach(element => {
-        if(!this.initPictureurls.some(item => item == element.url)){
-          uploadData.append('files[]', element.file, element.file.name);
-        }
+      this.uploadFiles.forEach(element => {
+        uploadData.append('files[]', element.croppedFile, element.croppedFile.name);
       });
       uploadData.append('auctionTitle', this.infoForm.value.auctionTitle);
       uploadData.append('bidblabPrice', this.infoForm.value.bidblabPrice);
@@ -191,10 +202,6 @@ export class AuctionDialogComponent implements OnInit {
       uploadData.append('closes', this.infoForm.value.closes);
       uploadData.append('auctionSerial', this.infoForm.value.auctionSerial);
       uploadData.append('auctionDetail', this.infoForm.value.auctionDetail);
-      this.deletedPictureurls.forEach(element => {
-        uploadData.append('deletedPictureurls[]', element);
-      });
-      console.log(this.deletedPictureurls);
       if(this.data.auctionId){
         uploadData.append('auctionId', this.data.auctionId);
         this.auctionService.updateAuction(uploadData).subscribe(

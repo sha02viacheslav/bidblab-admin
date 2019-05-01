@@ -16,4 +16,9 @@ export class CommonService {
     );
   } 
 
+  getImage(imageUrl: string){
+    return this.httpClient
+      .get(imageUrl, { responseType: 'blob' });
+  }
+
 }

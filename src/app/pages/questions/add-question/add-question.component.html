@@ -30,8 +30,8 @@
 				</mat-error>
 			</mat-form-field>
 			<div class="p-">
-				<app-upload-image *ngIf="showImageFlag" (sendData)="receiveData($event)" 
-					[originalImage]="originalImage">
+				<app-upload-image *ngIf="showImageFlag" (sendData)="uploadFiles = $event" 
+					[originalImage]="uploadFiles">
 				</app-upload-image>
 			</div>
 		</mat-card-content>
