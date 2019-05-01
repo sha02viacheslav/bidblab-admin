@@ -25,7 +25,7 @@ export class AuctionDialogComponent implements OnInit {
   formArray: FormArray;
   serverUrl: string = environment.apiUrl;
   showImageFlag: boolean = false;
-  selecteFileIndex: number = -1;
+  selectedFileIndex: number = -1;
 
 	constructor(
 		private commonService: CommonService,
@@ -112,32 +112,8 @@ export class AuctionDialogComponent implements OnInit {
     }
 
     if(this.data.auction && this.data.auction.auctionPicture.length){
-      this.data.auction.auctionPicture.forEach((element, index) => {
-        this.commonService.getImage(this.serverUrl + '/' + element).subscribe(
-          (res: any) => {
-            this.uploadFile = res;
-            this.uploadFiles.push({
-              originalFile: this.uploadFile, 
-              croppedFile: this.uploadFile,  
-              croppedImage: ''});
-            if(this.data.auction.auctionPicture.length == index + 1 ){
-              for(var index = 0; this.uploadFiles[index]; ){
-                var reader = new FileReader();
-                reader.readAsDataURL(this.uploadFile);
-                reader.onload = (event) => {
-                  this.uploadFiles[index].croppedImage = reader.result;
-                  index++;
-                }
-                console.log(index);
-              }
-            }
-          },
-          (err: HttpErrorResponse) => {
-            this.showImageFlag = true;
-          }
-        );  
-
-      });
+      this.getInitialImage(0);
+      
     }
     
       // this.data.auction.uploadFiles.forEach(element => {
@@ -149,27 +125,73 @@ export class AuctionDialogComponent implements OnInit {
       //   console.log(this.uploadFiles);
       // });
   }
+
+  getInitialImage(index){
+    var reader = new FileReader();
+    this.commonService.getImage(this.serverUrl + '/' + this.data.auction.auctionPicture[index]).subscribe(
+      (res: any) => {
+        this.uploadFile = res;
+        reader.readAsDataURL(this.uploadFile);
+        reader.onload = (event) => {
+          this.uploadFiles.push({
+            originalFile: this.uploadFile, 
+            croppedFile: this.uploadFile,  
+            croppedImage: reader.result
+          });
+        }
+        
+        if(this.data.auction.auctionPicture.length == index + 1 ){
+          console.log("this.data.auction.auctionPicture", this.data.auction.auctionPicture)
+          console.log("this.uploadFiles", this.uploadFiles)
+          // for(var index = 0; this.uploadFiles[index]; ){
+          //   var reader = new FileReader();
+          //   reader.readAsDataURL(this.uploadFile);
+          //   reader.onload = (event) => {
+          //     this.uploadFiles[index].croppedImage = reader.result;
+          //     index++;
+          //   }
+          //   console.log(index);
+          // }
+        }
+        else{
+          this.getInitialImage(index+1)
+        }
+      },
+      (err: HttpErrorResponse) => {
+        this.showImageFlag = true;
+      }
+    );  
+  }
   
   checkError(form, field, error) {
     return this.formValidationService.checkError(form, field, error);
   }
 
   addPicture(data) {
-
-    console.log(data);
+    console.log('data', data);
     console.log(this.uploadFiles);
     if (data) {
-      this.uploadFiles[this.selecteFileIndex] = {
+      this.uploadFiles[this.selectedFileIndex] = {
         originalFile: data.originalFile,
-        croppedFile: data.croppedFile,
-        croppedImage: data.croppedImage
+        croppedFile: data.croppedFile? data.croppedFile : this.uploadFiles[this.selectedFileIndex].croppedFile,
+        croppedImage: data.croppedImage? data.croppedImage : this.uploadFiles[this.selectedFileIndex].croppedImage
       };
+      console.log(this.uploadFiles[this.selectedFileIndex]);
     }
     else{
-      this.uploadFiles.splice(this.selecteFileIndex, 1);
+      this.uploadFiles.splice(this.selectedFileIndex, 1);
     }
-    this.selecteFileIndex = -1;
+    this.selectedFileIndex = -1;
     console.log(this.uploadFiles);
+  }
+
+  openCrop(index){
+    console.log("openCrop");
+    if(this.selectedFileIndex != -1 && this.uploadFiles[this.selectedFileIndex].croppedFile == ''){
+      this.uploadFiles.splice(this.selectedFileIndex, 1);
+      console.log("delete");
+    }
+    this.selectedFileIndex = index;
   }
 
   addFile(event: any): void {
@@ -179,10 +201,10 @@ export class AuctionDialogComponent implements OnInit {
         // this.uploadPicture = reader.result;
         this.uploadFiles.push({
           originalFile: event.target.files[0],
-          croppedFile: event.target.files[0],
+          croppedFile: '',
           croppedImage: ''
         });
-        this.selecteFileIndex = this.uploadFiles.length - 1;
+        this.selectedFileIndex = this.uploadFiles.length - 1;
       // }
       // reader.readAsDataURL(event.target.files[0]);
     }

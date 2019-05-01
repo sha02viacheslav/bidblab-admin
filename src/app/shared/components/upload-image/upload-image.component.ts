@@ -1,4 +1,4 @@
-import {Component, ViewChild, EventEmitter, Type, Input, Output, OnInit} from '@angular/core';
+import {Component, ViewChild, EventEmitter, Type, Input, Output, OnInit, OnDestroy} from '@angular/core';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 @Component({
   selector: 'app-upload-image',
@@ -6,13 +6,15 @@ import { ImageCroppedEvent } from 'ngx-image-cropper';
   styleUrls: ['./upload-image.component.scss'],
 })
 
-export class UploadImageComponent implements OnInit {
+export class UploadImageComponent implements OnInit, OnDestroy {
 
   @Output() sendData : EventEmitter <any> = new EventEmitter<any>();
   @Input() originalImage;
+  @Input() firstCrop : boolean;
   croppedImage: any = '';
   imageSource: any = '';
   viewMenuFlag: boolean = true;
+  croppedFlag: boolean =false;
 
   ngOnInit(){
     if(this.originalImage){
@@ -21,6 +23,9 @@ export class UploadImageComponent implements OnInit {
         this.croppedImage = reader.result;
       }
       reader.readAsDataURL(this.originalImage);
+    }
+    if(this.firstCrop){
+      this.startCrop();
     }
   }
 
@@ -31,11 +36,18 @@ export class UploadImageComponent implements OnInit {
     }
   }
   startCrop(){
+    this.viewMenuFlag = false;
     this.imageSource = this.originalImage;
   }
   saveCrop(){
-    var imageFile:Blob=this.dataURItoBlob(this.croppedImage);
-    this.sendData.emit({originalFile: this.originalImage, croppedFile: imageFile, croppedImage: this.croppedImage});
+    console.log("emit");
+    if(this.croppedFlag){
+      var imageFile:Blob=this.dataURItoBlob(this.croppedImage);
+      this.sendData.emit({originalFile: this.originalImage, croppedFile: imageFile, croppedImage: this.croppedImage});
+    }
+    else{
+      this.sendData.emit({originalFile: this.originalImage, croppedFile: '', croppedImage: ''});
+    }
     this.imageSource = '';
   }
   deletePicture(){
@@ -47,10 +59,12 @@ export class UploadImageComponent implements OnInit {
     this.viewMenuFlag = !this.viewMenuFlag;
     if(this.viewMenuFlag == false){
       this.saveCrop();
+      console.log('save crop', this.croppedImage);
     }
   }
   imageCropped(event: ImageCroppedEvent) {
     this.croppedImage = event.base64;
+    this.croppedFlag = true;
   }
 
   dataURItoBlob(dataURI) {

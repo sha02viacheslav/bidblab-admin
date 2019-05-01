@@ -30,30 +30,3 @@
 .date-picker-icon:hover {
   cursor: pointer;
 }
-
-.picture-wrap {
-  position: relative;
-
-  .picture-delete {
-    z-index: 10;
-    display: none;
-    position: absolute;
-    right: 5px;
-    top: 5px;
-  }
-}
-
-.picture-wrap:hover {
-  .question-image {
-    opacity: 0.4;
-  }
-
-  .picture-delete {
-    opacity: 1;
-    display: block;
-  }
-
-  .picture-delete:hover {
-    cursor: pointer;
-  }
-}

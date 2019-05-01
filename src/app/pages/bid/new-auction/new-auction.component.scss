@@ -1,9 +1,9 @@
 .question-image {
-	width: 100px;
-	height: 100px;
-	background-position: center;
-	background-size: cover;
-	background-repeat: no-repeat;
+  width: 270px;
+  height: 202px;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .cloud-image {
@@ -13,4 +13,8 @@
 
 .date-picker-icon:hover{
 	cursor: pointer;
+}
+
+.crop-wrap{
+  width: 270px;
 }

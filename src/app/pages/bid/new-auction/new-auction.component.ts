@@ -22,6 +22,7 @@ export class NewAuctionComponent implements OnInit {
   standardInterests: string[];
   formArray: FormArray;
   serverUrl: string = environment.apiUrl;
+  selectedFileIndex: number = -1;
 
 	constructor(
 		private commonService: CommonService,
@@ -107,52 +108,54 @@ export class NewAuctionComponent implements OnInit {
   checkError(form, field, error) {
     return this.formValidationService.checkError(form, field, error);
   }
-
-  addPicture(event, input) {
-    event.preventDefault()
-    console.log(this.infoForm.value.starts);
-    if (event.target.files && event.target.files[0]) {
-      if(event.target.files[0].size > 1024*1024){
-        this.snackBar.open("Image size is limited to 1MBytes.", 'Dismiss', {
-          duration: 3000
-        })
-      }
-      else{
-        this.uploadFiles.push(event.target.files[0]);
-        var reader = new FileReader();
-        reader.onload = (event) => {
-          this.questionPictureurls.push(reader.result); 
-        }
-        reader.readAsDataURL(event.target.files[0]);
-      }
-    }  
+  addPicture(data) {
+    console.log('data', data);
+    console.log(this.uploadFiles);
+    if (data) {
+      this.uploadFiles[this.selectedFileIndex] = {
+        originalFile: data.originalFile,
+        croppedFile: data.croppedFile? data.croppedFile : this.uploadFiles[this.selectedFileIndex].croppedFile,
+        croppedImage: data.croppedImage? data.croppedImage : this.uploadFiles[this.selectedFileIndex].croppedImage
+      };
+      console.log(this.uploadFiles[this.selectedFileIndex]);
+    }
+    else{
+      this.uploadFiles.splice(this.selectedFileIndex, 1);
+    }
+    this.selectedFileIndex = -1;
+    console.log(this.uploadFiles);
   }
 
-  onPictureChanged(event, index) {
-    event.preventDefault()
-    console.log(this.infoForm.value.starts);
+  openCrop(index){
+    console.log("openCrop");
+    if(this.selectedFileIndex != -1 && this.uploadFiles[this.selectedFileIndex].croppedFile == ''){
+      this.uploadFiles.splice(this.selectedFileIndex, 1);
+      console.log("delete");
+    }
+    this.selectedFileIndex = index;
+  }
+
+  addFile(event: any): void {
     if (event.target.files && event.target.files[0]) {
-      if(event.target.files[0].size > 1024*1024){
-        this.snackBar.open("Image size is limited to 1MBytes.", 'Dismiss', {
-          duration: 3000
-        })
-      }
-      else{
-        this.uploadFiles[index] = event.target.files[0];
-        var reader = new FileReader();
-        reader.onload = (event) => {
-          this.questionPictureurls[index] = reader.result; 
-        }
-        reader.readAsDataURL(event.target.files[0]);
-      }
-    }  
+      // var reader = new FileReader();
+      // reader.onload = () => {
+        // this.uploadPicture = reader.result;
+        this.uploadFiles.push({
+          originalFile: event.target.files[0],
+          croppedFile: '',
+          croppedImage: ''
+        });
+        this.selectedFileIndex = this.uploadFiles.length - 1;
+      // }
+      // reader.readAsDataURL(event.target.files[0]);
+    }
   }
 
   addAuction(){
     if (this.infoForm.valid) {
       let uploadData = new FormData();
       this.uploadFiles.forEach(element => {
-        uploadData.append('files[]', element, element.name);
+        uploadData.append('files[]', element.croppedFile, element.croppedFile.name);
       });
       uploadData.append('auctionTitle', this.infoForm.value.auctionTitle);
       uploadData.append('bidblabPrice', this.infoForm.value.bidblabPrice);

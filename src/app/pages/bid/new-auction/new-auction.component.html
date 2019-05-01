@@ -77,20 +77,22 @@
             </mat-form-field>
           </div>
           <div xLayout="column" fxLayout.gt-sm="row wrap" class="form-field-outer">
-            <div class="w-25" *ngFor="let questionPictureurl of questionPictureurls; let index = index">
-              <label>
-                <div class="question-image" [class.cloud-image]="!questionPictureurl" [style.background-image]="questionPictureurl?
-                    'url(' + questionPictureurl + ')' : 'url(assets/img/extra/upload-to-cloud-96.png)'">
-                </div>
-                <input type="file" accept="image/*" class="file" (change)="onPictureChanged($event, index)" hidden />
-              </label>
+            <div class="w-25 picture-wrap" *ngFor="let uploadFile of uploadFiles; let index = index">
+              <img *ngIf="selectedFileIndex != index" class="cropped-img"
+                [src]="uploadFile.croppedImage"
+                (click)="openCrop(index)" />
+              <div class="crop-wrap">
+                <app-upload-image *ngIf="selectedFileIndex == index" (sendData)="addPicture($event)"
+                  [originalImage]="uploadFiles[index].originalFile" [firstCrop]="uploadFiles[index].croppedFile == ''">
+                </app-upload-image>
+              </div>
             </div>
-            <div class="w-25">
-              <label>
+            <input id="fileToUpload" type="file" accept="image/*" (change)="addFile($event)" style="display:none;">
+            <div class="w-25" [ngClass]="{'hidden': selectedFileIndex != -1}">
+              <label for="fileToUpload">
                 <div class="question-image cloud-image"
                   [style.background-image]="'url(assets/img/extra/upload-to-cloud-96.png)'">
                 </div>
-                <input type="file" accept="image/*" class="file" (change)="addPicture($event)" hidden />
               </label>
             </div>
           </div>
