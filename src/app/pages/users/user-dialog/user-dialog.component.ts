@@ -3,6 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialogRef, MAT_DIALOG_DATA, MatOption } from '@angular/material';
 import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 import { User } from '../../../shared/models/user.model';
+import { MatSnackBar } from '@angular/material';
 import { CommonService } from '../../../shared/services/common.service';
 import { UsersService } from '../users.service';
 import { FormValidationService } from '../../../shared/services/form-validation.service';
@@ -22,7 +23,8 @@ import { FormValidationService } from '../../../shared/services/form-validation.
 				@Inject(MAT_DIALOG_DATA) public user: User,
 				public fb: FormBuilder,
 				private commonService: CommonService,  
-				private usersService: UsersService,  
+				private usersService: UsersService,    
+				private snackBar: MatSnackBar,
 				private formValidationService: FormValidationService,
 	) { }
 
@@ -83,6 +85,40 @@ import { FormValidationService } from '../../../shared/services/form-validation.
 
 	close(): void {
 		this.dialogRef.close();
+	}
+
+	addUser(){
+		console.log("adduser");
+		if(this.form.valid){
+			if(this.user){
+				this.usersService.updateUser(this.user._id, this.form.value)
+					.subscribe(
+						(res: any) => {
+							this.snackBar.open(res.msg, 'Dismiss', {duration: 1500});
+							if(res.data){
+								this.dialogRef.close(res.data);
+							}
+						},
+						(err: HttpErrorResponse) => {
+							this.snackBar.open(err.error.msg, 'Dismiss');
+						}
+					);
+			} 
+			else {
+				this.usersService.createUser(this.form.value)
+					.subscribe(
+						(res: any) => {
+							this.snackBar.open(res.msg, 'Dismiss', {duration: 1500});
+							if(res.data){
+								this.dialogRef.close(res.data);
+							}
+						},
+						(err: HttpErrorResponse) => {
+							this.snackBar.open(err.error.msg, 'Dismiss');
+						}
+					);
+			}
+		}
 	}
 
 	addCustomTag(){

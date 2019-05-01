@@ -261,32 +261,9 @@ export class ListComponent implements OnInit {
 	public openUserDialog(user){
 		this.dialog.open(UserDialogComponent, {
 			data: user
-		}).afterClosed().subscribe(updatedUser => {
-			if(updatedUser){
-				if(user){
-					this.usersService.updateUser(user._id, updatedUser)
-						.subscribe(
-							(res: any) => {
-							this.snackBar.open(res.msg, 'Dismiss', {duration: 1500});
-							this.getUsers();
-							},
-							(err: HttpErrorResponse) => {
-								this.snackBar.open(err.error.msg, 'Dismiss');
-							}
-						);
-				} 
-				else {
-					this.usersService.createUser(updatedUser)
-						.subscribe(
-							(res: any) => {
-							this.snackBar.open(res.msg, 'Dismiss', {duration: 1500});
-							this.getUsers();
-							},
-							(err: HttpErrorResponse) => {
-								this.snackBar.open(err.error.msg, 'Dismiss');
-							}
-						);
-				}
+		}).afterClosed().subscribe(newUser => {
+			if (newUser) {
+				this.getUsers();
 			}
 		});
 	}

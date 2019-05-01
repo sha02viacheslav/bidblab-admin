@@ -1,11 +1,11 @@
-<div class="p-1" fxLayoutAlign="space-between center">
-    <h1 mat-dialog-title class="m-0"><span>{{user._id? 'Edit' : 'Add'}}</span> user</h1>
-    <button mat-icon-button mat-dialog-close tabindex="-1">
-        <mat-icon>close</mat-icon>
-    </button>
-</div>
-<div mat-dialog-content>
-    <form [formGroup]="form" class="user-form" autocomplete="off" novalidate>
+<form [formGroup]="form" class="user-form" (ngSubmit)="addUser()" autocomplete="off" novalidate>
+    <div class="p-1" fxLayoutAlign="space-between center">
+        <h1 mat-dialog-title class="m-0"><span>{{user._id? 'Edit' : 'Add'}}</span> user</h1>
+        <button mat-icon-button mat-dialog-close tabindex="-1">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div mat-dialog-content>
         <mat-tab-group class="vertical-tabs">
             <mat-tab label="Basic">
                 <div fxLayout="column" fxLayout.gt-sm="row wrap" class="form-field-outer">
@@ -139,10 +139,11 @@
                 </div>
             </mat-tab>
         </mat-tab-group>
-    </form>
-</div>
-<div mat-dialog-actions fxLayout="row" fxLayoutAlign="space-between center">
-    <button mat-raised-button color="primary" [mat-dialog-close]="form.value" [disabled]="!form.valid">
-        <span>Save</span>
-    </button>
-</div>
+
+    </div>
+    <div mat-dialog-actions fxLayout="row" fxLayoutAlign="space-between center">
+        <button mat-raised-button color="primary" [disabled]="!form.valid" type="submit">
+            <span>Save</span>
+        </button>
+    </div>
+</form>
