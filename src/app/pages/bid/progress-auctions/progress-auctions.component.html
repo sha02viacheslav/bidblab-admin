@@ -108,10 +108,10 @@
           </button>
           <mat-menu #menu="matMenu" xPosition="before" overlapTrigger="true">
             <span (mouseleave)="menuTrigger.closeMenu()">
-              <!-- <button mat-menu-item (click)="openAuctionDialog('', element);">
+              <button mat-menu-item (click)="openAuctionDialog(element, element._id);">
                 <mat-icon>edit</mat-icon>
                 <span>Edit</span>
-              </button> -->
+              </button>
               <!-- <button mat-menu-item routerLink="/questions/questiondetail/{{element._id}}">
 									<mat-icon>reorder</mat-icon>
 									<span>Detail</span>
@@ -172,7 +172,8 @@
                     <p fxFlex="50" fxLayout="row" fxLayoutAlign="start center">
                       <mat-icon class="muted-text">label</mat-icon>
                       <span>
-                        Highest Unique Bid:&nbsp;{{element.maxUniqueBid?.bidPrice? element.maxUniqueBid.bidPrice : 'not found'}}
+                        Highest Unique
+                        Bid:&nbsp;{{element.maxUniqueBid?.bidPrice? element.maxUniqueBid.bidPrice : 'not found'}}
                         &nbsp;{{element.maxUniqueBid?.bidder?.username}}
                       </span>
                     </p>
