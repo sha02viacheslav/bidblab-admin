@@ -141,8 +141,6 @@ export class AuctionDialogComponent implements OnInit {
         }
         
         if(this.data.auction.auctionPicture.length == index + 1 ){
-          console.log("this.data.auction.auctionPicture", this.data.auction.auctionPicture)
-          console.log("this.uploadFiles", this.uploadFiles)
           // for(var index = 0; this.uploadFiles[index]; ){
           //   var reader = new FileReader();
           //   reader.readAsDataURL(this.uploadFile);
@@ -214,7 +212,9 @@ export class AuctionDialogComponent implements OnInit {
     if (this.infoForm.valid) {
       let uploadData = new FormData();
       this.uploadFiles.forEach(element => {
-        uploadData.append('files[]', element.croppedFile, element.croppedFile.name);
+        if(element.croppedFile){
+          uploadData.append('files[]', element.croppedFile, element.croppedFile.name);
+        }
       });
       uploadData.append('auctionTitle', this.infoForm.value.auctionTitle);
       uploadData.append('bidblabPrice', this.infoForm.value.bidblabPrice);

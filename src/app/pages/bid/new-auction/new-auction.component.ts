@@ -155,7 +155,9 @@ export class NewAuctionComponent implements OnInit {
     if (this.infoForm.valid) {
       let uploadData = new FormData();
       this.uploadFiles.forEach(element => {
-        uploadData.append('files[]', element.croppedFile, element.croppedFile.name);
+        if(element.croppedFile){
+          uploadData.append('files[]', element.croppedFile, element.croppedFile.name);
+        }
       });
       uploadData.append('auctionTitle', this.infoForm.value.auctionTitle);
       uploadData.append('bidblabPrice', this.infoForm.value.bidblabPrice);
