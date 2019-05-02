@@ -17,12 +17,6 @@ export class CreditsService {
     private authenticationService: AuthenticationService
   ) { }
 
-  getDefaultCredits() {
-		return this.httpClient.get(
-			`${environment.apiUrl}/api/admin/getDefaultCredits`
-		);
-	}
-
 	changeDefaultCredits(body) {
 		return this.httpClient.post(
 			`${environment.apiUrl}/api/admin/changeDefaultCredits`,

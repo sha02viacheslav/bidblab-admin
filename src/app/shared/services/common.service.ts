@@ -16,6 +16,12 @@ export class CommonService {
     );
   } 
 
+  getDefaultCredits() {
+		return this.httpClient.get(
+			`${environment.apiUrl}/api/admin/getDefaultCredits`
+		);
+	}
+
   getImage(imageUrl: string){
     return this.httpClient
       .get(imageUrl, { responseType: 'blob' });

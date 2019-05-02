@@ -18,7 +18,7 @@ export class QuestionsService {
 
   addQuestion(body) {
     return this.httpClient.patch(
-      `${environment.apiUrl}/api/common/addQuestion`,
+      `${environment.apiUrl}/api/admin/addQuestion`,
       body,
       {
         reportProgress: true

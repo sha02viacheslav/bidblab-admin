@@ -63,8 +63,27 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
           this.formValidationService.isBlank
         ]
       ],
+      credit: [
+        this.data.question ? String(this.data.question.credit) : '',
+        [
+          Validators.required,
+          Validators.min(0),
+          this.formValidationService.isBlank,
+        ]
+      ],
       tag: this.data.question ? this.data.question.tag : '',
     });
+
+    if(!this.data.question){
+      this.commonService.getDefaultCredits().subscribe(
+        (res: any) => {
+          this.infoForm.controls.credit.setValue(String(res.data.defaultQuestionCredit));
+        },
+        (err: HttpErrorResponse) => {
+          this.snackBar.open(err.error.msg, 'Dismiss');
+        }
+      );
+    }
 
    
 
@@ -196,6 +215,7 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
         }
       });
       uploadData.append('title', this.infoForm.value.title);
+      uploadData.append('credit', this.infoForm.value.credit);
       uploadData.append('tag', this.infoForm.value.tag);
       if (this.data.question) {
         uploadData.append('questionId', this.data.question._id);

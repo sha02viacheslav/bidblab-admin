@@ -10,14 +10,22 @@
 				<mat-icon>close</mat-icon>
 			</button>
 		</mat-card-header>
-		<mat-card-content class="p-">
-			<mat-form-field *ngIf="standardInterests">
-				<mat-select placeholder="Select Catagory for question" formControlName="tag">
-					<mat-option *ngFor="let interest of standardInterests;" [value]="interest">
-						{{interest}}
-					</mat-option>
-				</mat-select>
-			</mat-form-field>
+		<mat-card-content >
+			<div fxLayout="column" fxLayout.gt-sm="row wrap" fxLayoutAlign="space-between">
+				<mat-form-field *ngIf="standardInterests" fxFlex="45" class="w-50">
+					<mat-select placeholder="Select Catagory for question" formControlName="tag">
+						<mat-option *ngFor="let interest of standardInterests;" [value]="interest">
+							{{interest}}
+						</mat-option>
+					</mat-select>
+				</mat-form-field>
+				<mat-form-field fxFlex="45" class="w-50">
+					<input matInput numeric numericType="number" formControlName="credit" placeholder="Credit" required>
+					<mat-error *ngIf="checkError(infoForm, 'credit', ['required', 'blank'])">
+						Required.
+					</mat-error>
+				</mat-form-field>
+			</div>
 			<mat-form-field class="question-wrap" appearance="outline">
 				<mat-label>Question</mat-label>
 				<textarea rows="5" type="text" matInput formControlName="title" required></textarea>
