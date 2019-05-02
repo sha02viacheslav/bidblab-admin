@@ -29,10 +29,12 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
   standardInterests: string[];
   formArray: FormArray;
   serverUrl: string = environment.apiUrl;
-  uploadFiles: any = '';
+  uploadFiles: any[] = [];
+  uploadFile: any;
   // originalImage: string = '';
   showImageFlag: boolean = false;
   title: string = "OK";
+  selectedFileIndex: number = -1;
 
   constructor(
     private fb: FormBuilder,
@@ -64,23 +66,10 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
       tag: this.data.question ? this.data.question.tag : '',
     });
 
-    
+   
 
     if(this.data.question && this.data.question.questionPicture){
-      this.commonService.getImage(this.serverUrl + '/' + this.data.question.questionPicture.path).subscribe(
-        (res: any) => {
-          // this.originalImage = res;
-          // this.uploadFiles = this.originalImage;
-          this.uploadFiles = res;
-          this.showImageFlag = true;
-        },
-        (err: HttpErrorResponse) => {
-          this.showImageFlag = true;
-        }
-      );  
-    }
-    else{
-      this.showImageFlag = true;
+      this.getInitialImage(0);
     }
 
     const observable = this.commonService.getStandardInterests();
@@ -106,8 +95,87 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
     this.userUpdatesSubscription.unsubscribe();
   }
 
+  getInitialImage(index){
+    var reader = new FileReader();
+    // this.commonService.getImage(this.serverUrl + '/' + this.data.question.questionPicture[index]).subscribe(
+    this.commonService.getImage(this.serverUrl + '/' + this.data.question.questionPicture.path).subscribe(
+      (res: any) => {
+        this.uploadFile = res;
+        reader.readAsDataURL(this.uploadFile);
+        reader.onload = (event) => {
+          this.uploadFiles.push({
+            originalFile: this.uploadFile, 
+            croppedFile: this.uploadFile,  
+            croppedImage: reader.result
+          });
+        }
+        
+        //if(this.data.auction.auctionPicture.length == index + 1 ){
+          // for(var index = 0; this.uploadFiles[index]; ){
+          //   var reader = new FileReader();
+          //   reader.readAsDataURL(this.uploadFile);
+          //   reader.onload = (event) => {
+          //     this.uploadFiles[index].croppedImage = reader.result;
+          //     index++;
+          //   }
+          //   console.log(index);
+          // }
+        // }
+        // else{
+        //   this.getInitialImage(index+1)
+        // }
+      },
+      (err: HttpErrorResponse) => {
+        this.showImageFlag = true;
+      }
+    );  
+  }
+
   checkError(form, field, error) {
     return this.formValidationService.checkError(form, field, error);
+  }
+
+  addPicture(data) {
+    console.log('data', data);
+    console.log(this.uploadFiles);
+    if (data) {
+      this.uploadFiles[this.selectedFileIndex] = {
+        originalFile: data.originalFile,
+        croppedFile: data.croppedFile? data.croppedFile : this.uploadFiles[this.selectedFileIndex].croppedFile,
+        croppedImage: data.croppedImage? data.croppedImage : this.uploadFiles[this.selectedFileIndex].croppedImage
+      };
+      console.log(this.uploadFiles[this.selectedFileIndex]);
+    }
+    else{
+      this.uploadFiles.splice(this.selectedFileIndex, 1);
+    }
+    this.selectedFileIndex = -1;
+    console.log(this.uploadFiles);
+  }
+
+  openCrop(index){
+    console.log("openCrop");
+    if(this.selectedFileIndex != -1 && this.uploadFiles[this.selectedFileIndex].croppedFile == ''){
+      this.uploadFiles.splice(this.selectedFileIndex, 1);
+      console.log("delete");
+    }
+    this.selectedFileIndex = index;
+  }
+
+  addFile(event: any): void {
+    if (event.target.files && event.target.files[0]) {
+      // var reader = new FileReader();
+      // reader.onload = () => {
+        // this.uploadPicture = reader.result;
+        this.uploadFiles.push({
+          originalFile: event.target.files[0],
+          croppedFile: '',
+          croppedImage: ''
+        });
+        this.selectedFileIndex = this.uploadFiles.length - 1;
+      // }
+      // reader.readAsDataURL(event.target.files[0]);
+    }
   }
 
   private getUserUpdates() {
@@ -122,7 +190,11 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
     console.log(this.title);
     if (this.infoForm.valid) {
       let uploadData = new FormData();
-      uploadData.append('file', this.uploadFiles, this.uploadFiles.name);
+      this.uploadFiles.forEach(element => {
+        if(element.croppedFile){
+          uploadData.append('file', element.croppedFile, element.croppedFile.name);
+        }
+      });
       uploadData.append('title', this.infoForm.value.title);
       uploadData.append('tag', this.infoForm.value.tag);
       if (this.data.question) {
