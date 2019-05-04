@@ -146,24 +146,6 @@
                 </div>
                 <div fxFlex="80" fxFlex.xs="70" fxLayout="column" fxLayoutAlign="none none"
                   class="user-details transition-2">
-                  <div fxFlex="100" fxFlex.xs="100" fxLayout="column">
-                    <p fxLayout="row" fxLayoutAlign="start start">
-                      <mat-icon class="muted-text">description</mat-icon>
-                      <span style="text-align: justify;">{{element.manufactureDescription}}</span>
-                    </p>
-                  </div>
-                  <div fxFlex="100" fxFlex.xs="100" fxLayout="column">
-                    <p fxLayout="row" fxLayoutAlign="start start">
-                      <mat-icon class="muted-text">description</mat-icon>
-                      <span style="text-align: justify;">{{element.productDescription}}</span>
-                    </p>
-                  </div>
-                  <div fxFlex="100" fxFlex.xs="100" fxLayout="column">
-                    <p fxLayout="row" fxLayoutAlign="start start">
-                      <mat-icon class="muted-text">description</mat-icon>
-                      <span style="text-align: justify;">{{element.productDescription}}</span>
-                    </p>
-                  </div>
                   <div fxFlex="100" fxFlex.xs="100" fxLayout="row" fxLayoutAlign="space-between center">
                     <p fxFlex="50" fxLayout="row" fxLayoutAlign="start center">
                       <mat-icon class="muted-text">label</mat-icon>
@@ -177,9 +159,15 @@
                         &nbsp;{{element.maxUniqueBid?.bidder?.username}}
                       </span>
                     </p>
+                    <p fxFlex="50" fxLayout="row" fxLayoutAlign="start center">
+                      <mat-icon class="muted-text">label</mat-icon>
+                      <span>Highest Unique Bid
+                        Username:&nbsp;{{element.maxUniqueBid? element.maxUniqueBid.bidder.username : 'not found'}}</span>
+                    </p>
                   </div>
                 </div>
               </div>
+             <app-bid-result [auction]="element"></app-bid-result>
             </div>
           </div>
         </td>

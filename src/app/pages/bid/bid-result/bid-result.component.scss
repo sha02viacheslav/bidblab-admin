@@ -1,0 +1,94 @@
+@import "../../../theme/styles/variables";
+@media (max-width: 599px) {
+  .bid-result-box {
+    padding: 0.5rem !important;
+    width: 100% !important;
+  }
+}
+
+.bid-result-box {
+  margin: 0.5rem;
+  border: solid 1px rgb(240, 240, 240);
+  border-radius: 5px;
+  width: 100%;
+
+  .bid-result-title {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    padding-left: 1rem;
+    font-size: 20px;
+    //color: $accent;
+    border-bottom: solid 1px rgb(240, 240, 240);
+    border-radius: 5px 5px 0px 0px;
+  }
+
+  .bid-result-content {
+    padding: 1rem;
+
+    .bid-result-wrap {
+      display: flex;
+      width: 100%;
+      padding: 0.25rem 0rem;
+
+      .bid-price-box {
+        position: relative;
+      }
+
+      .bid-price-wrap {
+        width: 60px;
+        height: 60px;
+        border-radius: 60px;
+        box-sizing: border-box;
+      }
+
+      .highst-mark {
+        border: solid 5px;
+        //color: $accent;
+      }
+
+      .unique-mark {
+        border: solid 30px;
+        //color: $accent;
+      }
+
+      .deplicate-mark {
+        border: solid 2px;
+        //color: $accent;
+      }
+
+      .bid-price {
+        position: absolute;
+        top: 20px;
+        left: 10px;
+        background: white;
+        width: 40px;
+        height: 20px;
+        text-align: center;
+      }
+
+      .ring-cut {
+        position: absolute;
+        top: 0px;
+        left: 27.5px;
+        width: 5px;
+        height: 10px;
+        background: white;
+      }
+
+      .bid-content-wrap {
+        display: flex;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        padding: 0px 1rem;
+
+        .username-wrap {
+          display: flex;
+          align-items: center;
+        }
+      }
+    }
+  }
+
+}

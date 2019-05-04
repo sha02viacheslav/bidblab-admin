@@ -12,7 +12,8 @@ import { PendingAuctionsComponent } from './pending-auctions/pending-auctions.co
 import { ProgressAuctionsComponent } from './progress-auctions/progress-auctions.component';
 import { ClosedAuctionsComponent } from './closed-auctions/closed-auctions.component';
 import { AuctionDialogComponent } from './auction-dialog/auction-dialog.component';
-import { QuillModule } from 'ngx-quill'
+import { QuillModule } from 'ngx-quill';
+import { BidResultComponent } from './bid-result/bid-result.component'
 
 export const routes = [
   { path: '', component: BidComponent, pathMatch: 'full' },
@@ -39,7 +40,7 @@ export const routes = [
     BidComponent, PendingAuctionsComponent, 
     ProgressAuctionsComponent, 
     ClosedAuctionsComponent, 
-    AuctionDialogComponent
+    AuctionDialogComponent, BidResultComponent
   ],
   entryComponents: [
     AuctionDialogComponent,

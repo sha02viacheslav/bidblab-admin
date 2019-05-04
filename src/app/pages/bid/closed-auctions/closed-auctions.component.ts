@@ -112,6 +112,7 @@ export class ClosedAuctionsComponent implements OnInit {
 					this.totalAuctions = res.data.totalAuctions;
 					this.dataSource = new MatTableDataSource<any>(res.data.auctions);
 					this.questionTags = res.data.questionTags;
+					console.log(res.data.auctions);
 					this.selection.clear();
 					if(this.totalAuctions <= this.pageSize * this.pageIndex){
 					this.pageIndex = 0;

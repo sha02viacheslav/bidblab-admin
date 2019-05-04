@@ -6,7 +6,7 @@ import { ImageCroppedEvent } from 'ngx-image-cropper';
   styleUrls: ['./upload-image.component.scss'],
 })
 
-export class UploadImageComponent implements OnInit, OnDestroy {
+export class UploadImageComponent implements OnInit {
 
   @Output() sendData : EventEmitter <any> = new EventEmitter<any>();
   @Input() originalImage;

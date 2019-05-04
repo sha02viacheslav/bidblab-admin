@@ -14,3 +14,8 @@ $inner-sidenav-content-padding: $flex-distance;
 $box-height: 186px;
 $box-position: 34px;
 $register-box-height: 300px;
+
+@mixin theme-reset($theme) {
+  $accent: map-get($theme, accent);
+  
+}
