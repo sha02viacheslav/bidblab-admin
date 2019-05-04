@@ -44,24 +44,24 @@
 
       .highst-mark {
         border: solid 5px;
-        //color: $accent;
+        color: #f75555;
       }
 
       .unique-mark {
         border: solid 30px;
-        //color: $accent;
+        color: #f75555;
       }
 
       .deplicate-mark {
         border: solid 2px;
-        //color: $accent;
+        color: #f75555;
       }
 
       .bid-price {
         position: absolute;
         top: 20px;
         left: 10px;
-        background: white;
+        //background: white;
         width: 40px;
         height: 20px;
         text-align: center;
@@ -73,7 +73,7 @@
         left: 27.5px;
         width: 5px;
         height: 10px;
-        background: white;
+        color: #f75555;
       }
 
       .bid-content-wrap {
