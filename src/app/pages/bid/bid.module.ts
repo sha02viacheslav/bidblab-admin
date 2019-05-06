@@ -37,10 +37,12 @@ export const routes = [
   ],
   declarations: [
     NewAuctionComponent, 
-    BidComponent, PendingAuctionsComponent, 
+    BidComponent,
+    PendingAuctionsComponent, 
     ProgressAuctionsComponent, 
     ClosedAuctionsComponent, 
-    AuctionDialogComponent, BidResultComponent
+    AuctionDialogComponent,
+    BidResultComponent
   ],
   entryComponents: [
     AuctionDialogComponent,
