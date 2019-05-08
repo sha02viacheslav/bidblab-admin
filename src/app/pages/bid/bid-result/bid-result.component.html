@@ -17,7 +17,9 @@
           <div *ngIf="bid.bidStatus == 1 || bid.bidStatus == 3">Duplicate Bid</div>
         </div>
         <div class="username-wrap" fxFlex="20" fxFlex.xs="100">
-          <mat-icon>person</mat-icon>{{bid.bidder.username}}
+          <button mat-icon-button class="no-hover-effect" routerLink="/users/userdetail/{{bid.bidder._id}}">
+            <mat-icon>person</mat-icon>{{bid.bidder.username}}
+          </button>
         </div>
         <div class="bid-time-wrap" fxFlex="30" fxFlex.xs="100">{{bid.createdAt | date:"dd MMMM, yyyy hh:mm:ss a"}}</div>
       </div>
