@@ -108,20 +108,12 @@ export class ClosedAuctionsComponent implements OnInit {
 				this.sortParam.direction,
 			).subscribe(
 				(res: any) => {
-          console.log(res.data);
 					this.totalAuctions = res.data.totalAuctions;
 					this.dataSource = new MatTableDataSource<any>(res.data.auctions);
 					this.questionTags = res.data.questionTags;
-					console.log(res.data.auctions);
 					this.selection.clear();
 					if(this.totalAuctions <= this.pageSize * this.pageIndex){
 					this.pageIndex = 0;
-					}
-					if(!this.totalAuctions){
-					//this.newQuestionFlag = true;
-					}
-					else{
-					//this.newQuestionFlag = false;
 					}
 				},
 				(err: HttpErrorResponse) => {
@@ -190,26 +182,18 @@ export class ClosedAuctionsComponent implements OnInit {
 		event.stopPropagation();
 		var auctionIds = [];
 		auctionIds.push(auctionId);
-		//console.log(auctionIds);
 		this.finalDeleteAuctions(auctionIds);
 	}
 
 	public finalDeleteAuctions(auctionIds) {
 		if(auctionIds.length){
 			if(confirm("Are you sure to delete "+name)){
-				// this.blockUIService.setBlockStatus(true);
 				this.auctionService.deleteAuctions(auctionIds)
 					.subscribe(
 					(res: any) => {
-						// this.snackBar.open(res.data.totalDeleteQuestions+" of "+auctionIds.length+" questions are deleted.", 
-						// 'Dismiss', 
-						// {duration: 1500});
 						this.getClosedAuctions();
-						// this.blockUIService.setBlockStatus(false);
 					},
 					(err: HttpErrorResponse) => {
-						// this.snackBar.open(err.error.msg, 'Dismiss');
-						// this.blockUIService.setBlockStatus(false);
 					}
 					);
 			}
@@ -223,7 +207,6 @@ export class ClosedAuctionsComponent implements OnInit {
 		var auctionIds = [];
 		this.dataSource.data.forEach( (row) => {
 			if(this.selection.selected.some( selected => selected.index == row.index )){
-				///console.log("i", index);
 				auctionIds.push(row._id);
 			}
 		});
@@ -238,7 +221,6 @@ export class ClosedAuctionsComponent implements OnInit {
 	}
 
 	public finalSuspendAuctions(auctionIds, roleType) {
-		//console.log(auctionIds);
 		if(auctionIds.length){
 			if(confirm("Are you sure to " + roleType + "?")){
 				// this.blockUIService.setBlockStatus(true);
@@ -248,7 +230,6 @@ export class ClosedAuctionsComponent implements OnInit {
 						// this.snackBar.open(res.data.totalSuspendQuestions+" of "+auctionIds.length+" questions are suspended.", 
 						//   'Dismiss', 
 						//   {duration: 1500});
-						 console.log(res.data);
 						this.getClosedAuctions();
 						// this.blockUIService.setBlockStatus(false);
 					},
@@ -266,7 +247,6 @@ export class ClosedAuctionsComponent implements OnInit {
   
   cloneAuction(event, auction){
 		event.stopPropagation();
-    console.log(auction);
     this.openAuctionDialog(auction);
     this.getClosedAuctions();
   }

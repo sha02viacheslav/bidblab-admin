@@ -42,7 +42,6 @@ export class AuctionService {
   }
 
   changeAuctionsRole(body, roleType) {
-    //console.log("common service");
     return this.httpClient.post(
       `${environment.apiUrl}/api/admin/changeAuctionsRole/${roleType}`,
       body

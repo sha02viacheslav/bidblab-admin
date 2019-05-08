@@ -26,7 +26,6 @@ export class FlagsService {
   }
 
   changeFlagsRole(body, roleType) {
-    //console.log("common service");
     return this.httpClient.post(
       `${environment.apiUrl}/api/admin/changeFlagsRole/${roleType}`,
       body

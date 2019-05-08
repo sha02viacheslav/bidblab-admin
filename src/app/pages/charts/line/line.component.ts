@@ -30,6 +30,5 @@ export class LineComponent {
   }
   
   onSelect(event) {
-    console.log(event);
   }
 }

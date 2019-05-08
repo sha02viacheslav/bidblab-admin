@@ -124,38 +124,21 @@ export class ListComponent implements OnInit {
 		event.stopPropagation();
 		var recievers = [];
 		recievers.push(reciever);
-		//console.log(memberIds);
 		this.finalSendMessages(recievers);
 	}
 	public sendMessages(){
 		var recievers = [];
 		this.dataSource.data.forEach( (row, index) => {
 		if(this.selection.selected.some( selected => selected.index == row.index )){
-			///console.log("i", index);
 			recievers.push(row);
 		}
 		});
 		this.finalSendMessages(recievers);
-		//console.log(email);
-		// if(email.length){
-		//   this.dialogService
-		//   .open(MessageBoxComponent, {
-		//     data: {
-		//       email,
-		//     },
-		//     width: '600px'
-		//   }) 
-		// }
-		// else{
-		//   alert("You must select the members");
-		// }
 	}
 
 	public finalSendMessages(recievers) {
-		// console.log(recievers);
 		if(recievers.length){
 		if(confirm("Are you sure to send message?")){
-			// this.blockUIService.setBlockStatus(true);
 			this.commonDataService.recievers = recievers;
 			this.commonDataService.requestSendEmail = true;
 			this.router.navigateByUrl(`/mailbox`);
@@ -170,11 +153,9 @@ export class ListComponent implements OnInit {
 		var memberIds = [];
 		this.dataSource.data.forEach( (row, index) => {
 		if(this.selection.selected.some( selected => selected.index == row.index )){
-			///console.log("i", index);
 			memberIds.push(row._id);
 		}
 		});
-		//console.log(memberIds);
 		this.finalDeleteMembers(memberIds);
 	}
 
@@ -182,14 +163,12 @@ export class ListComponent implements OnInit {
 		event.stopPropagation();
 		var memberIds = [];
 		memberIds.push(memberId);
-		//console.log(memberIds);
 		this.finalDeleteMembers(memberIds);
 	}
 
 	public finalDeleteMembers(memberIds) {
 		if(memberIds.length){
 			if(confirm("Are you sure to delete "+name)){
-				// this.blockUIService.setBlockStatus(true);
 				this.usersService.deleteUsers(memberIds)
 				.subscribe(
 				(res: any) => {
@@ -215,11 +194,9 @@ export class ListComponent implements OnInit {
 		var memberIds = [];
 		this.dataSource.data.forEach( (row, index) => {
 		if(this.selection.selected.some( selected => selected.index == row.index )){
-			///console.log("i", index);
 			memberIds.push(row._id);
 		}
 		});
-		//console.log(memberIds);
 		this.finalSuspendMembers(memberIds, 'suspend');
 	}
 
@@ -227,28 +204,21 @@ export class ListComponent implements OnInit {
 		event.stopPropagation();
 		var memberIds = [];
 		memberIds.push(memberId);
-		//console.log(memberIds);
 		this.finalSuspendMembers(memberIds, roleType);
 	}
 
 	public finalSuspendMembers(memberIds, roleType) {
-		//console.log(memberIds);
 		if(memberIds.length){
 		if(confirm("Are you sure to " + roleType + "?")){
-			//this.blockUIService.setBlockStatus(true);
 			this.usersService.changeUsersRole(memberIds, roleType)
 			.subscribe(
 			(res: any) => {
 				// this.snackBar.open(res.data.totalSuspendMembers+" of "+memberIds.length+" members are suspended.", 
 				//   'Dismiss', 
 				//   {duration: 1500});
-				// console.log(res.data);
 				this.getUsers();
-				//this.blockUIService.setBlockStatus(false);
 			},
 			(err: HttpErrorResponse) => {
-				//this.snackBar.open(err.error.msg, 'Dismiss');
-				//this.blockUIService.setBlockStatus(false);
 			}
 			);
 		}

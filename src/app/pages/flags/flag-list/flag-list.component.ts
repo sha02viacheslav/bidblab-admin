@@ -79,7 +79,6 @@ export class FlagListComponent implements OnInit {
 				this.sortParam.direction,
 			).subscribe(
 				(res: any) => {
-          console.log(res);
 					this.totalFlags = res.data.totalFlags;
 					this.dataSource = new MatTableDataSource<any>(res.data.flags);
 					this.selection.clear();
@@ -153,7 +152,6 @@ export class FlagListComponent implements OnInit {
 		event.stopPropagation();
 		var flagIds = [];
 		flagIds.push(flagId);
-		//console.log(flagIds);
 		this.finalDeleteQuestions(flagIds);
 	}
 
@@ -186,11 +184,9 @@ export class FlagListComponent implements OnInit {
 		var flagIds = [];
 		this.dataSource.data.forEach( (row) => {
 			if(this.selection.selected.some( selected => selected.index == row.index )){
-				///console.log("i", index);
 				flagIds.push(row._id);
 			}
 		});
-		//console.log(flagIds);
 		this.finalSuspendFlags(flagIds, 'suspend');
 	}
 
@@ -198,12 +194,10 @@ export class FlagListComponent implements OnInit {
 		event.stopPropagation();
 		var flagIds = [];
 		flagIds.push(flagId);
-		//console.log(flagIds);
 		this.finalSuspendFlags(flagIds, roleType);
 	}
 
 	public finalSuspendFlags(flagIds, roleType) {
-		//console.log(flagIds);
 		if(flagIds.length){
 			if(confirm("Are you sure to " + roleType + "?")){
 				// this.blockUIService.setBlockStatus(true);
@@ -213,7 +207,6 @@ export class FlagListComponent implements OnInit {
 						// this.snackBar.open(res.data.totalSuspendQuestions+" of "+flagIds.length+" questions are suspended.", 
 						//   'Dismiss', 
 						//   {duration: 1500});
-						// console.log(res.data);
 						this.getFlags();
 						// this.blockUIService.setBlockStatus(false);
 					},

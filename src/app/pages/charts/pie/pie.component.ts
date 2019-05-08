@@ -26,7 +26,6 @@ export class PieComponent {
   }
   
   public onSelect(event) {
-    console.log(event);
   }
 
 }

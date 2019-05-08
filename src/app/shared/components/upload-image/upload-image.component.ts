@@ -40,7 +40,6 @@ export class UploadImageComponent implements OnInit {
     this.imageSource = this.originalImage;
   }
   saveCrop(){
-    console.log("emit");
     if(this.croppedFlag){
       var imageFile:Blob=this.dataURItoBlob(this.croppedImage);
       this.sendData.emit({originalFile: this.originalImage, croppedFile: imageFile, croppedImage: this.croppedImage});
@@ -59,7 +58,6 @@ export class UploadImageComponent implements OnInit {
     this.viewMenuFlag = !this.viewMenuFlag;
     if(this.viewMenuFlag == false){
       this.saveCrop();
-      console.log('save crop', this.croppedImage);
     }
   }
   imageCropped(event: ImageCroppedEvent) {
@@ -78,15 +76,9 @@ export class UploadImageComponent implements OnInit {
     });
   }
   imageLoaded() {
-    // show cropper
-    // console.log("imageLoaded");
   }
   cropperReady() {
-    // cropper ready
-    // console.log("cropperReady");
   }
   loadImageFailed() {
-    // show message
-    // console.log("loadImageFailed");
   }
 }

@@ -29,7 +29,6 @@ export class BarComponent {
   }
   
   public onSelect(event) {
-    console.log(event);
   }
 
 }

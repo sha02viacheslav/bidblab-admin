@@ -108,7 +108,6 @@ export class ProgressAuctionsComponent implements OnInit {
 				this.sortParam.direction,
 			).subscribe(
 				(res: any) => {
-          console.log(res.data);
 					this.totalAuctions = res.data.totalAuctions;
 					this.dataSource = new MatTableDataSource<any>(res.data.auctions);
 					this.questionTags = res.data.questionTags;
@@ -189,7 +188,6 @@ export class ProgressAuctionsComponent implements OnInit {
 		event.stopPropagation();
 		var auctionIds = [];
 		auctionIds.push(auctionId);
-		//console.log(auctionIds);
 		this.finalDeleteAuctions(auctionIds);
 	}
 
@@ -222,7 +220,6 @@ export class ProgressAuctionsComponent implements OnInit {
 		var auctionIds = [];
 		this.dataSource.data.forEach( (row) => {
 			if(this.selection.selected.some( selected => selected.index == row.index )){
-				///console.log("i", index);
 				auctionIds.push(row._id);
 			}
 		});
@@ -237,7 +234,6 @@ export class ProgressAuctionsComponent implements OnInit {
 	}
 
 	public finalSuspendAuctions(auctionIds, roleType) {
-		//console.log(auctionIds);
 		if(auctionIds.length){
 			if(confirm("Are you sure to " + roleType + "?")){
 				// this.blockUIService.setBlockStatus(true);
@@ -247,7 +243,6 @@ export class ProgressAuctionsComponent implements OnInit {
 						// this.snackBar.open(res.data.totalSuspendQuestions+" of "+auctionIds.length+" questions are suspended.", 
 						//   'Dismiss', 
 						//   {duration: 1500});
-						 console.log(res.data);
 						this.getProcessAuctions();
 						// this.blockUIService.setBlockStatus(false);
 					},
@@ -265,7 +260,6 @@ export class ProgressAuctionsComponent implements OnInit {
   
   cloneAuction(event, auction){
 		event.stopPropagation();
-    console.log(auction);
     this.openAuctionDialog(auction);
     this.getProcessAuctions();
   }

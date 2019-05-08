@@ -101,7 +101,6 @@ export class MailboxComponent implements OnInit {
           row.selected = false;
           row.isDeleted = (row.role & (1 << 3))? true : false;
         });
-        console.log(this.mails);
         this.selection.clear();
         if(this.totalMails <= this.pageSize * this.pageIndex){
         this.pageIndex = 0;
@@ -161,18 +160,15 @@ export class MailboxComponent implements OnInit {
 		var mailIds = [];
 		this.mails.forEach( (row) => {
 			if(this.selection.selected.some( selected => selected.index == row.index )){
-				///console.log("i", index);
 				mailIds.push(row._id);
 			}
 		});
-		//console.log(mailIds);
 		this.finalApplyRoleOfMails(mailIds, roleType, apply);
 	}
 
 	public applyRoleOfMail(mailId, roleType, apply){
 		var mailIds = [];
 		mailIds.push(mailId);
-		//console.log(mailIds);
 		this.finalApplyRoleOfMails(mailIds, roleType, apply);
 	}
 
@@ -214,7 +210,6 @@ export class MailboxComponent implements OnInit {
 	}
 
   public onSubmit(mail){
-    console.log(mail)
     if (this.form.valid) {
       this.mailboxService.sendMessage(mail).subscribe(
         (res: any) => {

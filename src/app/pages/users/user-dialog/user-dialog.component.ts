@@ -88,7 +88,6 @@ import { FormValidationService } from '../../../shared/services/form-validation.
 	}
 
 	addUser(){
-		console.log("adduser");
 		if(this.form.valid){
 			if(this.user._id){
 				this.usersService.updateUser(this.user._id, this.form.value)

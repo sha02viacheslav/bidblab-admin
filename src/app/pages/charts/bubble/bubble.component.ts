@@ -35,7 +35,6 @@ export class BubbleComponent {
   }
   
   onSelect(event) {
-    console.log(event);
   }
 
 }

@@ -108,19 +108,12 @@ export class PendingAuctionsComponent implements OnInit {
 				this.sortParam.direction,
 			).subscribe(
 				(res: any) => {
-          console.log(res.data);
 					this.totalAuctions = res.data.totalAuctions;
 					this.dataSource = new MatTableDataSource<any>(res.data.auctions);
 					this.questionTags = res.data.questionTags;
 					this.selection.clear();
 					if(this.totalAuctions <= this.pageSize * this.pageIndex){
 					this.pageIndex = 0;
-					}
-					if(!this.totalAuctions){
-					//this.newQuestionFlag = true;
-					}
-					else{
-					//this.newQuestionFlag = false;
 					}
 				},
 				(err: HttpErrorResponse) => {
@@ -189,7 +182,6 @@ export class PendingAuctionsComponent implements OnInit {
 		event.stopPropagation();
 		var auctionIds = [];
 		auctionIds.push(auctionId);
-		//console.log(auctionIds);
 		this.finalDeleteAuctions(auctionIds);
 	}
 
@@ -222,7 +214,6 @@ export class PendingAuctionsComponent implements OnInit {
 		var auctionIds = [];
 		this.dataSource.data.forEach( (row) => {
 			if(this.selection.selected.some( selected => selected.index == row.index )){
-				///console.log("i", index);
 				auctionIds.push(row._id);
 			}
 		});
@@ -237,7 +228,6 @@ export class PendingAuctionsComponent implements OnInit {
 	}
 
 	public finalSuspendAuctions(auctionIds, roleType) {
-		//console.log(auctionIds);
 		if(auctionIds.length){
 			if(confirm("Are you sure to " + roleType + "?")){
 				// this.blockUIService.setBlockStatus(true);
@@ -247,7 +237,6 @@ export class PendingAuctionsComponent implements OnInit {
 						// this.snackBar.open(res.data.totalSuspendQuestions+" of "+auctionIds.length+" questions are suspended.", 
 						//   'Dismiss', 
 						//   {duration: 1500});
-						 console.log(res.data);
 						this.getPendingAuctions();
 						// this.blockUIService.setBlockStatus(false);
 					},

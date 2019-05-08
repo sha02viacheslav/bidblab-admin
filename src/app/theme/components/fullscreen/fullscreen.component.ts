@@ -25,7 +25,6 @@ export class FullScreenComponent {
         } else if (elem.msRequestFullscreen) {
             elem.msRequestFullscreen();
         } else {
-            console.log('Fullscreen API is not supported.');
         }
     };
 
@@ -39,7 +38,6 @@ export class FullScreenComponent {
         } else if (document.msExitFullscreen) {
             document.msExitFullscreen();
         } else {
-            console.log('Fullscreen API is not supported.');
         }
     };
 

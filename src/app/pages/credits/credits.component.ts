@@ -32,7 +32,6 @@ export class CreditsComponent implements OnInit {
 		this.commonService.getDefaultCredits().subscribe(
 			(res: any) => {
 				this.form.controls._id.setValue(res.data._id);
-				console.log(res);
 				this.form.controls.defaultQuestionCredit.setValue(String(res.data.defaultQuestionCredit));
 				this.form.controls.defaultPublicAnswerCredit.setValue(String(res.data.defaultPublicAnswerCredit));
 				this.form.controls.defaultPrivateAnswerCredit.setValue(String(res.data.defaultPrivateAnswerCredit));
