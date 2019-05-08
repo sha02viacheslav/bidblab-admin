@@ -8,7 +8,7 @@
         <div class="bid-price-wrap" [ngClass]="{'unique-mark': bid.bidStatus == 0, 'highst-mark': bid.bidStatus == 2, 
           'deplicate-mark': bid.bidStatus == 1 || bid.bidStatus == 3}">
         </div>
-        <div class="bid-price">${{bid.bidPrice}}</div>
+        <div class="bid-price">{{bid.bidPrice | currency:'USD':'symbol':'1.2-2'}}</div>
         <div class="ring-cut" [ngClass]="{'display-none': bid.bidStatus != 2}"></div>
       </div>
       <div class="bid-content-wrap" fxLayout="row wrap" fxLayoutAlign="start center">
