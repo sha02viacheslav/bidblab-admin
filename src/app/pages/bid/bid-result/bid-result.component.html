@@ -1,4 +1,4 @@
-<div *ngIf="auction.bids.length" class="bid-result-box">
+<!-- <div *ngIf="auction.bids.length" class="bid-result-box">
   <div class="bid-result-title">
     Bid result
   </div>
@@ -25,4 +25,44 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
+
+
+<table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows class="mat-elevation-z8 w-100"
+  (matSortChange)="customSort($event)">
+  <ng-container matColumnDef="bidPrice">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Bid Price </th>
+    <td mat-cell *matCellDef="let element">
+      <div fxLayout="row wrap" fxLayoutAlign="start center">
+        <div class="bid-price-box">
+          <div class="bid-price-icon" [ngClass]="{'unique-mark': element.bidStatus == 0, 'highst-mark': element.bidStatus == 2, 
+            'deplicate-mark': element.bidStatus == 1 || element.bidStatus == 3}">
+          </div>
+          <div class="bid-price">{{element.bidPrice | currency:'':'':'1.2-2'}}</div>
+        </div>
+        <div *ngIf="element.bidStatus == 0">Unique Bid</div>
+        <div *ngIf="element.bidStatus == 2">Highst Unique Bid</div>
+        <div *ngIf="element.bidStatus == 1 || element.bidStatus == 3">Duplicate Bid</div>
+      </div>
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="username">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Bidder </th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-icon-button class="no-hover-effect" routerLink="/users/userdetail/{{element.bidder._id}}">
+        <mat-icon>person</mat-icon>{{element.bidder.username}}
+      </button>
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="IP">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> IP </th>
+    <td mat-cell *matCellDef="let element"> {{element.createdAt | date:"dd MMMM, yyyy hh:mm:ss a"}} </td>
+  </ng-container>
+  <ng-container matColumnDef="createdAt">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Submitted </th>
+    <td mat-cell *matCellDef="let element"> {{element.createdAt | date:"dd MMMM, yyyy hh:mm:ss a"}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let element; columns: displayedColumns;" class="example-element-row"></tr>
+</table>

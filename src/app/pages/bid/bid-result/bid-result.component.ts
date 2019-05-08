@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonService } from '../../../shared/services/common.service';
@@ -7,23 +7,35 @@ import { AuthenticationService } from '../../../shared/services/authentication.s
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { environment } from '../../../../environments/environment';
 import { MatDialog } from '@angular/material';
+import { MatTableDataSource, MatOption, MatSort } from '@angular/material';
 
 @Component({
   selector: 'app-bid-result',
   templateUrl: './bid-result.component.html',
   styleUrls: ['./bid-result.component.scss']
 })
-export class BidResultComponent implements OnInit {
+export class BidResultComponent implements OnInit, AfterViewInit {
 
   @Input() auction: any;
   @Input() auctionType: any;
   private serverUrl = environment.apiUrl;
+	public displayedColumns: string[] = ['bidPrice', 'username', 'IP', 'createdAt'];
+	public dataSource:any;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
   ) {
   }
 
   ngOnInit() {
+    this.auction.bids.forEach(element => {
+      element.username = element.bidder.username;
+    });
+    this.dataSource = new MatTableDataSource<any>(this.auction.bids);
+  }
+  
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
   }
 
   
