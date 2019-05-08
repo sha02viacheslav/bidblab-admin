@@ -10,7 +10,7 @@ export class NumericDirective {
 
     private regex = {
         number: new RegExp(/^\d+$/),
-        decimal: new RegExp(/^[0-9]+(\.[0-9]*){0,1}$/g)
+        decimal: new RegExp(/^\d*\.?\d{0,2}$/g)
     };
 
     private specialKeys = {
