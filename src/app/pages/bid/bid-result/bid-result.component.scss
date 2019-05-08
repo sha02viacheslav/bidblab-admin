@@ -43,25 +43,25 @@
       }
 
       .highst-mark {
-        border: solid 5px;
-        color: #f75555;
+        border-radius: 30px;
+        background-color: #f8498dff;
       }
 
       .unique-mark {
-        border: solid 30px;
-        color: #f75555;
+        border-radius: 30px;
+        background-color: #9216d0ff;
       }
 
       .deplicate-mark {
-        border: solid 2px;
-        color: #f75555;
+        border-radius: 30px;
+        background-color: #666666ff;
       }
 
       .bid-price {
         position: absolute;
         top: 20px;
         left: 3px;
-        //background: white;
+        color: white;
         width: 54px;
         height: 20px;
         text-align: center;
