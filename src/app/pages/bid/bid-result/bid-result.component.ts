@@ -19,7 +19,7 @@ export class BidResultComponent implements OnInit, AfterViewInit {
   @Input() auction: any;
   @Input() auctionType: any;
   private serverUrl = environment.apiUrl;
-	public displayedColumns: string[] = ['bidPrice', 'username', 'IP', 'createdAt'];
+	public displayedColumns: string[] = ['bidPrice', 'username', 'clientIp', 'createdAt'];
 	public dataSource:any;
   @ViewChild(MatSort) sort: MatSort;
 
