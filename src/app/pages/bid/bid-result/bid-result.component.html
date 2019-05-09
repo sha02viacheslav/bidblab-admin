@@ -28,8 +28,7 @@
 </div> -->
 
 
-<table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows class="mat-elevation-z8 w-100"
-  (matSortChange)="customSort($event)">
+<table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows class="mat-elevation-z8 w-100">
   <ng-container matColumnDef="bidPrice">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> Bid Price </th>
     <td mat-cell *matCellDef="let element">
