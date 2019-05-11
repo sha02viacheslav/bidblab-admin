@@ -19,7 +19,7 @@ export class SitemanagerService {
 
   getAboutPageContent() {
 		return this.httpClient.get(
-			`${environment.apiUrl}/api/admin/getAboutPageContent`
+			`${environment.apiUrl}/api/common/getAboutPageContent`
 		);
 	}
 
@@ -32,7 +32,7 @@ export class SitemanagerService {
 
   getHowPageContent() {
 		return this.httpClient.get(
-			`${environment.apiUrl}/api/admin/getHowPageContent`
+			`${environment.apiUrl}/api/common/getHowPageContent`
 		);
 	}
 
