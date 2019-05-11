@@ -29,4 +29,17 @@ export class SitemanagerService {
       body
     );
   } 
+
+  getHowPageContent() {
+		return this.httpClient.get(
+			`${environment.apiUrl}/api/admin/getHowPageContent`
+		);
+	}
+
+  saveHow(body) {
+    return this.httpClient.post(
+      `${environment.apiUrl}/api/admin/saveHow`,
+      body
+    );
+  } 
 }

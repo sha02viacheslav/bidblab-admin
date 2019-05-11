@@ -18,7 +18,7 @@ export class AboutComponent implements OnInit {
 
   constructor(
 		private commonService: CommonService,
-		private auctionService: SitemanagerService,
+		private sitemanagerService: SitemanagerService,
 		private snackBar: MatSnackBar,
     public fb: FormBuilder,
     private formValidationService: FormValidationService,
@@ -32,11 +32,15 @@ export class AboutComponent implements OnInit {
       ],
     });
 
-    this.auctionService.getAboutPageContent().subscribe(
+    this.sitemanagerService.getAboutPageContent().subscribe(
 			(res: any) => {
-        console.log(res.data);
-        this.infoForm.controls.quillContent.setValue(String(res.data.quillContent));
-				this.snackBar.open(res.msg, 'Dismiss', {duration: 1500});
+        if(res.data){
+          this.infoForm.controls.quillContent.setValue(String(res.data.quillContent));
+          this.snackBar.open(res.msg, 'Dismiss', {duration: 1500});
+        }
+        else{
+          this.snackBar.open(res.msg, 'Dismiss', {duration: 1500});
+        }
 			},
 			(err: HttpErrorResponse) => {
 				this.snackBar.open(err.error.msg, 'Dismiss');
@@ -44,10 +48,10 @@ export class AboutComponent implements OnInit {
 		);
   }
 
-  addAuction(){
+  editSitemanager(){
     if (this.infoForm.valid) {
       this.submitted = true;
-      this.auctionService.saveAbout(this.infoForm.value).subscribe(
+      this.sitemanagerService.saveAbout(this.infoForm.value).subscribe(
         (res: any) => {
           this.snackBar.open(res.msg, 'Dismiss', {
             duration: 3000
