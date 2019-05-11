@@ -13,6 +13,12 @@ export const verticalMenuItems = [
     new Menu (53, 'Auctions in Progress', '/bid/progressauctions', null, 'lock_open', null, false, 50),   
     new Menu (54, 'Closed Auctions', '/bid/closedauctions', null, 'lock', null, false, 50), 
     new Menu (60, 'Mailbox', '/mailbox', null, 'email', null, false, 0),
+    new Menu (70, 'Site Manager', null, null, 'email', null, true, 0),
+    new Menu (71, 'About', '/sitemanager/about', null, 'lock', null, false, 70), 
+    new Menu (72, 'How it works?', '/sitemanager/how', null, 'lock', null, false, 70), 
+    new Menu (73, 'Terms of Service', '/sitemanager/terms', null, 'lock', null, false, 70), 
+    new Menu (74, 'Cookie Policy', '/sitemanager/cookie', null, 'lock', null, false, 70), 
+    new Menu (75, 'Privacy Policy', '/sitemanager/privacy', null, 'lock', null, false, 70), 
 
 
     // new Menu (1, 'Dashboard', '/', null, 'dashboard', null, false, 0),
