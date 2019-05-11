@@ -42,4 +42,43 @@ export class SitemanagerService {
       body
     );
   } 
+
+  getTermsPageContent() {
+		return this.httpClient.get(
+			`${environment.apiUrl}/api/common/getTermsPageContent`
+		);
+	}
+
+  saveTerms(body) {
+    return this.httpClient.post(
+      `${environment.apiUrl}/api/admin/saveTerms`,
+      body
+    );
+  } 
+
+  getCookiePageContent() {
+		return this.httpClient.get(
+			`${environment.apiUrl}/api/common/getCookiePageContent`
+		);
+	}
+
+  saveCookie(body) {
+    return this.httpClient.post(
+      `${environment.apiUrl}/api/admin/saveCookie`,
+      body
+    );
+  } 
+
+  getPrivacyPageContent() {
+		return this.httpClient.get(
+			`${environment.apiUrl}/api/common/getPrivacyPageContent`
+		);
+	}
+
+  savePrivacy(body) {
+    return this.httpClient.post(
+      `${environment.apiUrl}/api/admin/savePrivacy`,
+      body
+    );
+  } 
 }
