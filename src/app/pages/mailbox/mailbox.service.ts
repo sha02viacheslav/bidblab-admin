@@ -24,6 +24,13 @@ export class MailboxService {
           body
         );
     } 
+
+    archiveMessage(body) {
+        return this.httpClient.post(
+          `${environment.apiUrl}/api/admin/archiveMessage`,
+          body
+        );
+    } 
     
     getMails(limit?, offset?, search?, type?, active?, direction?): Observable<any>  {
         return this.httpClient.get<any>(

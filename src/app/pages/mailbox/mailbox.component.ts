@@ -49,7 +49,6 @@ export class MailboxComponent implements OnInit {
     this.settings = this.appSettings.settings; 
     this.commonDataService.recievers.forEach( element => {
       this.toUsername.push(element.username);
-      this.toUserId.push(element._id);
     })
     this.newMail = this.commonDataService.requestSendEmail;
   }
@@ -60,10 +59,9 @@ export class MailboxComponent implements OnInit {
       this.sidenavOpen = false;
     }
     this.form = this.formBuilder.group({
-      'to': [this.toUsername, Validators.required],
-      'recievers': [this.toUserId, Validators.required],
-      'subject': null,    
-      'message': null
+      'recievers': [this.toUsername.join(','), Validators.required],
+      'subject': '',    
+      'message': ''
     });  
   }
 
@@ -81,10 +79,9 @@ export class MailboxComponent implements OnInit {
     let role;                        
     switch(this.type){
       case 'all': { role = ''; break; }
-      case 'starred': { role = 1 << 0; break; }
+      case 'inbox': { role = 1 << 0; break; }
       case 'sent': { role = 1 << 1; break; }
-      case 'drafts': { role = 1 << 2; break; }
-      case 'trash': { role = 1 << 3; break; }
+      case 'archived': { role = 1 << 2; break; }
     }
     this.mailboxService.getMails(
       this.pageSize,
@@ -209,7 +206,7 @@ export class MailboxComponent implements OnInit {
 		this.getMails();
 	}
 
-  public onSubmit(mail){
+  public sendMessage(mail){
     if (this.form.valid) {
       this.mailboxService.sendMessage(mail).subscribe(
         (res: any) => {
@@ -224,8 +221,31 @@ export class MailboxComponent implements OnInit {
         }
       );
       
-      this.form.reset();     
+      this.form.reset();  
+      this.commonDataService.recievers = [];   
     }
+  }
+
+  public cancelSendMessage(mail){
+    this.newMail = false; 
+    if(mail.recievers || mail.subject || mail.message){
+      if(confirm("Will you archive message?")){
+        this.mailboxService.archiveMessage(mail).subscribe(
+          (res: any) => {
+            this.snackBar.open(res.msg, null, {
+              duration: 2000,
+            });
+          },
+          (err: HttpErrorResponse) => {
+            this.snackBar.open(err.error.msg, 'Dismiss', {
+              duration: 2000
+            });
+          }
+        );
+      }
+    }
+    this.form.reset();  
+    this.commonDataService.recievers = []; 
   }
 
 }

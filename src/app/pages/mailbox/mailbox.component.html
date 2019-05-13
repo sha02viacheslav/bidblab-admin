@@ -44,10 +44,9 @@
                     <mat-menu #filterMenu="matMenu" xPosition="before" overlapTrigger="true">
                         <span (mouseleave)="filterMenuTrigger.closeMenu()">
                             <button mat-menu-item (click)="type = 'all';getMails();">All</button>
-                            <button mat-menu-item (click)="type = 'starred';getMails();">Starred</button>
-                            <button mat-menu-item (click)="type = 'sent';getMails();">Sent</button>
-                            <button mat-menu-item (click)="type = 'drafts';getMails();">Drafts</button>
-                            <button mat-menu-item (click)="type = 'trash';getMails();">Trash</button>
+                            <button mat-menu-item (click)="type = 'inbox';getMails();">In-Box</button>
+                            <button mat-menu-item (click)="type = 'sent';getMails();">SentMail</button>
+                            <button mat-menu-item (click)="type = 'archived';getMails();">Archived</button>
                         </span>
                     </mat-menu>
                     <mat-nav-list class="p-0 mailbox-sidenav-list" perfectScrollbar>
@@ -180,22 +179,16 @@
                             <mat-icon>mail_outline</mat-icon>
                             <p>Select a mail to read</p>
                         </div>
-                        <form *ngIf="newMail" [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class="mail-body">
+                        <form *ngIf="newMail" [formGroup]="form" (ngSubmit)="sendMessage(form.value)" class="mail-body">
                             <mat-form-field class="w-100">
-                                <input matInput placeholder="To" formControlName="to">
+                                <input matInput placeholder="To" formControlName="recievers">
                             </mat-form-field>
-                            <mat-form-field class="w-100" style="display: none;">
-                                <input matInput formControlName="recievers">
-                            </mat-form-field>
-                            <!-- <mat-form-field class="w-100">
-                                <input matInput placeholder="Cc/Bcc" formControlName="cc">
-                            </mat-form-field>  -->
                             <mat-form-field class="w-100">
                                 <input matInput placeholder="Subject" formControlName="subject">
                             </mat-form-field>
                             <quill-editor formControlName="message"></quill-editor>
                             <div fxLayout="row" fxLayoutAlign="space-between center">
-                                <button mat-raised-button (click)="newMail = false;" type="button">Cancel</button>
+                                <button mat-raised-button (click)="cancelSendMessage(form.value);" type="button">Cancel</button>
                                 <button mat-raised-button color="primary" type="submit">Send</button>
                             </div>
                         </form>
