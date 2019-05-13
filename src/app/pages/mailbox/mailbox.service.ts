@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core'
-import { Mail } from './mail.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthenticationService } from '../../shared/services/authentication.service';
@@ -14,8 +13,7 @@ let Mails = [
 export class MailboxService {
 
     constructor(
-      public httpClient:HttpClient,
-      private authenticationService: AuthenticationService
+      public httpClient:HttpClient
     ) { }
 
     sendMessage(body) {

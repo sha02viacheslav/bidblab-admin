@@ -4,7 +4,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material';
 import { AppSettings } from '../../app.settings';
 import { Settings } from '../../app.settings.model';
-import { Mail } from './mail.model';
 import { CommonDataService } from '../../shared/services/common-data.service';
 import { CommonService } from '../../shared/services/common.service';
 import { MailboxService } from './mailbox.service';
@@ -210,7 +209,7 @@ export class MailboxComponent implements OnInit {
     if (this.form.valid) {
       this.mailboxService.sendMessage(mail).subscribe(
         (res: any) => {
-          this.snackBar.open('Mail sent to ' + mail.to + ' successfully!', null, {
+          this.snackBar.open('Mail sent to ' + mail.recievers + ' successfully!', null, {
             duration: 2000,
           });
         },
