@@ -227,7 +227,7 @@ export class MailboxComponent implements OnInit {
 
   public cancelSendMessage(mail){
     this.newMail = false; 
-    if(mail.recievers || mail.subject || mail.message){
+    if(mail.recievers && mail.subject && mail.message){
       if(confirm("Will you archive message?")){
         this.mailboxService.archiveMessage(mail).subscribe(
           (res: any) => {
