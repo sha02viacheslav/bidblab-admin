@@ -14,6 +14,7 @@ import { animate, state, style, transition, trigger} from '@angular/animations';
 import { environment } from '../../../../environments/environment';
 import { CommonService } from '../../../shared/services/common.service';
 import { UsersService } from '../users.service';
+import { AlertDialogComponent } from '../../../shared/components/alert-dialog/alert-dialog.component';
 
 @Component({
 	selector: 'app-list',
@@ -138,23 +139,33 @@ export class ListComponent implements OnInit {
 
 	public finalSendMessages(recievers) {
 		if(recievers.length){
-		if(confirm("Are you sure to send message?")){
-			this.commonDataService.recievers = recievers;
-			this.commonDataService.requestSendEmail = true;
-			this.router.navigateByUrl(`/mailbox`);
-		}
+			this.dialog.
+        open(AlertDialogComponent, {
+          data: {
+            title: "Are you sure send message?",
+            comment: "",
+            dialog_type: "confirm" 
+          },
+          width: '320px',
+        }).afterClosed().subscribe(result => {
+          if(result == 'more'){
+            this.commonDataService.recievers = recievers;
+						this.commonDataService.requestSendEmail = true;
+						this.router.navigateByUrl(`/mailbox`);
+          }
+        });
 		}
 		else{
-		alert("Select the members");
+			alert("Select the members");
 		}
 	}
 
 	public deleteMembers(){
 		var memberIds = [];
 		this.dataSource.data.forEach( (row, index) => {
-		if(this.selection.selected.some( selected => selected.index == row.index )){
-			memberIds.push(row._id);
-		}
+			if(this.selection.selected.some( selected => selected.index == row.index )){
+				memberIds.push(row._id);
+			}
 		});
 		this.finalDeleteMembers(memberIds);
 	}

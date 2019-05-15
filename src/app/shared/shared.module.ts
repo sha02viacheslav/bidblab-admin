@@ -36,6 +36,7 @@ import { NumericDirective } from './directives/number.directive';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { UploadImageComponent } from './components/upload-image/upload-image.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { AlertDialogComponent } from './components/alert-dialog/alert-dialog.component';
 
 @NgModule({
   imports: [
@@ -118,9 +119,14 @@ import { ImageCropperModule } from 'ngx-image-cropper';
   declarations: [
     NumericDirective,
     UploadImageComponent,
+    AlertDialogComponent,
   ],
   providers: [
+  ],
+  entryComponents: [
+    AlertDialogComponent,
   ]
+
 
 })
 export class SharedModule { }
