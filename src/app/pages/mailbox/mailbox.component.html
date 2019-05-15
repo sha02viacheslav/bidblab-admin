@@ -182,9 +182,11 @@
                         <form *ngIf="newMail" [formGroup]="form" (ngSubmit)="sendMessage(form.value)" class="mail-body">
                             <mat-form-field class="w-100">
                                 <input matInput placeholder="To" formControlName="recievers">
+                                <mat-error *ngIf="form.controls.recievers.errors?.required">To is required</mat-error>
                             </mat-form-field>
                             <mat-form-field class="w-100">
                                 <input matInput placeholder="Subject" formControlName="subject">
+                                <mat-error *ngIf="form.controls.recievers.errors?.required">Subject is required</mat-error>
                             </mat-form-field>
                             <quill-editor formControlName="message"></quill-editor>
                             <div fxLayout="row" fxLayoutAlign="space-between center">

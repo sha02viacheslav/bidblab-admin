@@ -59,8 +59,8 @@ export class MailboxComponent implements OnInit {
     }
     this.form = this.formBuilder.group({
       'recievers': [this.toUsername.join(','), Validators.required],
-      'subject': '',    
-      'message': ''
+      'subject': ['', Validators.required],    
+      'message': ['', Validators.required]
     });  
   }
 
