@@ -142,7 +142,7 @@
                                         <span>{{mail.createdAt | date}}</span>
                                     </h6>
                                     <span
-                                        matLine>to&nbsp;{{ mail.recievers[0]? mail.recievers[0].username + '...' : 'Admin' }}</span>
+                                        matLine>to&nbsp;{{ mail.recievers? mail.recievers[0].username + '...' : 'Admin' }}</span>
                                 </mat-list-item>
                                 <mat-divider></mat-divider>
                             </mat-list>

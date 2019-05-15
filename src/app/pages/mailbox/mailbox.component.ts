@@ -77,7 +77,7 @@ export class MailboxComponent implements OnInit {
 
     let role;                        
     switch(this.type){
-      case 'all': { role = ''; break; }
+      case 'all': { role = 1 << 0 | 1 << 1 | 1 << 2; break; }
       case 'inbox': { role = 1 << 0; break; }
       case 'sent': { role = 1 << 1; break; }
       case 'archived': { role = 1 << 2; break; }
