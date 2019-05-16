@@ -18,7 +18,7 @@ export class CommonService {
 
   getDefaultCredits() {
 		return this.httpClient.get(
-			`${environment.apiUrl}/api/admin/getDefaultCredits`
+			`${environment.apiUrl}/api/common/getDefaultCredits`
 		);
 	}
 
