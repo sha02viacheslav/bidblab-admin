@@ -67,6 +67,10 @@
 				<th mat-header-cell *matHeaderCellDef mat-sort-header> Credit </th>
 				<td mat-cell *matCellDef="let element"> {{element.credit}} </td>
 			</ng-container>
+			<ng-container matColumnDef="answerCredit">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header> Answer Credit </th>
+				<td mat-cell *matCellDef="let element"> {{element.answerCredit? element.answerCredit : 'default'}} </td>
+			</ng-container>
 			<ng-container matColumnDef="createdAt">
 				<th mat-header-cell *matHeaderCellDef mat-sort-header> Submited </th>
 				<td mat-cell *matCellDef="let element"> {{element.createdAt | date}}</td>

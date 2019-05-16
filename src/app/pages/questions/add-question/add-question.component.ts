@@ -63,8 +63,8 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
           this.formValidationService.isBlank
         ]
       ],
-      credit: [
-        this.data.question ? String(this.data.question.credit) : '',
+      answerCredit: [
+        (this.data.question && this.data.question.answerCredit)? String(this.data.question.answerCredit) : '',
         [
           Validators.required,
           Validators.min(0),
@@ -74,10 +74,10 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
       tag: this.data.question ? this.data.question.tag : '',
     });
 
-    if(!this.data.question){
+    if(!(this.data.question && this.data.question.answerCredit)){
       this.commonService.getDefaultCredits().subscribe(
         (res: any) => {
-          this.infoForm.controls.credit.setValue(String(res.data.defaultQuestionCredit));
+          this.infoForm.controls.answerCredit.setValue(String(res.data.defaultPublicAnswerCredit));
         },
         (err: HttpErrorResponse) => {
           this.snackBar.open(err.error.msg, 'Dismiss');
@@ -85,14 +85,11 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
       );
     }
 
-   
-
     if(this.data.question && this.data.question.questionPicture){
       this.getInitialImage(0);
     }
 
-    const observable = this.commonService.getStandardInterests();
-    observable.subscribe(
+    this.commonService.getStandardInterests().subscribe(
       (res: any) => {
         this.standardInterests = res.data;
         this.formArray = this.infoForm.get('tags') as FormArray;
@@ -193,7 +190,7 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
         }
       });
       uploadData.append('title', this.infoForm.value.title);
-      uploadData.append('credit', this.infoForm.value.credit);
+      uploadData.append('answerCredit', this.infoForm.value.answerCredit);
       uploadData.append('tag', this.infoForm.value.tag);
       if (this.data.question) {
         uploadData.append('questionId', this.data.question._id);
