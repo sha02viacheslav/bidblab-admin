@@ -11,32 +11,40 @@ import { AuthenticationService } from '../../shared/services/authentication.serv
 })
 export class AuctionService {
 
+  public auctionRole = {
+    pending: 1,
+    process: 2,
+    closed: 4,
+    deleted: 8,
+    all: 15
+  };
+
   constructor(
     public httpClient:HttpClient,
     private router: Router,
     private authenticationService: AuthenticationService
   ) { }
 
-  getPendingAuctions(limit?, offset?, search?, filterTags?, active?, direction?) {
+  getPendingAuctions(limit?, offset?, search?, auctionType?, active?, direction?) {
     return this.httpClient.get(
       `${environment.apiUrl}/api/admin/getPendingAuctions?limit=${limit ||
-        10}&offset=${offset || 0}&search=${search || ''}&filterTags=${filterTags || ''}
+        10}&offset=${offset || 0}&search=${search || ''}&auctionType=${auctionType || ''}
         &active=${active || ''}&direction=${direction || ''}`
     );
   }
 
-  getProcessAuctions(limit?, offset?, search?, filterTags?, active?, direction?) {
+  getProcessAuctions(limit?, offset?, search?, auctionType?, active?, direction?) {
     return this.httpClient.get(
       `${environment.apiUrl}/api/admin/getProcessAuctions?limit=${limit ||
-        10}&offset=${offset || 0}&search=${search || ''}&filterTags=${filterTags || ''}
+        10}&offset=${offset || 0}&search=${search || ''}&auctionType=${auctionType || ''}
         &active=${active || ''}&direction=${direction || ''}`
     );
   }
 
-  getClosedAuctions(limit?, offset?, search?, filterTags?, active?, direction?) {
+  getClosedAuctions(limit?, offset?, search?, auctionType?, active?, direction?) {
     return this.httpClient.get(
       `${environment.apiUrl}/api/admin/getClosedAuctions?limit=${limit ||
-        10}&offset=${offset || 0}&search=${search || ''}&filterTags=${filterTags || ''}
+        10}&offset=${offset || 0}&search=${search || ''}&auctionType=${auctionType || ''}
         &active=${active || ''}&direction=${direction || ''}`
     );
   }

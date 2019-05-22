@@ -103,7 +103,7 @@ export class ProgressAuctionsComponent implements OnInit {
 				this.pageSize,
 				this.pageIndex,
 				this.search,
-				this.tagsOfQuestionForm.value.tagsOfQuestion,
+				this.auctionService.auctionRole.process,
 				this.sortParam.active,
 				this.sortParam.direction,
 			).subscribe(

@@ -103,7 +103,7 @@ export class PendingAuctionsComponent implements OnInit {
 				this.pageSize,
 				this.pageIndex,
 				this.search,
-				this.tagsOfQuestionForm.value.tagsOfQuestion,
+				this.auctionService.auctionRole.pending,
 				this.sortParam.active,
 				this.sortParam.direction,
 			).subscribe(

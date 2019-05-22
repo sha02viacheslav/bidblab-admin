@@ -103,7 +103,7 @@ export class ClosedAuctionsComponent implements OnInit {
 				this.pageSize,
 				this.pageIndex,
 				this.search,
-				this.tagsOfQuestionForm.value.tagsOfQuestion,
+				this.auctionService.auctionRole.closed,
 				this.sortParam.active,
 				this.sortParam.direction,
 			).subscribe(
