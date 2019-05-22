@@ -211,23 +211,23 @@ export class MailboxComponent implements OnInit {
 
   public cancelSendMessage(mail){
     this.newMail = false; 
-    if(mail.recievers){
-      if(confirm("Will you archive message?")){
-        this.mailboxService.archiveMessage(mail).subscribe(
-          (res: any) => {
-            this.snackBar.open(res.msg, null, {
-              duration: 2000,
-            });
-            this.form.reset();  
-          },
-          (err: HttpErrorResponse) => {
-            this.snackBar.open(err.error.msg, 'Dismiss', {
-              duration: 2000
-            });
-          }
-        );
-      }
-    }
+    // if(mail.recievers){
+    //   if(confirm("Will you archive message?")){
+    //     this.mailboxService.archiveMessage(mail).subscribe(
+    //       (res: any) => {
+    //         this.snackBar.open(res.msg, null, {
+    //           duration: 2000,
+    //         });
+    //         this.form.reset();  
+    //       },
+    //       (err: HttpErrorResponse) => {
+    //         this.snackBar.open(err.error.msg, 'Dismiss', {
+    //           duration: 2000
+    //         });
+    //       }
+    //     );
+    //   }
+    // }
     this.commonDataService.recievers = []; 
   }
 
