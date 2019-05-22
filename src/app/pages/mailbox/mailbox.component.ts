@@ -17,13 +17,20 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./mailbox.component.scss'],
 })
 export class MailboxComponent implements OnInit {
+  public mailRole = {
+    inbox: 1 ,
+    sent: 2,
+    archived: 4,
+    trash: 8,
+    all: 15
+  }
   @ViewChild('sidenav') sidenav: any;
   public settings: Settings;
   public sidenavOpen:boolean = true;
   public mails: any[];
   public mail: any;
   public newMail: boolean;
-  public type:string = 'all';
+  public mailType:number = this.mailRole.all;
   private totalMails: number;
 	private pageSize: number;
 	private pageIndex: number;
@@ -59,8 +66,8 @@ export class MailboxComponent implements OnInit {
     }
     this.form = this.formBuilder.group({
       'recievers': [this.toUsername.join(','), Validators.required],
-      'subject': ['', Validators.required],    
-      'message': ['', Validators.required]
+      'subject': '',    
+      'message': ''
     });  
   }
 
@@ -75,24 +82,18 @@ export class MailboxComponent implements OnInit {
       this.pageIndex = event.pageIndex;
     }
 
-    let role;                        
-    switch(this.type){
-      case 'all': { role = 1 << 0 | 1 << 1 | 1 << 2; break; }
-      case 'inbox': { role = 1 << 0; break; }
-      case 'sent': { role = 1 << 1; break; }
-      case 'archived': { role = 1 << 2; break; }
-    }
     this.mailboxService.getMails(
       this.pageSize,
       this.pageIndex,
       this.search,
-      role,
+      this.mailType,
       this.sortParam.active,
       this.sortParam.direction,
     ).subscribe(
       (res: any) => {
         this.totalMails = res.data.totalMails;
         this.mails = res.data.mails;
+        console.log(this.mails);
         this.mails.forEach(row => {
           row.selected = false;
           row.isDeleted = (row.role & (1 << 3))? true : false;
@@ -123,6 +124,11 @@ export class MailboxComponent implements OnInit {
     this.mail = mail;    
     this.mails.forEach(m => m.selected = false);
     this.mail.selected = true;
+    if(this.mail.sender){
+      this.form.controls.recievers.setValue(this.mail.sender.username);
+      this.form.controls.subject.setValue(this.mail.subject);
+      this.form.controls.message.setValue('');
+    }
     // this.mail.unread = false;
     this.newMail = false;
     if(window.innerWidth <= 992){
@@ -132,24 +138,10 @@ export class MailboxComponent implements OnInit {
 
   public compose(){
     this.mail = null;
+    this.form.controls.recievers.setValue('');
+    this.form.controls.subject.setValue('');
+    this.form.controls.message.setValue('');
     this.newMail = true;
-  }
-
-  public setAsRead(){
-    this.mail.unread = false;
-  }
-
-  public setAsUnRead(){
-    this.mail.unread = true;
-  }
-
-  public delete() {
-    this.mail.trash = true;
-    this.mail.sent = false;
-    this.mail.draft = false; 
-    this.mail.starred = false; 
-    this.getMails();
-    this.mail = null;
   }
 
   public applyRoleOfMails(roleType, apply){
@@ -186,18 +178,10 @@ export class MailboxComponent implements OnInit {
 			alert("Select the questions");
 		}
   }
-  
 
   public changeStarStatus() {       
     this.mail.starred = !this.mail.starred;
     this.getMails(); 
-  }
-
-  public restore(){
-    this.mail.trash = false;
-    this.type = 'all';
-    this.getMails();
-    this.mail = null; 
   }
 
   applySearch(searchValue: string) {
@@ -212,6 +196,7 @@ export class MailboxComponent implements OnInit {
           this.snackBar.open('Mail sent to ' + mail.recievers + ' successfully!', null, {
             duration: 2000,
           });
+          this.form.reset(); 
         },
         (err: HttpErrorResponse) => {
           this.snackBar.open(err.error.msg, 'Dismiss', {
@@ -219,21 +204,21 @@ export class MailboxComponent implements OnInit {
           });
         }
       );
-      
-      this.form.reset();  
+       
       this.commonDataService.recievers = [];   
     }
   }
 
   public cancelSendMessage(mail){
     this.newMail = false; 
-    if(mail.recievers && mail.subject && mail.message){
+    if(mail.recievers){
       if(confirm("Will you archive message?")){
         this.mailboxService.archiveMessage(mail).subscribe(
           (res: any) => {
             this.snackBar.open(res.msg, null, {
               duration: 2000,
             });
+            this.form.reset();  
           },
           (err: HttpErrorResponse) => {
             this.snackBar.open(err.error.msg, 'Dismiss', {
@@ -243,7 +228,6 @@ export class MailboxComponent implements OnInit {
         );
       }
     }
-    this.form.reset();  
     this.commonDataService.recievers = []; 
   }
 
