@@ -162,7 +162,7 @@ export class MailboxComponent implements OnInit {
 
 	public finalApplyRoleOfMails(mailIds, roleType, apply) {
 		if(mailIds.length){
-			if(confirm("Are you sure to " + (apply == 'true'? 'delete' : 'restore') + "?")){
+			if(confirm("Are you sure to " + (apply == true? 'delete' : 'restore') + " message?")){
 				this.mailboxService.applyRoleOfMails(mailIds, roleType, apply)
 					.subscribe(
 					(res: any) => {
