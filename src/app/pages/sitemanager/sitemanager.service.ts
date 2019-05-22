@@ -81,4 +81,17 @@ export class SitemanagerService {
       body
     );
   } 
+
+  getInvestorPageContent() {
+		return this.httpClient.get(
+			`${environment.apiUrl}/api/common/getInvestorPageContent`
+		);
+	}
+
+  saveInvestor(body) {
+    return this.httpClient.post(
+      `${environment.apiUrl}/api/admin/saveInvestor`,
+      body
+    );
+  } 
 }

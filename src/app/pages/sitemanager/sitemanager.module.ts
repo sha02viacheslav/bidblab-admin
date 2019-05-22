@@ -13,6 +13,7 @@ import { HowComponent } from './how/how.component';
 import { TermsComponent } from './terms/terms.component';
 import { CookieComponent } from './cookie/cookie.component';
 import { PrivacyComponent } from './privacy/privacy.component';
+import { InvestorComponent } from './investor/investor.component';
 
 export const routes = [
   { path: '', component: SitemanagerComponent, pathMatch: 'full' },
@@ -21,10 +22,19 @@ export const routes = [
   { path: 'terms', component: TermsComponent, data: { breadcrumb: 'About' } },
   { path: 'cookie', component: CookieComponent, data: { breadcrumb: 'About' } },
   { path: 'privacy', component: PrivacyComponent, data: { breadcrumb: 'About' } },
+  { path: 'investor', component: InvestorComponent, data: { breadcrumb: 'About' } },
 ];
 
 @NgModule({
-  declarations: [SitemanagerComponent, AboutComponent, HowComponent, TermsComponent, CookieComponent, PrivacyComponent],
+  declarations: [
+    SitemanagerComponent,
+    AboutComponent,
+    HowComponent,
+    TermsComponent,
+    CookieComponent,
+    PrivacyComponent,
+    InvestorComponent
+  ],
   imports: [
     CommonModule,
     HttpClientModule,

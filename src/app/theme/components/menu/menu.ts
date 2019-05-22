@@ -19,6 +19,7 @@ export const verticalMenuItems = [
     new Menu (73, 'Terms of Service', '/sitemanager/terms', null, 'local_laundry_service', null, false, 70), 
     new Menu (74, 'Cookie Policy', '/sitemanager/cookie', null, 'local_activity', null, false, 70), 
     new Menu (75, 'Privacy Policy', '/sitemanager/privacy', null, 'security', null, false, 70), 
+    new Menu (76, 'Investor Relations', '/sitemanager/investor', null, 'recent_actors', null, false, 70), 
 
 
     // new Menu (1, 'Dashboard', '/', null, 'dashboard', null, false, 0),
