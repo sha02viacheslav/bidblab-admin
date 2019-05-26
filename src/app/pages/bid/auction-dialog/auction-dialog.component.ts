@@ -101,7 +101,7 @@ export class AuctionDialogComponent implements OnInit {
     if(!this.data.auctionId){
       this.auctionService.getDataForAddAuction().subscribe(
         (res: any) => {
-          this.infoForm.controls.auctionSerial.setValue(("0000000" + (res.data.finalAuctionSerial + 1)).slice(-7));
+          this.infoForm.controls.auctionSerial.setValue(("0000000" + res.data.finalAuctionSerial).slice(-7));
         },
         (err: HttpErrorResponse) => {
           this.snackBar.open(err.error.msg, 'Dismiss', {
@@ -196,40 +196,20 @@ export class AuctionDialogComponent implements OnInit {
       uploadData.append('auctionDetail', this.infoForm.value.auctionDetail);
       if(this.data.auctionId){
         uploadData.append('auctionId', this.data.auctionId);
-        this.auctionService.updateAuction(uploadData).subscribe(
-          (res: any) => {
-            this.snackBar.open(res.msg, 'Dismiss', {
-              duration: 3000
-            })
-            .afterOpened()
-            .subscribe(() => {
-              this.dialogRef.close(res.data);
-            });
-          },
-          (err: HttpErrorResponse) => {
-            this.snackBar.open(err.error.msg, 'Dismiss', {
-              duration: 1500
-            });
+        this.auctionService.updateAuction(uploadData).subscribe((res: any) => {
+          this.snackBar.open(res.msg, 'Dismiss', {duration: 3000});
+          if(res.data){
+            this.dialogRef.close(res.data);
           }
-        );
+        });
       }
       else{
-        this.auctionService.addAuction(uploadData).subscribe(
-          (res: any) => {
-            this.snackBar.open(res.msg, 'Dismiss', {
-              duration: 3000
-            })
-            .afterOpened()
-            .subscribe(() => {
-              this.dialogRef.close(res.data);
-            });
-          },
-          (err: HttpErrorResponse) => {
-            this.snackBar.open(err.error.msg, 'Dismiss', {
-              duration: 1500
-            });
+        this.auctionService.addAuction(uploadData).subscribe((res: any) => {
+          this.snackBar.open(res.msg, 'Dismiss', {duration: 3000});
+          if(res.data){
+            this.dialogRef.close(res.data);
           }
-        );
+        });
       }
     }
   }

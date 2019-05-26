@@ -95,7 +95,7 @@ export class NewAuctionComponent implements OnInit {
     
     this.auctionService.getDataForAddAuction().subscribe(
       (res: any) => {
-        this.infoForm.controls.auctionSerial.setValue(("0000000" + (res.data.finalAuctionSerial + 1)).slice(-7));
+        this.infoForm.controls.auctionSerial.setValue(("0000000" + res.data.finalAuctionSerial).slice(-7));
       },
       (err: HttpErrorResponse) => {
         this.snackBar.open(err.error.msg, 'Dismiss', {
@@ -156,22 +156,12 @@ export class NewAuctionComponent implements OnInit {
       uploadData.append('closes', this.infoForm.value.closes);
       uploadData.append('auctionSerial', this.infoForm.value.auctionSerial);
       uploadData.append('auctionDetail', this.infoForm.value.auctionDetail);
-      this.auctionService.addAuction(uploadData).subscribe(
-        (res: any) => {
-          this.snackBar.open(res.msg, 'Dismiss', {
-            duration: 3000
-          })
-          .afterOpened()
-          .subscribe(() => {
-            this.ngOnInit();
-          });
-        },
-        (err: HttpErrorResponse) => {
-          this.snackBar.open(err.error.msg, 'Dismiss', {
-            duration: 1500
-          });
+      this.auctionService.addAuction(uploadData).subscribe((res: any) => {
+        this.snackBar.open(res.msg, 'Dismiss', {duration: 3000});
+        if(res.data){
+          this.ngOnInit();
         }
-      );
+      });
     }
   }
 
