@@ -46,7 +46,7 @@ export class FormValidationService {
   areAuctionPriceMismatching(control: FormControl){
     return control.value &&
       control.parent &&
-      control.value >= control.parent.get('bidblabPrice').value
+      Number(control.value) >= Number(control.parent.get('bidblabPrice').value)
       ? null
       : {
         auctionPriceMismatch: true
