@@ -31,9 +31,9 @@ export class FlagListComponent implements OnInit {
 										'suspend', 'menu'];
 	public dataSource:any;
 	public selection = new SelectionModel<any>(true, []);
-	private totalFlags: number;
+	public totalFlags: number;
 	private pageSize: number;
-	private pageIndex: number;
+	public pageIndex: number;
 	private search: string = '';
 	private sortParam = {
 		active: 'name',
@@ -64,6 +64,7 @@ export class FlagListComponent implements OnInit {
 	searchBoxAction(){
 		this.getFlags();
 	}
+	
 	getFlags(event?) {
 		if (this.authenticationService.isAdmin()){
 			if (event) {

@@ -31,9 +31,9 @@ export class MailboxComponent implements OnInit {
   public mail: any;
   public newMail: boolean;
   public mailType:number = this.mailRole.all;
-  private totalMails: number;
+  public totalMails: number;
 	private pageSize: number;
-	private pageIndex: number;
+	public pageIndex: number;
 	private search: string = '';
 	private sortParam = {
 		active: 'name',

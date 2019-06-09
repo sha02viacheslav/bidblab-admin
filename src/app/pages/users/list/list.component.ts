@@ -35,9 +35,9 @@ export class ListComponent implements OnInit {
   // public displayedColumns: string[] = ['select', 'position', 'name', 'weight', 'symbol'];
 	public dataSource:any;
 	public selection = new SelectionModel<any>(true, []);
-	private totalMembers: number;
+	public totalMembers: number;
 	private pageSize: number;
-	private pageIndex: number;
+	public pageIndex: number;
 	private search: string = '';
 	private sortParam = {
 		active: 'name',

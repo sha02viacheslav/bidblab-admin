@@ -32,9 +32,9 @@ export class QuestionListComponent implements OnInit {
 										'suspend', 'menu'];
 	public dataSource:any;
 	public selection = new SelectionModel<any>(true, []);
-	private totalQuestions: number;
+	public totalQuestions: number;
 	private pageSize: number;
-	private pageIndex: number;
+	public pageIndex: number;
 	private search: string = '';
 	private sortParam = {
 		active: 'name',

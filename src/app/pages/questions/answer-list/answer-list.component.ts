@@ -32,9 +32,9 @@ export class AnswerListComponent implements OnInit {
                                         /*'details',*/ 'update', 'suspend', 'delete'];
     public dataSource:any;
     public selection = new SelectionModel<any>(true, []);
-    private totalAnswers: number;
+    public totalAnswers: number;
     private pageSize: number;
-    private pageIndex: number;
+    public pageIndex: number;
     private search: string = '';
     private sortParam = {
 		active: 'name',

@@ -3,7 +3,7 @@
     <div fxLayout="row" fxLayoutAlign="space-between center">
       <div fxLayout="row">
         <mat-button-toggle-group #controls="matButtonToggleGroup" appearance="legacy">
-          <mat-button-toggle value="add" (click)="openQuestionDialog()">
+          <mat-button-toggle value="add">
             <mat-icon>note_add</mat-icon>
           </mat-button-toggle>
           <mat-button-toggle value="search">
@@ -197,7 +197,7 @@
       <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
     </table>
     <mat-paginator #paginator [pageSize]="10" [length]="totalFlags" [pageIndex]="pageIndex"
-      [pageSizeOptions]="[5, 10, 20]" (page)="getQuestions($event)">
+      [pageSizeOptions]="[5, 10, 20]" (page)="getFlags($event)">
     </mat-paginator>
   </div>
 </div>
