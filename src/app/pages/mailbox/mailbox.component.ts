@@ -93,7 +93,6 @@ export class MailboxComponent implements OnInit {
       (res: any) => {
         this.totalMails = res.data.totalMails;
         this.mails = res.data.mails;
-        console.log(this.mails);
         this.mails.forEach(row => {
           row.selected = false;
           row.isDeleted = (row.role & (1 << 3))? true : false;

@@ -1,9 +1,6 @@
 <mat-toolbar color="primary" [fxLayoutAlign]="(settings.menuType != 'mini') ? 'space-between center' : 'center center'" class="sidenav-header">
-    <!-- <a mat-raised-button color="accent" routerLink="/" (click)="closeSubMenus()" class="small-logo">
-        <img class="logo-wrap" src="../../assets/icons/logo.png" />
-    </a> -->
     <a *ngIf="settings.menuType == 'default'" class="logo" style="display: flex;" routerLink="/" (click)="closeSubMenus()">
-        <img class="logo-wrap" src="../../assets/icons/logo.png" />
+        <img class="logo-wrap" src="assets/icons/logo.png" />
     </a> 
     <svg *ngIf="settings.menuType != 'mini'" class="pin" (click)="settings.sidenavIsPinned = !settings.sidenavIsPinned">
         <path *ngIf="!settings.sidenavIsPinned" d="M16,12V4H17V2H7V4H8V12L6,14V16H11.2V22H12.8V16H18V14L16,12Z" />
@@ -14,12 +11,7 @@
 <div fxLayout="column" fxLayoutAlign="center center" class="user-block transition-2" [class.show]="settings.sidenavUserBlock"> 
     <div [fxLayout]="(settings.menuType != 'default') ? 'column' : 'row'" 
          [fxLayoutAlign]="(settings.menuType != 'default') ? 'center center' : 'space-around center'" class="user-info-wrapper">
-        <!-- <img [src]="user?.profilePicture?.path? serverUrl +'/' + user.profilePicture.path : userImage" alt="user-image"> -->
-        <img src="../../../../assets/img/extra/admin_avata.png" alt="user-image">
-
-        <!-- <img [src]="element?.profilePicture?.path? serverUrl+'/'+element.profilePicture.path:
-        'assets/img/users/default-user.jpg'" class="transition-2"
-        [class.blocked]="element.role == 'suspend'"> -->
+        <img src="assets/img/extra/admin_avata.png" alt="user-image">
         <div class="user-info">
             <h2 class="name">{{user.username}}</h2>
         </div>

@@ -22,7 +22,7 @@ export const routes: Routes = [
         ]
     },
     { path: 'login', loadChildren: './pages/login/login.module#LoginModule' },
-    { path: '**', redirectTo: '' }
+    { path: '**', redirectTo: ''}
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(routes, {

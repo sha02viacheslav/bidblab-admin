@@ -54,7 +54,6 @@ export class SidenavComponent implements OnInit {
   }
 
   public updatePS(e){
-    console.log(e)
     this.sidenavPS.directiveRef.update();
   }
 

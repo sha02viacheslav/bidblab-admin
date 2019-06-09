@@ -85,7 +85,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
   ],
   providers: [ 
     AppSettings,
-    { provide: APP_BASE_HREF, useValue: '/' },
+    { provide: APP_BASE_HREF, useValue: '/admin/' },
     { provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG },
     { provide: OverlayContainer, useClass: CustomOverlayContainer },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
