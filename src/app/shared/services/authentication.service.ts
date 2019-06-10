@@ -46,7 +46,11 @@ export class AuthenticationService {
   logout() {
     // this.token = null;
     this.userSubject.next(null);
-    localStorage.clear();
+    this.clearLocalStorage();
     this.router.navigateByUrl('/login');
+  }
+
+  clearLocalStorage(){
+    localStorage.removeItem('bidblabA');
   }
 }
