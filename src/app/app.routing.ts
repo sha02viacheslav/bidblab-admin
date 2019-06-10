@@ -17,8 +17,8 @@ export const routes: Routes = [
             { path: 'credits', loadChildren: './pages/credits/credits.module#CreditsModule', canActivate: [UserGuard], data: { breadcrumb: 'Credits' } },
             { path: 'flags', loadChildren: './pages/flags/flags.module#FlagsModule', canActivate: [UserGuard], data: { breadcrumb: 'Flags' } },
             { path: 'bid', loadChildren: './pages/bid/bid.module#BidModule', canActivate: [UserGuard], data: { breadcrumb: 'Bid' } },
-            { path: 'mailbox', loadChildren: './pages/mailbox/mailbox.module#MailboxModule', data: { breadcrumb: 'Mailbox' } },
-            { path: 'sitemanager', loadChildren: './pages/sitemanager/sitemanager.module#SitemanagerModule', data: { breadcrumb: 'Sitemanager' } },
+            { path: 'mailbox', loadChildren: './pages/mailbox/mailbox.module#MailboxModule', canActivate: [UserGuard], data: { breadcrumb: 'Mailbox' } },
+            { path: 'sitemanager', loadChildren: './pages/sitemanager/sitemanager.module#SitemanagerModule', canActivate: [UserGuard], data: { breadcrumb: 'Sitemanager' } },
         ]
     },
     { path: 'login', loadChildren: './pages/login/login.module#LoginModule' },

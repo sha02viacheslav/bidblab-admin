@@ -59,12 +59,11 @@ export class LoginComponent implements OnInit{
     this.loginService.adminLogin(this.form.value).subscribe(
       (res: any) => {
         this.authenticationService.setToken(res.data);
-        this.authenticationService.setUser(jwtDecode(res.data).user);
-        localStorage.setItem('jwt', res.data);
-        localStorage.setItem(
-          'user',
-          JSON.stringify(this.authenticationService.getUser())
-        );
+        // this.authenticationService.setUser(jwtDecode(res.data).user);
+        // localStorage.setItem(
+        //   'user',
+        //   JSON.stringify(this.authenticationService.getUser())
+        // );
         this.router.navigateByUrl(this.returnUrl);
       },
       (err: HttpErrorResponse) => {

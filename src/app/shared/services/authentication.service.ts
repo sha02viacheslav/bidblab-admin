@@ -3,58 +3,50 @@ import { BehaviorSubject } from 'rxjs';
 import * as jwtDecode from 'jwt-decode';
 import { Router } from '@angular/router';
 import { User } from '../../pages/users/user.model';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
-  private token: string;
+  // private token: string = '';
   private userSubject: BehaviorSubject<any>;
 
   constructor(private router: Router) {
-    this.token = localStorage.getItem('jwt');
-    const user =
-      JSON.parse(localStorage.getItem('user')) ||
-      (this.token ? jwtDecode(this.token).user : null);
+    // this.token = localStorage.getItem('bidblabA');
+    const user = localStorage.getItem('bidblabA') ? jwtDecode(localStorage.getItem('bidblabA')).user : null;
     this.userSubject = new BehaviorSubject<User>(user);
   }
 
   getToken() {
-    return this.token;
+    return localStorage.getItem('bidblabA');
   }
 
   setToken(token: string) {
-    this.token = token;
+    // this.token = token;
+    localStorage.setItem('bidblabA', token);
   }
 
-  getUser() {
-    return this.userSubject.getValue();
-  }
+  // getUser() {
+  //   return this.userSubject.getValue();
+  // }
 
   getUserUpdates() {
     return this.userSubject.asObservable();
   }
 
-  setUser(user) {
-    localStorage.setItem('user', JSON.stringify(user));
-    this.userSubject.next(user);
-  }
-
-  isAuthenticated() {
-    return this.token != null && this.getUser() != null;
-  }
+  // setUser(user) {
+  //   localStorage.setItem('user', JSON.stringify(user));
+  //   this.userSubject.next(user);
+  // }
 
   isAdmin() {
-    var temp = jwtDecode(this.token);
-    return this.isAuthenticated() && jwtDecode(this.token).admin;
-
+    return localStorage.getItem('bidblabA') != null && jwtDecode(localStorage.getItem('bidblabA')).admin;
   }
 
   logout() {
-    this.token = null;
+    // this.token = null;
     this.userSubject.next(null);
     localStorage.clear();
-    this.router.navigateByUrl('/');
+    this.router.navigateByUrl('/login');
   }
 }
