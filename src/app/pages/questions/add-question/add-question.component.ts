@@ -63,6 +63,15 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
           this.formValidationService.isBlank
         ]
       ],
+      //default priority is constant 3.
+      priority: [
+        (this.data.question && this.data.question.priority)? String(this.data.question.priority) : '3',
+        [
+          Validators.required,
+          Validators.min(0),
+          this.formValidationService.isBlank,
+        ]
+      ],
       answerCredit: [
         (this.data.question && this.data.question.answerCredit)? String(this.data.question.answerCredit) : '',
         [
@@ -190,6 +199,7 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
         }
       });
       uploadData.append('title', this.infoForm.value.title);
+      uploadData.append('priority', this.infoForm.value.priority);
       uploadData.append('answerCredit', this.infoForm.value.answerCredit);
       uploadData.append('tag', this.infoForm.value.tag);
       if (this.data.question) {
