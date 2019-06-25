@@ -96,5 +96,12 @@ export class QuestionsService {
     );
   }
 
+  changeAnswersRole(body, roleType) {
+    return this.httpClient.post(
+      `${environment.apiUrl}/api/admin/changeAnswersRole/${roleType}`,
+      body
+    );
+  } 
+
 }
 

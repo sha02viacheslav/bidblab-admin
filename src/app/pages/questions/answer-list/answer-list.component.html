@@ -29,7 +29,7 @@
 				</mat-form-field>
 			</form>
 			<div fxLayout="row" fxLayoutAlign="space-between center">
-				<button mat-raised-button color="accent" class="m-1" (click)="suspendQuestions()">Suspend</button>
+				<button mat-raised-button color="accent" class="m-1" (click)="suspendAnswers()">Suspend</button>
 				<button mat-raised-button color="warn" class="m-1" (click)="deleteQuestions()">Delete</button>
 			</div>
 		</div>
@@ -89,9 +89,9 @@
 			<ng-container matColumnDef="suspend">
 				<th mat-header-cell *matHeaderCellDef> Suspend </th>
 				<td mat-cell *matCellDef="let element">
-					<button mat-icon-button (click)="suspendQuestion($event, element.answers._id, 
-									element.role == 'suspend'? 'activate' : 'suspend')">
-						<mat-icon color="primary" *ngIf="element.role != 'suspend'; else suspend" class="mat-18">face
+					<button mat-icon-button (click)="suspendAnswer($event, element._id, element.answers._id, 
+									element.answers.role == 'activate'? 'suspend' : 'activate')">
+						<mat-icon color="primary" *ngIf="element.answers.role == 'activate'; else suspend" class="mat-18">face
 						</mat-icon>
 						<ng-template #suspend>
 							<mat-icon color="warn" class="mat-18">warning</mat-icon>

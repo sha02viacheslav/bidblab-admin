@@ -233,41 +233,29 @@ export class AnswerListComponent implements OnInit {
 			alert("Select the questions");
 		}
     }
-    public suspendQuestions(){
-		var questionIds = [];
+    public suspendAnswers(){
+		var elementIds = [];
 		this.dataSource.data.forEach( (row) => {
 			if(this.selection.selected.some( selected => selected.index == row.index )){
-			questionIds.push(row._id);
+				elementIds.push({questionId: row._id, answerId: row.answers._id});
 			}
 		});
-		this.finalSuspendQuestions(questionIds, 'suspend');
+		this.finalSuspendQuestions(elementIds, 'suspend');
     }
   
-    public suspendQuestion(event, questionId, roleType){
+    public suspendAnswer(event, questionId, answerId, roleType){
 		event.stopPropagation();
-		var questionIds = [];
-		questionIds.push(questionId);
-		this.finalSuspendQuestions(questionIds, roleType);
+		var elementIds = [];
+		elementIds.push({questionId: questionId, answerId: answerId});
+		this.finalSuspendQuestions(elementIds, roleType);
     }
   
-    public finalSuspendQuestions(questionIds, roleType) {
-		if(questionIds.length){
+    public finalSuspendQuestions(elementIds, roleType) {
+		if(elementIds.length){
 			if(confirm("Are you sure to " + roleType + "?")){
-			// this.blockUIService.setBlockStatus(true);
-			this.questionsService.changeQuestionsRole(questionIds, roleType)
-			.subscribe(
-				(res: any) => {
-				// this.snackBar.open(res.data.totalSuspendQuestions+" of "+questionIds.length+" questions are suspended.", 
-				//   'Dismiss', 
-				//   {duration: 1500});
-				this.getAnswers();
-				// this.blockUIService.setBlockStatus(false);
-				},
-				(err: HttpErrorResponse) => {
-				// this.snackBar.open(err.error.msg, 'Dismiss');
-				// this.blockUIService.setBlockStatus(false);
-				}
-			);
+				this.questionsService.changeAnswersRole(elementIds, roleType).subscribe((res: any) => {
+					this.getAnswers();
+				});
 			}
 		}
 		else{
