@@ -68,7 +68,8 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
         (this.data.question && this.data.question.priority)? String(this.data.question.priority) : '3',
         [
           Validators.required,
-          Validators.min(0),
+          Validators.min(1),
+          Validators.max(5),
           this.formValidationService.isBlank,
         ]
       ],

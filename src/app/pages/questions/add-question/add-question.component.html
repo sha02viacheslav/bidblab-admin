@@ -24,11 +24,17 @@
 					<mat-error *ngIf="checkError(infoForm, 'priority', ['required', 'blank'])">
 						Required.
 					</mat-error>
+					<mat-error *ngIf="!checkError(infoForm, 'priority', ['required', 'blank']) && checkError(infoForm, 'priority', ['min', 'max'])">
+						Priority must be 1~5.
+					</mat-error>
 				</mat-form-field>
 				<mat-form-field fxFlex="25" class="w-50">
 					<input matInput numeric numericType="number" formControlName="answerCredit" placeholder="Answer Credit" required>
 					<mat-error *ngIf="checkError(infoForm, 'answerCredit', ['required', 'blank'])">
 						Required.
+					</mat-error>
+					<mat-error *ngIf="!checkError(infoForm, 'answerCredit', ['required', 'blank']) && checkError(infoForm, 'answerCredit', ['min'])">
+						Priority must be larger than or equal 0.
 					</mat-error>
 				</mat-form-field>
 			</div>
