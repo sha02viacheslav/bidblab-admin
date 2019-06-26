@@ -192,45 +192,37 @@ export class AnswerListComponent implements OnInit {
 		this.getAnswers();
 	}
   
-    public deleteQuestions(){
-		var questionIds = [];
+    public deleteAnswers(){
+		var elementIds = [];
 		this.dataSource.data.forEach( (row, index) => {
 			if(this.selection.selected.some( selected => selected.index == row.index )){
-			questionIds.push(row._id);
+				elementIds.push({questionId: row._id, answerId: row.answers._id});
 			}
 		});
-		this.finalDeleteQuestions(questionIds);
+		this.finalDeleteAnswers(elementIds);
     }
   
-    public deleteQuestion(event, questionId){
+    public deleteAnswer(event, questionId, answerId){
 		event.stopPropagation();
-		var questionIds = [];
-		questionIds.push(questionId);
-		this.finalDeleteQuestions(questionIds);
+		var elementIds = [];
+		elementIds.push({questionId: questionId, answerId: answerId});
+		this.finalDeleteAnswers(elementIds);
     }
   
-    public finalDeleteQuestions(questionIds) {
-		if(questionIds.length){
-			if(confirm("Are you sure to delete "+name)){
-			// this.blockUIService.setBlockStatus(true);
-			this.questionsService.deleteQuestions(questionIds)
-			.subscribe(
-				(res: any) => {
-				// this.snackBar.open(res.data.totalDeleteQuestions+" of "+questionIds.length+" questions are deleted.", 
-				// 'Dismiss', 
-				// {duration: 1500});
-				this.getAnswers();
-				// this.blockUIService.setBlockStatus(false);
-				},
-				(err: HttpErrorResponse) => {
-				// this.snackBar.open(err.error.msg, 'Dismiss');
-				// this.blockUIService.setBlockStatus(false);
-				}
-			);
+    public finalDeleteAnswers(elementIds) {
+		if(elementIds.length){
+			if(confirm("Are you sure to delete answers")){
+				// this.blockUIService.setBlockStatus(true);
+				this.questionsService.deleteAnswers(elementIds).subscribe((res: any) => {
+					// this.snackBar.open(res.data.totalDeleteQuestions+" of "+questionIds.length+" questions are deleted.", 
+					// 'Dismiss', 
+					// {duration: 1500});
+					this.getAnswers();
+				});
 			}
 		}
 		else{
-			alert("Select the questions");
+			alert("Select the answers");
 		}
     }
     public suspendAnswers(){
