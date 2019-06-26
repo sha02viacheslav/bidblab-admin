@@ -30,32 +30,28 @@ export class CreditsComponent implements OnInit {
 			defaultOptionalImageCredit: [ null, Validators.compose([Validators.required]) ],
 			defaultReferralCredit: [ null, Validators.compose([Validators.required]) ],
 			defaultSignupCredit: [ null, Validators.compose([Validators.required]) ],
+			defaultFirstAnswerCredit: [ null, Validators.compose([Validators.required]) ],
 		});
-		this.commonService.getDefaultCredits().subscribe(
-			(res: any) => {
-				this.form.controls._id.setValue(res.data._id);
-				this.form.controls.defaultQuestionCredit.setValue(String(res.data.defaultQuestionCredit));
-				this.form.controls.defaultPublicAnswerCredit.setValue(String(res.data.defaultPublicAnswerCredit));
-				this.form.controls.defaultPrivateAnswerCredit.setValue(String(res.data.defaultPrivateAnswerCredit));
-				this.form.controls.defaultOptionalImageCredit.setValue(String(res.data.defaultOptionalImageCredit));
-				this.form.controls.defaultReferralCredit.setValue(String(res.data.defaultReferralCredit));
-				this.form.controls.defaultSignupCredit.setValue(String(res.data.defaultSignupCredit));
-				this.snackBar.open(res.msg, 'Dismiss', {duration: 1500});
-			},
-			(err: HttpErrorResponse) => {
-				this.snackBar.open(err.error.msg, 'Dismiss');
-			}
-		);
+		this.commonService.getDefaultCredits().subscribe((res: any) => {
+			this.form.controls._id.setValue(res.data._id);
+			this.form.controls.defaultQuestionCredit.setValue(String(res.data.defaultQuestionCredit));
+			this.form.controls.defaultPublicAnswerCredit.setValue(String(res.data.defaultPublicAnswerCredit));
+			this.form.controls.defaultPrivateAnswerCredit.setValue(String(res.data.defaultPrivateAnswerCredit));
+			this.form.controls.defaultOptionalImageCredit.setValue(String(res.data.defaultOptionalImageCredit));
+			this.form.controls.defaultReferralCredit.setValue(String(res.data.defaultReferralCredit));
+			this.form.controls.defaultSignupCredit.setValue(String(res.data.defaultSignupCredit));
+			this.form.controls.defaultFirstAnswerCredit.setValue(String(res.data.defaultFirstAnswerCredit));
+			this.snackBar.open(res.msg, 'Dismiss', {duration: 1500});
+		}, (err: HttpErrorResponse) => {
+			this.snackBar.open(err.error.msg, 'Dismiss');
+		});
 	}
 
 	changeCredits(){
-		this.creditsService.changeDefaultCredits(this.form.value).subscribe(
-			(res: any) => {
+		this.creditsService.changeDefaultCredits(this.form.value).subscribe((res: any) => {
 				this.snackBar.open(res.msg, 'Dismiss', {duration: 1500});
-			},
-			(err: HttpErrorResponse) => {
-				this.snackBar.open(err.error.msg, 'Dismiss');
-			}
-		);
+		}, (err: HttpErrorResponse) => {
+			this.snackBar.open(err.error.msg, 'Dismiss');
+		});
 	}
 }
