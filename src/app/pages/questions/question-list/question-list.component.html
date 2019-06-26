@@ -82,8 +82,7 @@
 			<ng-container matColumnDef="suspend">
 				<th mat-header-cell *matHeaderCellDef> Suspend </th>
 				<td mat-cell *matCellDef="let element">
-					<button mat-icon-button (click)="suspendQuestion($event, element._id, 
-                		element.role == 'suspend'? 'activate' : 'suspend')">
+					<button mat-icon-button>
 						<mat-icon color="primary" *ngIf="element.role != 'suspend'; else suspend" class="mat-18">face
 						</mat-icon>
 						<ng-template #suspend>
