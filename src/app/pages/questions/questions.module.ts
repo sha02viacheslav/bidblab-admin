@@ -9,11 +9,13 @@ import { PipesModule } from '../../theme/pipes/pipes.module';
 import { QuestionsComponent } from './questions.component';
 import { QuestionListComponent } from './question-list/question-list.component';
 import { AddQuestionComponent } from './add-question/add-question.component';
+import { TagsComponent } from './tags/tags.component';
 import { AnswerListComponent } from './answer-list/answer-list.component';
 
 export const routes = [
   { path: '', component: QuestionsComponent, pathMatch: 'full' },
   { path: 'list', component: QuestionListComponent, data: { breadcrumb: 'Question list' } },
+  { path: 'tags', component: TagsComponent, data: { breadcrumb: 'Tags' } },
   { path: 'answerslist', component: AnswerListComponent, data: { breadcrumb: 'Answer list' } },
 ];
 
@@ -28,7 +30,13 @@ export const routes = [
     SharedModule,
     PipesModule    
   ],
-  declarations: [QuestionsComponent, QuestionListComponent, AddQuestionComponent, AnswerListComponent],
+  declarations: [
+    QuestionsComponent,
+    QuestionListComponent,
+    AddQuestionComponent,
+    AnswerListComponent,
+    TagsComponent
+  ],
   entryComponents:[
     AddQuestionComponent,
     QuestionListComponent

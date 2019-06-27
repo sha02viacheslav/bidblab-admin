@@ -110,5 +110,32 @@ export class QuestionsService {
     );
   } 
 
+  getTags(limit?, offset?, search?, active?, direction?) {
+    return this.httpClient.get(
+      `${environment.apiUrl}/api/admin/getTags?limit=${limit ||
+        10}&offset=${offset || 0}&search=${search || ''}&active=${active || ''}&direction=${direction || ''}`
+    );
+  }
+
+  addTag(body) {
+    return this.httpClient.post(
+      `${environment.apiUrl}/api/admin/addTag`,
+      body
+    );
+  }
+
+  updateTag(tagId, body) {
+    return this.httpClient.post(
+      `${environment.apiUrl}/api/admin/updateTag/${tagId}`,
+      body
+    );
+  }
+
+  deleteTags(body) {
+    return this.httpClient.post(
+      `${environment.apiUrl}/api/admin/deleteTags`,
+      body
+    );
+  }  
 }
 

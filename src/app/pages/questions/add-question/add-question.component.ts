@@ -3,12 +3,7 @@ import { Subscription } from 'rxjs';
 import { FormArray, FormBuilder, FormGroup, Validators,  FormControl  } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormValidationService } from '../../../shared/services/form-validation.service';
-import {
-  MatSnackBar,
-  MatDialogRef,
-  MAT_DIALOG_DATA,
-  MatChipInputEvent,
-} from '@angular/material';
+import { MatSnackBar, MatDialogRef, MAT_DIALOG_DATA, MatChipInputEvent } from '@angular/material';
 import { CommonService } from '../../../shared/services/common.service';
 import { QuestionsService } from '../questions.service';
 import { AuthenticationService } from '../../../shared/services/authentication.service';
@@ -31,7 +26,6 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
   serverUrl: string = environment.apiUrl;
   uploadFiles: any[] = [];
   uploadFile: any;
-  // originalImage: string = '';
   showImageFlag: boolean = false;
   title: string = "OK";
   selectedFileIndex: number = -1;

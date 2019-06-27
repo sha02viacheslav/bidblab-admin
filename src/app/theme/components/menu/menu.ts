@@ -3,7 +3,8 @@ import { Menu } from './menu.model';
 export const verticalMenuItems = [ 
     new Menu (10, 'Blab', null, null, 'question_answer', null, true, 0),
     new Menu (11, 'Questions', '/questions/list', null, 'live_help', null, false, 10),   
-    new Menu (12, 'Answers', '/questions/answerslist', null, 'receipt', null, false, 10),   
+    new Menu (12, 'Tags', '/questions/tags', null, 'receipt', null, false, 10),   
+    new Menu (13, 'Answers', '/questions/answerslist', null, 'receipt', null, false, 10),   
     new Menu (20, 'Members', '/users/list', null, 'supervisor_account', null, false, 0),   
     new Menu (30, 'Credits', '/credits', null, 'score', null, false, 0),   
     new Menu (40, 'Flags', '/flags/flaglist', null, 'flag', null, false, 0),   
