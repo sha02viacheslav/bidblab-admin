@@ -101,13 +101,6 @@ export class QuestionsService {
       `${environment.apiUrl}/api/admin/deleteAnswers`,
       body
     );
-  }  
-
-  changeAnswersRole(body, roleType) {
-    return this.httpClient.post(
-      `${environment.apiUrl}/api/admin/changeAnswersRole/${roleType}`,
-      body
-    );
   } 
 
   getTags(limit?, offset?, search?, active?, direction?) {

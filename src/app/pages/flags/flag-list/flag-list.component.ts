@@ -28,7 +28,7 @@ import { FlagsService } from '../flags.service';
 })
 export class FlagListComponent implements OnInit {
 	public displayedColumns: string[] = ['select', 'index', 'type', 'note', 'createdAt',
-										'suspend', 'menu'];
+										'suspendAnswer', 'menu'];
 	public dataSource:any;
 	public selection = new SelectionModel<any>(true, []);
 	public totalFlags: number;
@@ -81,6 +81,7 @@ export class FlagListComponent implements OnInit {
 			).subscribe(
 				(res: any) => {
 					this.totalFlags = res.data.totalFlags;
+					console.log(res.data.flags);
 					this.dataSource = new MatTableDataSource<any>(res.data.flags);
 					this.selection.clear();
 					if(this.totalFlags <= this.pageSize * this.pageIndex){
@@ -222,6 +223,36 @@ export class FlagListComponent implements OnInit {
 			alert("Select the flags");
 		}
 	}
+
+	public suspendAnswers(){
+		var elementIds = [];
+		this.dataSource.data.forEach( (row) => {
+			if(this.selection.selected.some( selected => selected.index == row.index )){
+				elementIds.push({questionId: row.question._id, answerId: row.answer._id});
+			}
+		});
+		this.finalSuspendQuestions(elementIds, 'suspend');
+    }
+  
+    public suspendAnswer(event, questionId, answerId, roleType){
+		event.stopPropagation();
+		var elementIds = [];
+		elementIds.push({questionId: questionId, answerId: answerId});
+		this.finalSuspendQuestions(elementIds, roleType);
+    }
+  
+    public finalSuspendQuestions(elementIds, roleType) {
+		if(elementIds.length){
+			if(confirm("Are you sure to " + roleType + "?")){
+				this.commonService.changeAnswersRole(elementIds, roleType).subscribe((res: any) => {
+					this.getFlags();
+				});
+			}
+		}
+		else{
+			alert("Select the questions");
+		}
+    }
 
 }
 

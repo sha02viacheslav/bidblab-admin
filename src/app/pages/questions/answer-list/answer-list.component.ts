@@ -51,7 +51,7 @@ export class AnswerListComponent implements OnInit {
 		private fb: FormBuilder,
 		public dialog: MatDialog,
 		private commonService: CommonService,
-    private questionsService: QuestionsService,
+    	private questionsService: QuestionsService,
 		private authenticationService: AuthenticationService,
     ) { }
   
@@ -245,7 +245,7 @@ export class AnswerListComponent implements OnInit {
     public finalSuspendQuestions(elementIds, roleType) {
 		if(elementIds.length){
 			if(confirm("Are you sure to " + roleType + "?")){
-				this.questionsService.changeAnswersRole(elementIds, roleType).subscribe((res: any) => {
+				this.commonService.changeAnswersRole(elementIds, roleType).subscribe((res: any) => {
 					this.getAnswers();
 				});
 			}

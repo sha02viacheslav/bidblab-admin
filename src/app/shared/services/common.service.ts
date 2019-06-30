@@ -20,7 +20,14 @@ export class CommonService {
 		return this.httpClient.get(
 			`${environment.apiUrl}/api/common/getDefaultCredits`
 		);
-	}
+  }
+
+  changeAnswersRole(body, roleType) {
+    return this.httpClient.post(
+      `${environment.apiUrl}/api/admin/changeAnswersRole/${roleType}`,
+      body
+    );
+  } 
 
   getImage(imageUrl: string){
     return this.httpClient
