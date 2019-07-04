@@ -28,7 +28,7 @@ import { QuestionsService } from '../questions.service';
 	],
 })
 export class AnswerListComponent implements OnInit {
-    public displayedColumns: string[] = ['select', 'index', 'content', 'tag', 'credit', 'createdAt',
+    public displayedColumns: string[] = ['select', 'index', 'content', 'tags', 'credit', 'createdAt',
                                         /*'details',*/ 'update', 'suspend', 'delete'];
     public dataSource:any;
     public selection = new SelectionModel<any>(true, []);
