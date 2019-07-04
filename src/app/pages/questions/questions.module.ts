@@ -17,6 +17,7 @@ export const routes = [
   { path: 'list', component: QuestionListComponent, data: { breadcrumb: 'Question list' } },
   { path: 'tags', component: TagsComponent, data: { breadcrumb: 'Tags' } },
   { path: 'answerslist', component: AnswerListComponent, data: { breadcrumb: 'Answer list' } },
+  { path: '**', redirectTo: 'list'}
 ];
 
 @NgModule({

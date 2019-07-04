@@ -81,7 +81,6 @@ export class FlagListComponent implements OnInit {
 			).subscribe(
 				(res: any) => {
 					this.totalFlags = res.data.totalFlags;
-					console.log(res.data.flags);
 					this.dataSource = new MatTableDataSource<any>(res.data.flags);
 					this.selection.clear();
 					if(this.totalFlags <= this.pageSize * this.pageIndex){
