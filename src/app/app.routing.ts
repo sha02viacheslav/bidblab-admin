@@ -40,8 +40,7 @@ export const routes: Routes = [{
                 path: 'sitemanager',
                 loadChildren: './pages/sitemanager/sitemanager.module#SitemanagerModule',
                 canActivate: [UserGuard]
-            },
-            // { path: '**', redirectTo: 'questions'}
+            }
         ]
     },
     {
