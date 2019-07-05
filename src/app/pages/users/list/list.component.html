@@ -127,7 +127,7 @@
 								<div fxFlex="20" fxFlex.xs="30" fxLayout="column" fxLayoutAlign="center center">
 									<div class="user-img">
 										<img [src]="element?.profilePicture?.path? serverUrl+'/'+element.profilePicture.path:
-                                    		'assets/img/users/default-user.jpg'" class="transition-2"
+                                    		'assets/img/extra/user.svg'" class="transition-2"
 											[class.blocked]="element.role == 'suspend'">
 										<mat-icon *ngIf="element.role == 'suspend'" class="warn-color">block</mat-icon>
 									</div>

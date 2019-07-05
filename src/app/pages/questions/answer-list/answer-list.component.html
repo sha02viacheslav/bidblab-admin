@@ -123,7 +123,7 @@
 								<div fxFlex="20" fxFlex.xs="30" fxLayout="column" fxLayoutAlign="center center">
 									<div class="user-img">
 										<img [src]="element?.answers?.answerer?.profilePicture?.path? 
-												serverUrl+'/'+element.answers.answerer.profilePicture.path : 'assets/img/users/default-user.jpg'"
+												serverUrl+'/'+element.answers.answerer.profilePicture.path : 'assets/img/extra/user.svg'"
 											class="transition-2"
 											[class.blocked]="element?.answers?.answerer?.role? (element.answers.answerer.role == 'suspend') : false">
 										<mat-icon
