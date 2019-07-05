@@ -8,25 +8,26 @@ import { SharedModule } from '../../shared/shared.module';
 import { PipesModule } from '../../theme/pipes/pipes.module';
 import { CreditsComponent } from './credits.component';
 
-export const routes = [
-  { path: '', component: CreditsComponent, pathMatch: 'full' },
-];
+export const routes = [{
+	path: '',
+	component: CreditsComponent,
+	pathMatch: 'full'
+}, ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    HttpClientModule,
-    RouterModule.forChild(routes),
-    FormsModule,
-    ReactiveFormsModule,
-    NgxPaginationModule,
-    SharedModule,
-    PipesModule  
-  ],
-  declarations: [
-    CreditsComponent,
-  ],
-  entryComponents:[
-  ]
+	imports: [
+		CommonModule,
+		HttpClientModule,
+		RouterModule.forChild(routes),
+		FormsModule,
+		ReactiveFormsModule,
+		NgxPaginationModule,
+		SharedModule,
+		PipesModule
+	],
+	declarations: [
+		CreditsComponent,
+	],
+	entryComponents: []
 })
-export class CreditsModule { }
+export class CreditsModule {}

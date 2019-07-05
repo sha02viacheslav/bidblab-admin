@@ -7,7 +7,6 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { SharedModule } from '../../shared/shared.module';
 import { PipesModule } from '../../theme/pipes/pipes.module';
 import { NewAuctionComponent } from './new-auction/new-auction.component';
-import { BidComponent } from './bid.component';
 import { PendingAuctionsComponent } from './pending-auctions/pending-auctions.component';
 import { ProgressAuctionsComponent } from './progress-auctions/progress-auctions.component';
 import { ClosedAuctionsComponent } from './closed-auctions/closed-auctions.component';
@@ -16,36 +15,46 @@ import { QuillModule } from 'ngx-quill';
 import { BidResultComponent } from './bid-result/bid-result.component'
 
 export const routes = [
-  { path: '', component: BidComponent, pathMatch: 'full' },
-  { path: 'newauction', component: NewAuctionComponent, data: { breadcrumb: 'New auction' } },
-  { path: 'pendingauctions', component: PendingAuctionsComponent, data: { breadcrumb: 'Pending auction' } },
-  { path: 'progressauctions', component: ProgressAuctionsComponent, data: { breadcrumb: 'Progress auction' } },
-  { path: 'closedauctions', component: ClosedAuctionsComponent, data: { breadcrumb: 'Closed auction' } },
+	{
+		path: 'newauction',
+		component: NewAuctionComponent
+	},
+	{
+		path: 'pendingauctions',
+		component: PendingAuctionsComponent
+	},
+	{
+		path: 'progressauctions',
+		component: ProgressAuctionsComponent
+	},
+	{
+		path: 'closedauctions',
+		component: ClosedAuctionsComponent
+	}
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    HttpClientModule,
-    RouterModule.forChild(routes),
-    FormsModule,
-    ReactiveFormsModule,
-    NgxPaginationModule,
-    QuillModule,
-    SharedModule,
-    PipesModule,
-  ],
-  declarations: [
-    NewAuctionComponent, 
-    BidComponent,
-    PendingAuctionsComponent, 
-    ProgressAuctionsComponent, 
-    ClosedAuctionsComponent, 
-    AuctionDialogComponent,
-    BidResultComponent
-  ],
-  entryComponents: [
-    AuctionDialogComponent,
-  ]
+	imports: [
+		CommonModule,
+		HttpClientModule,
+		RouterModule.forChild(routes),
+		FormsModule,
+		ReactiveFormsModule,
+		NgxPaginationModule,
+		QuillModule,
+		SharedModule,
+		PipesModule,
+	],
+	declarations: [
+		NewAuctionComponent,
+		PendingAuctionsComponent,
+		ProgressAuctionsComponent,
+		ClosedAuctionsComponent,
+		AuctionDialogComponent,
+		BidResultComponent
+	],
+	entryComponents: [
+		AuctionDialogComponent,
+	]
 })
 export class BidModule { }

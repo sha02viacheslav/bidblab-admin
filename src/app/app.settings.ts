@@ -5,7 +5,7 @@ import { Settings } from './app.settings.model';
 export class AppSettings {
     public settings = new Settings(
         'Bidblab',   //theme name
-        true,       //loadingSpinner
+        false,       //loadingSpinner
         true,       //fixedHeader
         true,       //sidenavIsOpened
         true,       //sidenavIsPinned  

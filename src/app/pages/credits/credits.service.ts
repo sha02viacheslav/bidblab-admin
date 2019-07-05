@@ -7,20 +7,20 @@ import { Router } from '@angular/router';
 import { AuthenticationService } from '../../shared/services/authentication.service';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root'
 })
 export class CreditsService {
 
-  constructor(
-    public httpClient:HttpClient,
-    private router: Router,
-    private authenticationService: AuthenticationService
-  ) { }
+	constructor(
+		public httpClient: HttpClient,
+		private router: Router,
+		private authenticationService: AuthenticationService
+	) {}
 
 	changeDefaultCredits(body) {
 		return this.httpClient.post(
 			`${environment.apiUrl}/api/admin/changeDefaultCredits`,
 			body
 		);
-  }
+	}
 }
