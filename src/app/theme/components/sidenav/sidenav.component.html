@@ -13,7 +13,7 @@
          [fxLayoutAlign]="(settings.menuType != 'default') ? 'center center' : 'space-around center'" class="user-info-wrapper">
         <img src="assets/img/extra/admin_avata.png" alt="user-image">
         <div class="user-info">
-            <h2 class="name">{{user.username}}</h2>
+            <h2 class="name">{{user?.username? user.username: 'ADMIN'}}</h2>
         </div>
     </div>
     <div *ngIf="settings.menuType != 'mini'" fxLayout="row" fxLayoutAlign="space-around center" class="w-100 muted-text">
