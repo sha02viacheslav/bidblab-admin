@@ -62,9 +62,9 @@
 			<ng-container matColumnDef="tags">
 				<th mat-header-cell *matHeaderCellDef> Tags </th>
 				<td mat-cell *matCellDef="let element"> 
-					{{element.tags[0]}} 
-					{{element.tags[1]? ', ' + element.tags[1] : ''}} 
-					{{element.tags[2]? ', ' + element.tags[1] : ''}} 
+					{{(element.tags && element.tags[0])? element.tags[0] : ''}} 
+					{{(element.tags && element.tags[1])? ', ' + element.tags[1] : ''}} 
+					{{(element.tags && element.tags[2])? ', ' + element.tags[1] : ''}} 
 				</td>
 			</ng-container>
 			<ng-container matColumnDef="priority">

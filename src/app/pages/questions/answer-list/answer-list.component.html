@@ -17,10 +17,11 @@
 						name="search">
 				</mat-form-field>
 			</form>
-			<form class="user-filter" [class.show]="controls.value == 'search'" [formGroup]="tagsOfAnswerForm" autocomplete="off">
+			<form class="user-filter" [class.show]="controls.value == 'search'" [formGroup]="tagsOfAnswerForm"
+				autocomplete="off">
 				<mat-form-field>
-					<mat-select multiple placeholder="Tags" formControlName="tagsOfAnswer"
-						(closed)="changeAnswerTag()" required>
+					<mat-select multiple placeholder="Tags" formControlName="tagsOfAnswer" (closed)="changeAnswerTag()"
+						required>
 						<mat-option #allAnswerTagsSelected (click)="toggleAllSelectionOfAnswer()" [value]="0">All
 						</mat-option>
 						<mat-option *ngFor="let tag of answerTags" [value]="tag"
@@ -61,9 +62,9 @@
 			<ng-container matColumnDef="tags">
 				<th mat-header-cell *matHeaderCellDef> Tags </th>
 				<td mat-cell *matCellDef="let element">
-					{{element.tags[0]}} 
-					{{element.tags[1]? ', ' + element.tags[1] : ''}} 
-					{{element.tags[2]? ', ' + element.tags[1] : ''}}  
+					{{(element.tags && element.tags[0])? element.tags[0] : ''}}
+					{{(element.tags && element.tags[1])? ', ' + element.tags[1] : ''}}
+					{{(element.tags && element.tags[2])? ', ' + element.tags[1] : ''}}
 				</td>
 			</ng-container>
 			<ng-container matColumnDef="credit">
@@ -95,7 +96,8 @@
 				<td mat-cell *matCellDef="let element">
 					<button mat-icon-button (click)="suspendAnswer($event, element._id, element.answers._id, 
 									element.answers.role == 'activate'? 'suspend' : 'activate')">
-						<mat-icon color="primary" *ngIf="element.answers.role == 'activate'; else suspend" class="mat-18">face
+						<mat-icon color="primary" *ngIf="element.answers.role == 'activate'; else suspend"
+							class="mat-18">face
 						</mat-icon>
 						<ng-template #suspend>
 							<mat-icon color="warn" class="mat-18">warning</mat-icon>
@@ -106,69 +108,73 @@
 			<ng-container matColumnDef="delete">
 				<th mat-header-cell *matHeaderCellDef> Delete </th>
 				<td mat-cell *matCellDef="let element">
-					<button mat-icon-button color="warn" (click)="deleteAnswer($event, element._id, element.answers._id)">
+					<button mat-icon-button color="warn"
+						(click)="deleteAnswer($event, element._id, element.answers._id)">
 						<mat-icon class="mat-18">delete</mat-icon>
 					</button>
 				</td>
 			</ng-container>
 			<ng-container matColumnDef="expandedDetail">
-					<td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
-						<div class="example-element-detail"
-							[@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-							<div>
-								<div class="user-content" fxLayout="row" fxLayoutAlign="space-around start">
-									<div fxFlex="20" fxFlex.xs="30" fxLayout="column" fxLayoutAlign="center center">
-										<div class="user-img">
-											<img [src]="element?.answers?.answerer?.profilePicture?.path? 
-												serverUrl+'/'+element.answers.answerer.profilePicture.path : 'assets/img/users/default-user.jpg'" 
-												class="transition-2" 
-												[class.blocked]="element?.answers?.answerer?.role? (element.answers.answerer.role == 'suspend') : false">
-											<mat-icon *ngIf="element?.answers?.answerer?.role? (element.answers.answerer.role == 'suspend') : false" 
-												class="warn-color">block
-											</mat-icon>
-										</div>
-										<span>{{element?.answers?.answerer?.firstName? element.answers.answerer.firstName : '***'}}&nbsp;
-											{{element?.answers?.answerer?.lastName? element.answers.answerer.lastName : '***'}}
-										</span>
+				<td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+					<div class="example-element-detail"
+						[@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+						<div>
+							<div class="user-content" fxLayout="row" fxLayoutAlign="space-around start">
+								<div fxFlex="20" fxFlex.xs="30" fxLayout="column" fxLayoutAlign="center center">
+									<div class="user-img">
+										<img [src]="element?.answers?.answerer?.profilePicture?.path? 
+												serverUrl+'/'+element.answers.answerer.profilePicture.path : 'assets/img/users/default-user.jpg'"
+											class="transition-2"
+											[class.blocked]="element?.answers?.answerer?.role? (element.answers.answerer.role == 'suspend') : false">
+										<mat-icon
+											*ngIf="element?.answers?.answerer?.role? (element.answers.answerer.role == 'suspend') : false"
+											class="warn-color">block
+										</mat-icon>
 									</div>
-									<div fxFlex="80" fxFlex.xs="70" fxLayout="column"  fxLayoutAlign="none none"
-										class="user-details transition-2">
-										<div fxFlex="100" fxFlex.xs="100" fxLayout="column">
-											<p fxLayout="row" fxLayoutAlign="start start">
-												<mat-icon class="muted-text">live_help</mat-icon>
-												<span style="text-align: justify;">{{element.title}}</span>
-											</p>
-										</div>
-										<div fxFlex="100" fxFlex.xs="100" fxLayout="column">
-											<p fxLayout="row" fxLayoutAlign="start start">
-												<mat-icon class="muted-text">mail_outline</mat-icon>
-												<span style="text-align: justify;">{{element.answers.content}}</span>
-											</p>
-										</div>
-										<div fxFlex="100" fxFlex.xs="100" fxLayout="row" fxLayoutAlign="space-between center">
-											<p fxFlex="25" fxLayout="row" fxLayoutAlign="start center">
-												<mat-icon class="muted-text">thumb_up</mat-icon>
-												<span>{{element.answers.thumbupcnt? element.answers.thumbupcnt : 0}}&nbsp;</span>
-											</p>
-											<p fxFlex="25" fxLayout="row" fxLayoutAlign="start center">
-												<mat-icon class="muted-text">thumb_down</mat-icon>
-												<span>{{element.answers.thumbdowncnt? element.answers.thumbdowncnt : 0}}&nbsp;</span>
-											</p>
-											<p fxFlex="25" fxLayout="row" fxLayoutAlign="start center">
-												<mat-icon class="muted-text">label</mat-icon>
-												<span>{{element.answers.follows? element.answers.follows.length : 0}}&nbsp;Following Users</span>
-											</p>
-											<p fxFlex="25" fxLayout="row" fxLayoutAlign="start center">
-												<mat-icon class="muted-text">label</mat-icon>
-												<span>{{element.answers.credit? element.answers.credit : 0}}&nbsp;Credits</span>
-											</p>
-										</div>
+									<span>{{element?.answers?.answerer?.firstName? element.answers.answerer.firstName : '***'}}&nbsp;
+										{{element?.answers?.answerer?.lastName? element.answers.answerer.lastName : '***'}}
+									</span>
+								</div>
+								<div fxFlex="80" fxFlex.xs="70" fxLayout="column" fxLayoutAlign="none none"
+									class="user-details transition-2">
+									<div fxFlex="100" fxFlex.xs="100" fxLayout="column">
+										<p fxLayout="row" fxLayoutAlign="start start">
+											<mat-icon class="muted-text">live_help</mat-icon>
+											<span style="text-align: justify;">{{element.title}}</span>
+										</p>
+									</div>
+									<div fxFlex="100" fxFlex.xs="100" fxLayout="column">
+										<p fxLayout="row" fxLayoutAlign="start start">
+											<mat-icon class="muted-text">mail_outline</mat-icon>
+											<span style="text-align: justify;">{{element.answers.content}}</span>
+										</p>
+									</div>
+									<div fxFlex="100" fxFlex.xs="100" fxLayout="row"
+										fxLayoutAlign="space-between center">
+										<p fxFlex="25" fxLayout="row" fxLayoutAlign="start center">
+											<mat-icon class="muted-text">thumb_up</mat-icon>
+											<span>{{element.answers.thumbupcnt? element.answers.thumbupcnt : 0}}&nbsp;</span>
+										</p>
+										<p fxFlex="25" fxLayout="row" fxLayoutAlign="start center">
+											<mat-icon class="muted-text">thumb_down</mat-icon>
+											<span>{{element.answers.thumbdowncnt? element.answers.thumbdowncnt : 0}}&nbsp;</span>
+										</p>
+										<p fxFlex="25" fxLayout="row" fxLayoutAlign="start center">
+											<mat-icon class="muted-text">label</mat-icon>
+											<span>{{element.answers.follows? element.answers.follows.length : 0}}&nbsp;Following
+												Users</span>
+										</p>
+										<p fxFlex="25" fxLayout="row" fxLayoutAlign="start center">
+											<mat-icon class="muted-text">label</mat-icon>
+											<span>{{element.answers.credit? element.answers.credit : 0}}&nbsp;Credits</span>
+										</p>
 									</div>
 								</div>
 							</div>
 						</div>
-					</td>
-				</ng-container>
+					</div>
+				</td>
+			</ng-container>
 			<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 			<tr mat-row *matRowDef="let element; columns: displayedColumns;" class="example-element-row"
 				[class.example-expanded-row]="expandedElement === element"
