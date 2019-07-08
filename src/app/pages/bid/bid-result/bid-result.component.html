@@ -18,8 +18,11 @@
   <ng-container matColumnDef="username">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> Bidder </th>
     <td mat-cell *matCellDef="let element">
-      <button mat-icon-button class="no-hover-effect" routerLink="/users/userdetail/{{element.bidder._id}}">
+      <button *ngIf="element.bidder" mat-icon-button class="no-hover-effect" routerLink="/users/userdetail/{{element.bidder._id}}">
         <mat-icon>person</mat-icon>{{element.bidder.username}}
+      </button>
+      <button *ngIf="!element.bidder" mat-icon-button class="no-hover-effect">
+        <mat-icon>person</mat-icon>{{'not found'}}
       </button>
     </td>
   </ng-container>
