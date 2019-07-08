@@ -153,21 +153,19 @@
                     </p>
                     <p fxFlex="50" fxLayout="row" fxLayoutAlign="start center">
                       <mat-icon class="muted-text">label</mat-icon>
-                      <span>
-                        Highest Unique
-                        Bid:&nbsp;{{element.maxUniqueBid?.bidPrice? (element.maxUniqueBid.bidPrice | currency:'USD':'symbol':'1.2-2') : 'not found'}}
-                        &nbsp;{{element.maxUniqueBid?.bidder?.username}}
-                      </span>
+                      <span>Highest Unique BidPrice:&nbsp;
+                        {{element.maxUniqueBid? (element.maxUniqueBid.bidPrice | currency:'USD':'symbol':'1.2-2') : 'not found'}}</span>
                     </p>
                     <p fxFlex="50" fxLayout="row" fxLayoutAlign="start center">
                       <mat-icon class="muted-text">label</mat-icon>
-                      <span>Highest Unique Bid
-                        Username:&nbsp;{{element.maxUniqueBid? element.maxUniqueBid.bidder.username : 'not found'}}</span>
+                      <span>Highest Unique Bid Username:&nbsp;
+                        {{(element.maxUniqueBid && element.maxUniqueBid.bidder)? element.maxUniqueBid.bidder.username 
+                                      : 'not found'}}</span>
                     </p>
                   </div>
                 </div>
               </div>
-             <app-bid-result [auction]="element"></app-bid-result>
+              <app-bid-result [auction]="element"></app-bid-result>
             </div>
           </div>
         </td>
