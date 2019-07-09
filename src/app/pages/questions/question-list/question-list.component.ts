@@ -33,25 +33,25 @@ export class QuestionListComponent implements OnInit {
 	public dataSource:any;
 	public selection = new SelectionModel<any>(true, []);
 	public totalQuestions: number;
-	private pageSize: number;
 	public pageIndex: number;
+	public infoForm: FormGroup;
+	public serverUrl = environment.apiUrl;
+	public newQuestionFlag: boolean;
+	public tagsOfQuestionForm: FormGroup;
+	public questionTags: string[];
+	private pageSize: number;
 	private search: string = '';
 	private sortParam = {
 		active: 'name',
 		direction: 'asc',
 	};
-	infoForm: FormGroup;
-	serverUrl = environment.apiUrl;
-	newQuestionFlag: boolean;
-	tagsOfQuestionForm: FormGroup;
-	questionTags: string[];
 	@ViewChild('allQuestionTagsSelected') private allQuestionTagsSelected: MatOption;
 	constructor(
 		private router: Router, 
 		private fb: FormBuilder,
 		public dialog: MatDialog,
 		private commonService: CommonService,
-    private questionsService: QuestionsService,
+    	private questionsService: QuestionsService,
 		private authenticationService: AuthenticationService,
 	) { }
 
@@ -59,6 +59,13 @@ export class QuestionListComponent implements OnInit {
 		this.tagsOfQuestionForm = this.fb.group({
 			tagsOfQuestion: new FormControl('')
 		}); 
+
+		this.commonService.getStandardInterests().subscribe((res: any) => {
+			if(res.data) {
+				this.questionTags = res.data;
+			}
+		});
+
 		this.getQuestions();
 	}
 
@@ -67,8 +74,8 @@ export class QuestionListComponent implements OnInit {
 			AddQuestionComponent, 
 			{
 				data: {
-				question,
-				newTitle,
+					question,
+					newTitle,
 				},
 				width: '800px'	
 			}
@@ -81,14 +88,14 @@ export class QuestionListComponent implements OnInit {
 	}
 
 	searchBoxAction(){
-		if(this.newQuestionFlag){
+		if(this.newQuestionFlag) {
 			this.newQuestionFlag = false;
 			this.openQuestionDialog(this.infoForm.value.search);
-		}
-		else{
+		} else {
 			this.getQuestions();
 		}
 	}
+
 	getQuestions(event?) {
 		if (this.authenticationService.isAdmin()){
 			if (event) {
@@ -102,25 +109,20 @@ export class QuestionListComponent implements OnInit {
 				this.tagsOfQuestionForm.value.tagsOfQuestion,
 				this.sortParam.active,
 				this.sortParam.direction,
-			).subscribe(
-				(res: any) => {
-					this.totalQuestions = res.data.totalQuestions;
-					this.dataSource = new MatTableDataSource<any>(res.data.questions);
-					this.questionTags = res.data.questionTags;
-					this.selection.clear();
-					if(this.totalQuestions <= this.pageSize * this.pageIndex){
+			).subscribe((res: any) => {
+				this.totalQuestions = res.data.totalQuestions;
+				this.dataSource = new MatTableDataSource<any>(res.data.questions);
+				this.selection.clear();
+				if(this.totalQuestions <= this.pageSize * this.pageIndex){
 					this.pageIndex = 0;
-					}
-					if(!this.totalQuestions){
-					//this.newQuestionFlag = true;
-					}
-					else{
-					//this.newQuestionFlag = false;
-					}
-				},
-				(err: HttpErrorResponse) => {
 				}
-			);
+				if(!this.totalQuestions){
+				//this.newQuestionFlag = true;
+				}
+				else{
+				//this.newQuestionFlag = false;
+				}
+			});
 		}
 	}
 
