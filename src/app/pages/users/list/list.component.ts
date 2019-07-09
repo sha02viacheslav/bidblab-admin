@@ -77,7 +77,7 @@ export class ListComponent implements OnInit {
 				this.dataSource = new MatTableDataSource<any>(res.data.members);
 				this.selection.clear();
 				if(this.totalMembers <= this.pageSize * this.pageIndex){
-				this.pageIndex = 0;
+					this.pageIndex = 0;
 				}
 			},
 			(err: HttpErrorResponse) => {
