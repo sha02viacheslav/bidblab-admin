@@ -5,7 +5,7 @@ import { Settings } from '../../../app.settings.model';
 import { Question, Answer } from '../../../shared/models/question.model';
 import { AuthenticationService } from '../../../shared/services/authentication.service';
 import { SelectionModel } from '@angular/cdk/collections';
-import { MatTableDataSource, MatOption } from '@angular/material';
+import { MatTableDataSource, MatOption, MatSnackBar } from '@angular/material';
 import { FormBuilder, FormGroup, EmailValidator, FormControl } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -28,28 +28,29 @@ import { QuestionsService } from '../questions.service';
 	],
 })
 export class AnswerListComponent implements OnInit {
+	@ViewChild('allAnswerTagsSelected') private allAnswerTagsSelected: MatOption;
     public displayedColumns: string[] = ['select', 'index', 'content', 'tags', 'credit', 'createdAt',
                                         /*'details',*/ 'update', 'suspend', 'delete'];
     public dataSource:any;
     public selection = new SelectionModel<any>(true, []);
     public totalAnswers: number;
-    private pageSize: number;
+    public pageSize: number;
     public pageIndex: number;
-    private search: string = '';
+    private search: string = '';public infoForm: FormGroup;
+    public newQuestionFlag: boolean;
+	public serverUrl = environment.apiUrl;
+    public tagsOfAnswerForm: FormGroup;
+	public answerTags: string[];
     private sortParam = {
 		active: 'name',
 		direction: 'asc',
     };
-    infoForm: FormGroup;
-    newQuestionFlag: boolean;
-		serverUrl = environment.apiUrl;
-    tagsOfAnswerForm: FormGroup;
-	answerTags: string[];
-	@ViewChild('allAnswerTagsSelected') private allAnswerTagsSelected: MatOption;
+    
     constructor(
 		private router: Router, 
 		private fb: FormBuilder,
 		public dialog: MatDialog,
+		private snackBar: MatSnackBar,
 		private commonService: CommonService,
     	private questionsService: QuestionsService,
 		private authenticationService: AuthenticationService,
@@ -59,6 +60,13 @@ export class AnswerListComponent implements OnInit {
 		this.tagsOfAnswerForm = this.fb.group({
 			tagsOfAnswer: new FormControl('')
 		}); 
+
+		this.commonService.getStandardInterests().subscribe((res: any) => {
+			if(res.data) {
+				this.answerTags = res.data;
+			}
+		});
+
       	this.getAnswers();
     }
   
@@ -69,32 +77,17 @@ export class AnswerListComponent implements OnInit {
 				newTitle,
 			},
 			width: '800px'
-		})
-		.afterClosed()
-		.subscribe(newQuestion => {
+		}).afterClosed().subscribe(newQuestion => {
 			if (newQuestion) {
 				if (question) {
-				const index = this.dataSource.data.findIndex(
-					currentQuestion => currentQuestion._id === question._id
-				);
-				if (index !== -1) {
-					this.dataSource.data[index] = newQuestion;
-				}
+					const index = this.dataSource.data.findIndex(
+						currentQuestion => currentQuestion._id === question._id
+					);
+					if (index !== -1) {
+						this.dataSource.data[index] = newQuestion;
+					}
 				} else {
-				this.dataSource.data.push(newQuestion);
-				// this.dialogService.
-				//   open(AlertDialogComponent, {
-				//     data: {
-				//       title: "Question submitted",
-				//       comment: " ",
-				//       dialog_type: "ask" 
-				//     },
-				//     width: '320px',
-				//   }).afterClosed().subscribe(result => {
-				//     if(result == 'more'){
-				//       this.openQuestionDialog();
-				//     }
-				//   });
+					this.dataSource.data.push(newQuestion);
 				}
 				this.getAnswers();
 			}
@@ -113,36 +106,25 @@ export class AnswerListComponent implements OnInit {
 	
     getAnswers(event?) {
 		if (this.authenticationService.isAdmin()){
-		if (event) {
-			this.pageSize = event.pageSize;
-			this.pageIndex = event.pageIndex;
-		}
-		this.questionsService.getAnswers(
-			this.pageSize,
-			this.pageIndex,
-			this.search,
-			this.tagsOfAnswerForm.value.tagsOfAnswer,
-			this.sortParam.active,
-			this.sortParam.direction,
-		).subscribe(
-			(res: any) => {
-			this.totalAnswers = res.data.totalAnswers;
-			this.dataSource = new MatTableDataSource<any>(res.data.answers);
-			this.answerTags = res.data.answerTags;
-			this.selection.clear();
-			if(this.totalAnswers <= this.pageSize * this.pageIndex){
-				this.pageIndex = 0;
+			if (event) {
+				this.pageSize = event.pageSize;
+				this.pageIndex = event.pageIndex;
 			}
-			if(!this.totalAnswers){
-				//this.newQuestionFlag = true;
-			}
-			else{
-				//this.newQuestionFlag = false;
-			}
-			},
-			(err: HttpErrorResponse) => {
-			}
-		);
+			this.questionsService.getAnswers(
+				this.pageSize,
+				this.pageIndex,
+				this.search,
+				this.tagsOfAnswerForm.value.tagsOfAnswer,
+				this.sortParam.active,
+				this.sortParam.direction,
+			).subscribe((res: any) => {
+				this.totalAnswers = res.data.totalAnswers;
+				this.dataSource = new MatTableDataSource<any>(res.data.answers);
+				this.selection.clear();
+				if(this.totalAnswers <= this.pageSize * this.pageIndex) {
+					this.pageIndex = 0;
+				}
+			});
 		}
     }
   
@@ -214,9 +196,7 @@ export class AnswerListComponent implements OnInit {
 			if(confirm("Are you sure to delete answers")){
 				// this.blockUIService.setBlockStatus(true);
 				this.questionsService.deleteAnswers(elementIds).subscribe((res: any) => {
-					// this.snackBar.open(res.data.totalDeleteQuestions+" of "+questionIds.length+" questions are deleted.", 
-					// 'Dismiss', 
-					// {duration: 1500});
+					this.snackBar.open(res.msg, 'Dismiss', {duration: 1500});
 					this.getAnswers();
 				});
 			}
