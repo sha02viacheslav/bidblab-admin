@@ -34,7 +34,7 @@ export class AnswerListComponent implements OnInit {
     public dataSource:any;
     public selection = new SelectionModel<any>(true, []);
     public totalAnswers: number;
-    public pageSize: number;
+    public pageSize: number = 10;
     public pageIndex: number;
     private search: string = '';public infoForm: FormGroup;
     public newQuestionFlag: boolean;
@@ -42,8 +42,8 @@ export class AnswerListComponent implements OnInit {
     public tagsOfAnswerForm: FormGroup;
 	public answerTags: string[];
     private sortParam = {
-		active: 'name',
-		direction: 'asc',
+		active: 'createdAt',
+		direction: 'desc',
     };
     
     constructor(
