@@ -235,7 +235,7 @@ export class QuestionListComponent implements OnInit {
 		if(questionIds.length){
 			if(confirm("Are you sure to " + roleType + "?")){
 				// this.blockUIService.setBlockStatus(true);
-				this.questionsService.changeQuestionsRole(questionIds, roleType)
+				this.commonService.changeQuestionsRole(questionIds, roleType)
 					.subscribe(
 					(res: any) => {
 						// this.snackBar.open(res.data.totalSuspendQuestions+" of "+questionIds.length+" questions are suspended.", 

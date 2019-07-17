@@ -28,7 +28,7 @@ import { FlagsService } from '../flags.service';
 })
 export class FlagListComponent implements OnInit {
 	public displayedColumns: string[] = ['select', 'index', 'type', 'note', 'createdAt',
-										'suspendAnswer', 'menu'];
+										'suspendObject', 'menu'];
 	public dataSource:any;
 	public selection = new SelectionModel<any>(true, []);
 	public totalFlags: number;
@@ -223,35 +223,65 @@ export class FlagListComponent implements OnInit {
 		}
 	}
 
-	public suspendAnswers(){
-		var elementIds = [];
+	public suspendObjects(){
+		var questionIds = [];
+		var answerIds = [];
 		this.dataSource.data.forEach( (row) => {
-			if(this.selection.selected.some( selected => selected.index == row.index )){
-				elementIds.push({questionId: row.question._id, answerId: row.answer._id});
+			if(this.selection.selected.some( selected => selected.index == row.index )) {
+				if(row.answerId) {
+					answerIds.push({questionId: row.question._id, answerId: row.answer._id});
+				} else {
+					questionIds.push(row.question._id);
+				}
 			}
 		});
-		this.finalSuspendQuestions(elementIds, 'suspend');
+		if((questionIds.length || answerIds.length) && confirm("Are you sure to suspend?")) {
+			if(questionIds.length) {
+				this.finalSuspendQuestions(questionIds, 'suspend');
+			}
+			if(answerIds.length) {
+				this.finalSuspendAnswers(answerIds, 'suspend');
+			}
+		}
     }
   
     public suspendAnswer(event, questionId, answerId, roleType){
 		event.stopPropagation();
 		var elementIds = [];
 		elementIds.push({questionId: questionId, answerId: answerId});
-		this.finalSuspendQuestions(elementIds, roleType);
-    }
-  
-    public finalSuspendQuestions(elementIds, roleType) {
-		if(elementIds.length){
-			if(confirm("Are you sure to " + roleType + "?")){
-				this.commonService.changeAnswersRole(elementIds, roleType).subscribe((res: any) => {
-					this.getFlags();
-				});
-			}
+		if(confirm("Are you sure to " + roleType + "?")) {
+			this.finalSuspendAnswers(elementIds, roleType);
 		}
-		else{
+	}
+  
+    public finalSuspendAnswers(elementIds, roleType) {
+		if(elementIds.length){
+			this.commonService.changeAnswersRole(elementIds, roleType).subscribe((res: any) => {
+				this.getFlags();
+			});
+		} else {
 			alert("Select the questions");
 		}
+	}
+	
+    public suspendQuestion(event, questionId, roleType){
+		event.stopPropagation();
+		var elementIds = [];
+		elementIds.push(questionId);
+		if(confirm("Are you sure to " + roleType + "?")) {
+			this.finalSuspendQuestions(elementIds, roleType);
+		}
     }
+	
+	public finalSuspendQuestions(elementIds, roleType) {
+		if(elementIds.length) {
+			this.commonService.changeQuestionsRole(elementIds, roleType).subscribe((res: any) => {
+				this.getFlags();
+			});
+		} else {
+			alert("Select the questions");
+		}
+	}
 
 }
 

@@ -3,9 +3,9 @@
     <div fxLayout="row" fxLayoutAlign="space-between center">
       <div fxLayout="row">
         <mat-button-toggle-group #controls="matButtonToggleGroup" appearance="legacy">
-          <mat-button-toggle value="add">
+          <!-- <mat-button-toggle value="add">
             <mat-icon>note_add</mat-icon>
-          </mat-button-toggle>
+          </mat-button-toggle> -->
           <mat-button-toggle value="search">
             <mat-icon>search</mat-icon>
           </mat-button-toggle>
@@ -29,7 +29,7 @@
         </mat-form-field>
       </form>
       <div fxLayout="row" fxLayoutAlign="space-between center">
-        <button mat-raised-button color="accent" class="m-1" (click)="suspendAnswers()">Suspend</button>
+        <button mat-raised-button color="accent" class="m-1" (click)="suspendObjects()">Suspend</button>
         <button mat-raised-button color="warn" class="m-1" (click)="deleteFlags()">Delete</button>
       </div>
     </div>
@@ -63,16 +63,19 @@
       </ng-container>
       <ng-container matColumnDef="createdAt">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Submited </th>
-        <td mat-cell *matCellDef="let element"> {{element.updatedAt | date}}</td>
+        <td mat-cell *matCellDef="let element"> {{element.createdAt | date}}</td>
       </ng-container>
-      <ng-container matColumnDef="suspendAnswer">
+      <ng-container matColumnDef="suspendObject">
         <th mat-header-cell *matHeaderCellDef>
-          <div fxLayout="row" fxLayoutAlign="center center"> Suspend Answer</div>
+          <div fxLayout="row" fxLayoutAlign="center center"> Suspend</div>
         </th>
         <td mat-cell *matCellDef="let element">
           <div fxLayout="row" fxLayoutAlign="center center">
-            <mat-icon color="{{element.answer.role == 'suspend'? 'warn' : 'primary'}}">
-              {{element.answer.role == 'suspend'? 'block' : 'face'}}
+            <mat-icon *ngIf="!element.answerId" color="{{element.question?.role == 'suspend'? 'warn' : 'primary'}}">
+              {{element.question?.role == 'suspend'? 'block' : 'face'}}
+            </mat-icon>
+            <mat-icon *ngIf="!!element.answerId" color="{{element.answer?.role == 'suspend'? 'warn' : 'primary'}}">
+              {{element.answer?.role == 'suspend'? 'block' : 'face'}}
             </mat-icon>
           </div>
         </td>
@@ -98,14 +101,19 @@
           </button>
           <mat-menu #menu="matMenu" xPosition="before" overlapTrigger="true">
             <span (mouseleave)="menuTrigger.closeMenu()">
-              <button mat-menu-item (click)="openQuestionDialog('', element);">
+              <!-- <button mat-menu-item (click)="openQuestionDialog('', element);">
                 <mat-icon>edit</mat-icon>
                 <span>Edit</span>
+              </button> -->
+              <button *ngIf="!element.answerId" mat-menu-item (click)="suspendQuestion($event, element.question._id,
+								element.question?.role == 'suspend'? 'activate' : 'suspend')">
+                <mat-icon>{{element.question?.role == 'suspend'? 'warning' : 'face'}}</mat-icon>
+                <span>{{element.question?.role == 'suspend'? 'Activate' : 'Suspend'}}</span>
               </button>
-              <button mat-menu-item (click)="suspendAnswer($event, element.question._id, element.answer._id, 
-									  element.answer.role == 'suspend'? 'activate' : 'suspend')">
-                <mat-icon>{{element.answer.role == 'suspend'? 'warning' : 'face'}}</mat-icon>
-                <span>{{element.answer.role == 'suspend'? 'Activate' : 'Suspend'}}</span>
+              <button *ngIf="!!element.answerId" mat-menu-item (click)="suspendAnswer($event, element.question._id, element.answer?._id, 
+								element.answer?.role == 'suspend'? 'activate' : 'suspend')">
+                <mat-icon>{{element.answer?.role == 'suspend'? 'warning' : 'face'}}</mat-icon>
+                <span>{{element.answer?.role == 'suspend'? 'Activate' : 'Suspend'}}</span>
               </button>
               <!-- <button mat-menu-item (click)="suspendFlag($event, element._id, 
 									  element.role == 'suspend'? 'activate' : 'suspend')">
@@ -146,7 +154,7 @@
                       <span style="text-align: justify;">{{element.question?.title}}</span>
                     </p>
                   </div>
-                  <div fxFlex="100" fxFlex.xs="100" fxLayout="column">
+                  <div *ngIf="element.answerId" fxFlex="100" fxFlex.xs="100" fxLayout="column">
                     <p fxLayout="row" fxLayoutAlign="start start">
                       <mat-icon class="muted-text">mail_outline</mat-icon>
                       <span style="text-align: justify;">{{element.answer?.content}}</span>

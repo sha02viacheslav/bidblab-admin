@@ -67,13 +67,6 @@ export class QuestionsService {
     );
   }  
 
-  changeQuestionsRole(body, roleType) {
-    return this.httpClient.post(
-      `${environment.apiUrl}/api/admin/changeQuestionsRole/${roleType}`,
-      body
-    );
-  } 
-
   addAnswer(questionId, answertype, body) {
     return this.httpClient.post(
       `${environment.apiUrl}/api/common/addAnswer/${questionId}/${answertype}`,

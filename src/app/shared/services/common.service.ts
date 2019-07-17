@@ -22,6 +22,13 @@ export class CommonService {
 		);
   }
 
+  changeQuestionsRole(body, roleType) {
+    return this.httpClient.post(
+      `${environment.apiUrl}/api/admin/changeQuestionsRole/${roleType}`,
+      body
+    );
+  } 
+
   changeAnswersRole(body, roleType) {
     return this.httpClient.post(
       `${environment.apiUrl}/api/admin/changeAnswersRole/${roleType}`,
