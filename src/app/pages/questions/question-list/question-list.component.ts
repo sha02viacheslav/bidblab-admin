@@ -60,7 +60,7 @@ export class QuestionListComponent implements OnInit {
 			tagsOfQuestion: new FormControl('')
 		}); 
 
-		this.commonService.getStandardInterests().subscribe((res: any) => {
+		this.commonService.getAllTags().subscribe((res: any) => {
 			if(res.data) {
 				this.questionTags = res.data;
 			}

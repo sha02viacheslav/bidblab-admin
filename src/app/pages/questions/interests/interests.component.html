@@ -1,0 +1,90 @@
+<div fxLayout="column">
+	<div class="flex-p">
+		<div fxLayout="row" fxLayoutAlign="space-between center">
+			<div fxLayout="row">
+				<button mat-raised-button appearance="legacy"  [disabled]="searchForm.invalid || submitted">
+						<mat-icon *ngIf="!totalTags" (click)="addTag()">note_add</mat-icon>
+						<mat-icon *ngIf="totalTags">search</mat-icon>
+				</button>
+			</div>
+			<form [formGroup]="searchForm" class="user-search" autocomplete="off">
+				<mat-form-field class="user-search-input">
+					<input matInput formControlName="tagName" placeholder="Input tag to search or add." (keyup)="getTags()"
+						name="search">
+				</mat-form-field>
+			</form>
+			<div fxLayout="row" fxLayoutAlign="space-between center">
+				<button mat-raised-button color="warn" class="m-1" (click)="deleteTags()">Delete</button>
+			</div>
+		</div>
+		<table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows class="mat-elevation-z8 w-100"
+			(matSortChange)="customSort($event)">
+			<ng-container matColumnDef="select">
+				<th mat-header-cell *matHeaderCellDef>
+					<mat-checkbox (change)="$event ? masterToggle() : null"
+						[checked]="selection.hasValue() && isAllSelected()"
+						[indeterminate]="selection.hasValue() && !isAllSelected()">
+					</mat-checkbox>
+				</th>
+				<td mat-cell *matCellDef="let row">
+					<mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+						[checked]="selection.isSelected(row)">
+					</mat-checkbox>
+				</td>
+			</ng-container>
+			<ng-container matColumnDef="index">
+				<th mat-header-cell *matHeaderCellDef> No </th>
+				<td mat-cell *matCellDef="let element;"> {{element.index + 1}}</td>
+			</ng-container>
+			<ng-container matColumnDef="tagName">
+				<th mat-header-cell *matHeaderCellDef> Tag </th>
+				<td mat-cell *matCellDef="let element"> {{element.tagName}} </td>
+			</ng-container>
+			<ng-container matColumnDef="update">
+				<th mat-header-cell *matHeaderCellDef> Update </th>
+				<td mat-cell *matCellDef="let element">
+					<button mat-icon-button color="accent" (click)="expandedElement = expandedElement === element ? null : element">
+						<mat-icon class="mat-18">system_update</mat-icon>
+					</button>
+				</td>
+			</ng-container>
+			<ng-container matColumnDef="delete">
+				<th mat-header-cell *matHeaderCellDef> Delete </th>
+				<td mat-cell *matCellDef="let element">
+					<button mat-icon-button color="warn" (click)="deleteTag($event, element._id)">
+						<mat-icon class="mat-18">delete</mat-icon>
+					</button>
+				</td>
+			</ng-container>
+			<ng-container matColumnDef="expandedDetail">
+				<td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+					<div class="example-element-detail"
+						[@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+						<div fxLayout="row">
+							<form [formGroup]="updateForm" class="user-search" autocomplete="off">
+								<mat-form-field class="user-search-input">
+									<input matInput formControlName="tagName" placeholder="Input tag" name="search">
+								</mat-form-field>
+							</form>
+							<div fxLayout="row" fxLayoutAlign="space-between center">
+								<button mat-raised-button color="accent" class="m-1"  [disabled]="updateForm.invalid || submitted" 
+									(click)="updateTag(element._id)">Update</button>
+								<button mat-raised-button color="primary" class="m-1" 
+									(click)="expandedElement = null">Cancel</button>
+							</div>
+						</div>
+					</div>
+				</td>
+			</ng-container>
+			<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+			<tr mat-row *matRowDef="let element; columns: displayedColumns;" class="example-element-row"
+				[class.example-expanded-row]="expandedElement === element"
+				>
+			</tr>
+			<tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+		</table>
+		<mat-paginator #paginator [pageSize]="10" [length]="totalTags" [pageIndex]="pageIndex"
+			[pageSizeOptions]="[5, 10, 20]" (page)="getTags($event)">
+		</mat-paginator>
+	</div>
+</div>

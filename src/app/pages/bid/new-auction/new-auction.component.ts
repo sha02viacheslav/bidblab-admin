@@ -19,7 +19,6 @@ export class NewAuctionComponent implements OnInit {
   public form: FormGroup;
   uploadFiles: any[] = [];
   questionPictureurls: any[] = [];
-  standardInterests: string[];
   formArray: FormArray;
   serverUrl: string = environment.apiUrl;
   selectedFileIndex: number = -1;

@@ -24,7 +24,7 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
 	public submitted: boolean;
 	public infoForm: FormGroup;
 	public catagories: string[];
-	public standardInterests: string[];
+	public allTags: string[];
 	public formArray: FormArray;
 	public serverUrl: string = environment.apiUrl;
 	public uploadFiles: any[] = [];
@@ -96,14 +96,9 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
 			this.getInitialImage(0);
 		}
 
-		this.commonService.getStandardInterests().subscribe((res: any) => {
-			this.standardInterests = res.data;
+		this.commonService.getAllTags().subscribe((res: any) => {
+			this.allTags = res.data;
 			this.formArray = this.infoForm.get('tags') as FormArray;
-			this.user.tags.forEach(item => {
-				if (!this.standardInterests.some(x => x == item)) {
-					this.standardInterests.push(item);
-				};
-			});
 		}, (err: HttpErrorResponse) => {
 			this.snackBar.open(err.error.msg, 'Dismiss', {
 				duration: 1500
@@ -114,7 +109,7 @@ export class AddQuestionComponent implements OnInit, OnDestroy {
 		.valueChanges.pipe(debounceTime(100))
 		.subscribe(text => {
 			if (text.trim()) {
-				this.autocomplete = this.standardInterests.filter(element => element.match(new RegExp("(" + text + ")", "i")));
+				this.autocomplete = this.allTags.filter(element => element.match(new RegExp("(" + text + ")", "i")));
 			} else {
 				this.autocomplete = [];
 			}

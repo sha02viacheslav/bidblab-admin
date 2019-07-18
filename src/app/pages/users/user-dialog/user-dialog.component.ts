@@ -61,7 +61,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 			this.selection.select('password');
 			this.addPasswordControl();
 		}
-		this.commonService.getStandardInterests().subscribe((res: any) => {
+		this.commonService.getAllInterests().subscribe((res: any) => {
 			this.standardInterests = res.data;
 			if(this.user.tags){
 			this.user.tags.forEach( item => {

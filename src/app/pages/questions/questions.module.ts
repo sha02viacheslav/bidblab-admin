@@ -9,6 +9,7 @@ import { PipesModule } from '../../theme/pipes/pipes.module';
 import { QuestionListComponent } from './question-list/question-list.component';
 import { AddQuestionComponent } from './add-question/add-question.component';
 import { TagsComponent } from './tags/tags.component';
+import { InterestsComponent } from './interests/interests.component';
 import { AnswerListComponent } from './answer-list/answer-list.component';
 
 export const routes = [
@@ -19,6 +20,10 @@ export const routes = [
 	{
 		path: 'tags',
 		component: TagsComponent
+	},
+	{
+		path: 'interests',
+		component: InterestsComponent
 	},
 	{
 		path: 'answerslist',
@@ -45,7 +50,8 @@ export const routes = [
 		QuestionListComponent,
 		AddQuestionComponent,
 		AnswerListComponent,
-		TagsComponent
+		TagsComponent,
+		InterestsComponent
 	],
 	entryComponents: [
 		AddQuestionComponent,

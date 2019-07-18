@@ -21,7 +21,6 @@ export class AuctionDialogComponent implements OnInit {
   uploadFiles: any[] = [];
   uploadFile: any;
   uploadPicture: any;
-  standardInterests: string[];
   formArray: FormArray;
   serverUrl: string = environment.apiUrl;
   showImageFlag: boolean = false;

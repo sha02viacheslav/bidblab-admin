@@ -99,8 +99,8 @@ export class DetailComponent implements OnInit, OnDestroy {
     );
   }
 
-  getUserAnswerByuserId(userId, interestFilter){
-    this.usersService.getUserAnswerByuserId(userId, interestFilter).subscribe(
+  getUserAnswerByuserId(userId, tagFilter){
+    this.usersService.getUserAnswerByuserId(userId, tagFilter).subscribe(
       (res: any) => {
         this.answers = res.data.answers;
         this.total_answers = res.data.total_answers;
@@ -119,8 +119,8 @@ export class DetailComponent implements OnInit, OnDestroy {
     );
   }
 
-  getUserQuestionByuserId(userId, interestFilter){
-    this.usersService.getUserQuestionByuserId(userId, interestFilter).subscribe(
+  getUserQuestionByuserId(userId, tagFilter){
+    this.usersService.getUserQuestionByuserId(userId, tagFilter).subscribe(
       (res: any) => {
         this.total_questions = res.data.total_questions;
         this.questions = res.data.questions;

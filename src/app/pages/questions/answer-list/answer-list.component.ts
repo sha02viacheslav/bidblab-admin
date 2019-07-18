@@ -61,7 +61,7 @@ export class AnswerListComponent implements OnInit {
 			tagsOfAnswer: new FormControl('')
 		}); 
 
-		this.commonService.getStandardInterests().subscribe((res: any) => {
+		this.commonService.getAllTags().subscribe((res: any) => {
 			if(res.data) {
 				this.answerTags = res.data;
 			}

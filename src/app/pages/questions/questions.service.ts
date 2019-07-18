@@ -123,5 +123,33 @@ export class QuestionsService {
       body
     );
   }  
+
+  getInterests(limit?, offset?, search?, active?, direction?) {
+    return this.httpClient.get(
+      `${environment.apiUrl}/api/admin/getInterests?limit=${limit ||
+        10}&offset=${offset || 0}&search=${search || ''}&active=${active || ''}&direction=${direction || ''}`
+    );
+  }
+
+  addInterest(body) {
+    return this.httpClient.post(
+      `${environment.apiUrl}/api/admin/addInterest`,
+      body
+    );
+  }
+
+  updateInterest(interestId, body) {
+    return this.httpClient.post(
+      `${environment.apiUrl}/api/admin/updateInterest/${interestId}`,
+      body
+    );
+  }
+
+  deleteInterests(body) {
+    return this.httpClient.post(
+      `${environment.apiUrl}/api/admin/deleteInterests`,
+      body
+    );
+  }  
 }
 

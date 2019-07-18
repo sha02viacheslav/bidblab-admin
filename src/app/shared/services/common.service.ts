@@ -10,9 +10,15 @@ export class CommonService {
     private httpClient: HttpClient
   ) {}
 
-  getStandardInterests() {
+  getAllTags() {
     return this.httpClient.get(
-      `${environment.apiUrl}/api/common/getStandardInterests`
+      `${environment.apiUrl}/api/common/getAllTags`
+    );
+  } 
+
+  getAllInterests() {
+    return this.httpClient.get(
+      `${environment.apiUrl}/api/common/getAllInterests`
     );
   } 
 

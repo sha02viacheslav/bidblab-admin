@@ -90,7 +90,7 @@
 					</mat-card-title>
 					<form [formGroup]="tagsOfAnswerForm" autocomplete="off">
 						<mat-form-field>
-							<mat-select multiple placeholder="Interests" formControlName="tagsOfAnswer"
+							<mat-select multiple placeholder="Select tags..." formControlName="tagsOfAnswer"
 								(closed)="changeAnswerTag()" required>
 								<mat-option #allAnswerTagsSelected (click)="toggleAllSelectionOfAnswer()" [value]="0">
 									All</mat-option>
@@ -155,7 +155,7 @@
 					<form [formGroup]="tagsOfAnswerForm" autocomplete="off">
 						<form [formGroup]="tagsOfQuestionForm" autocomplete="off">
 							<mat-form-field class="no-padding">
-								<mat-select multiple placeholder="Interests" formControlName="tagsOfQuestion"
+								<mat-select multiple placeholder="Select tags..." formControlName="tagsOfQuestion"
 									(closed)="changeQuestionTag()">
 									<mat-option #allQuestionTagsSelected (click)="toggleAllSelectionOfQuestion()"
 										[value]="0">All
