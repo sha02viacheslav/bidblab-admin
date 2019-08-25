@@ -64,7 +64,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 		AppSettings,
 		{
 			provide: APP_BASE_HREF,
-			useValue: '/admin/'
+			useValue: '/'
 		},
 		{
 			provide: PERFECT_SCROLLBAR_CONFIG,
