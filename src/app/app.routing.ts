@@ -48,6 +48,11 @@ export const routes: Routes = [{
         loadChildren: './pages/login/login.module#LoginModule'
     },
     {
+        path: 'changepassword',
+        loadChildren: './pages/change-password/change-password.module#ChangePasswordModule',
+        canActivate: [UserGuard]
+    },
+    {
         path: '**',
         redirectTo: 'questions'
     }

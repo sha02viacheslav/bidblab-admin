@@ -525,6 +525,16 @@ a {
         }
     }
 
+    &.reset-password {
+        .box-content {
+            height: $reset-password-box-height;
+
+            .box-content-inner {
+                height: $reset-password-box-height;
+            }
+        }
+    }
+
 }
 
 
