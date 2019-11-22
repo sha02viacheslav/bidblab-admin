@@ -67,7 +67,7 @@ a {
 }
 
 .mt-1 {
-    margin-top: 4px !important;
+    margin-top: 16px !important;
 }
 
 .mx-1 {
@@ -590,7 +590,7 @@ a {
 
 .mat-dialog-container {
     max-height: 95vh !important;
-    overflow-y: scroll !important;
+    overflow-y: auto;
 }
 
 .opecity {
