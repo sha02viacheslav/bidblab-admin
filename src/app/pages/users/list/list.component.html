@@ -206,6 +206,12 @@
 											<mat-icon class="muted-text">label</mat-icon>
 											<span>{{element.follows.length}}&nbsp;Folling Users</span>
 										</p>
+										<p fxLayout="row" fxLayoutAlign="start center" class="mt-1">
+											<mat-icon class="muted-text">label</mat-icon>
+											<button mat-raised-button (click)="showVisits($event, element, element.totalLogins)">
+												<span>{{element.totalLogins}}&nbsp;Visits</span>
+											</button>
+										</p>
 									</div>
 								</div>
 							</div>

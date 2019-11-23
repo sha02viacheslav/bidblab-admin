@@ -15,6 +15,7 @@ import { environment } from '../../../../environments/environment';
 import { CommonService } from '../../../shared/services/common.service';
 import { UsersService } from '../users.service';
 import { AlertDialogComponent } from '../../../shared/components/alert-dialog/alert-dialog.component';
+import { LoginResultComponent } from '../login-result/login-result.component';
 
 @Component({
 	selector: 'app-list',
@@ -247,6 +248,28 @@ export class ListComponent implements OnInit {
 				this.getUsers();
 			}
 		});
+	}
+
+	public showVisits(event, member, totalLogins) {
+		event.stopPropagation();
+		if(totalLogins) {
+			console.log('show visit: ', member._id);
+			this.usersService.getLogins(member._id).subscribe((res: any) => {
+				if(res.data) {
+					console.log(res.data);
+					this.dialog.open(LoginResultComponent, {
+						data: {
+							logins: res.data,
+							user: member
+						},
+						width: '800px',
+					});
+				} else {
+					this.snackBar.open(res.msg, 'Dismiss', {duration: 1500});
+				}
+			}, (err: HttpErrorResponse) => {
+			});
+		}
 	}
 }
 

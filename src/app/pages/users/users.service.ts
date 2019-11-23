@@ -74,5 +74,11 @@ export class UsersService {
         `${environment.apiUrl}/api/common/getQuestionsFollowing/`
       );
     }
+
+    getLogins(userId) {
+      return this.httpClient.get(
+        `${environment.apiUrl}/api/admin/getLogins/${userId}`
+      );
+    }
 } 
 
