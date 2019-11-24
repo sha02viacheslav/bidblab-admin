@@ -77,6 +77,17 @@
 				<th mat-header-cell *matHeaderCellDef mat-sort-header> Submited </th>
 				<td mat-cell *matCellDef="let element"> {{element.createdAt | date}}</td>
 			</ng-container>
+			<ng-container matColumnDef="verified">
+				<th mat-header-cell *matHeaderCellDef>
+					<div fxLayout="row" fxLayoutAlign="center center"> Verified </div>
+				</th>
+				<td mat-cell *matCellDef="let element">
+					<div fxLayout="row" fxLayoutAlign="center center">
+						<p *ngIf="element.verified">Verified</p>
+						<p *ngIf="!element.verified" class="pointer" (click)="sendVerifylink($event, element._id)">Send verify link</p>
+					</div>
+				</td>
+			</ng-container>
 			<ng-container matColumnDef="role">
 				<th mat-header-cell *matHeaderCellDef>
 					<div fxLayout="row" fxLayoutAlign="center center"> Suspend </div>

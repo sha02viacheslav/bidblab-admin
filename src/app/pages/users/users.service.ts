@@ -80,5 +80,13 @@ export class UsersService {
         `${environment.apiUrl}/api/admin/getLogins/${userId}`
       );
     }
+
+    sendVerifylink(userIds) {
+      return this.httpClient.post(
+        `${environment.apiUrl}/api/admin/sendVerifylink`, {
+          userIds
+        }
+      );
+    }
 } 
 

@@ -32,8 +32,7 @@ import { LoginResultComponent } from '../login-result/login-result.component';
 export class ListComponent implements OnInit {
   	public displayedColumns: string[] = ['select', 'index', 'name', 'gender',
                                         'username', 'email', 'credit', 'createdAt',
-                                        'role', 'menu'];
-  // public displayedColumns: string[] = ['select', 'position', 'name', 'weight', 'symbol'];
+                                        'verified', 'role', 'menu'];
 	public dataSource:any;
 	public selection = new SelectionModel<any>(true, []);
 	public totalMembers: number;
@@ -253,10 +252,8 @@ export class ListComponent implements OnInit {
 	public showVisits(event, member, totalLogins) {
 		event.stopPropagation();
 		if(totalLogins) {
-			console.log('show visit: ', member._id);
 			this.usersService.getLogins(member._id).subscribe((res: any) => {
 				if(res.data) {
-					console.log(res.data);
 					this.dialog.open(LoginResultComponent, {
 						data: {
 							logins: res.data,
@@ -270,6 +267,20 @@ export class ListComponent implements OnInit {
 			}, (err: HttpErrorResponse) => {
 			});
 		}
+	}
+
+	public sendVerifylink(event, memberId) {
+		event.stopPropagation();
+		var memberIds = [];
+		memberIds.push(memberId);
+		this.usersService.sendVerifylink(memberIds).subscribe((res: any) => {
+			if(res.data) {
+				this.snackBar.open(res.msg, 'Dismiss', {duration: 1500});
+			} else {
+				this.snackBar.open(res.msg, 'Dismiss', {duration: 1500});
+			}
+		}, (err: HttpErrorResponse) => {
+		});
 	}
 }
 
